@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-base: #ffffff;
+    --bg-pink-light: #fff0f5;
+    --accent-pink: #f43f5e;
+    --accent-pink-soft: #fda4af;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+  }
+
+  body {
+    background-color: #ffffff;
+    background-image: 
+      radial-gradient(1200px circle at 50% 0%, #fff1f5 0%, #ffffff 65%),
+      radial-gradient(900px circle at 100% 35%, #fdf2f8 0%, transparent 60%),
+      radial-gradient(900px circle at 0% 70%, #fff0f4 0%, transparent 60%);
+    background-attachment: fixed;
+    color: #0f172a;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  #root {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Custom Soft Rose/Pink Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #fff5f8;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #f472b6;
+    border-radius: 9999px;
+    border: 2px solid #fff5f8;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #e11d48;
+  }
+}
+
+/* Ultra-Glassmorphism Navigation with Radiant White & Light Pink Theme */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border-bottom: 1px solid rgba(244, 114, 182, 0.28);
+  box-shadow: 
+    0 10px 30px -10px rgba(244, 114, 182, 0.12),
+    0 1px 3px 0 rgba(0, 0, 0, 0.02),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(244, 114, 182, 0.22);
+  box-shadow: 0 10px 35px 0 rgba(244, 63, 94, 0.05);
+}
+
+.glass-card:hover {
+  border-color: rgba(244, 63, 94, 0.45);
+  box-shadow: 0 14px 45px 0 rgba(244, 63, 94, 0.12);
+}
+
+.galaxy-gradient-text {
+  background: linear-gradient(135deg, #e11d48 0%, #db2777 50%, #be185d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.galaxy-cyan-text {
+  background: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-galaxy-primary {
+  background: linear-gradient(135deg, #e11d48 0%, #f43f5e 50%, #fb7185 100%);
+  color: #ffffff;
+  font-weight: 800;
+  box-shadow: 0 4px 20px rgba(244, 63, 94, 0.35);
+  transition: all 0.25s ease;
+}
+
+.btn-galaxy-primary:hover {
+  background: linear-gradient(135deg, #be185d 0%, #e11d48 100%);
+  box-shadow: 0 6px 30px rgba(244, 63, 94, 0.5);
+  transform: translateY(-1px);
+}
