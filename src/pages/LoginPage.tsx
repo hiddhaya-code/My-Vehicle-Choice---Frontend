@@ -126,7 +126,7 @@ export const LoginPage: React.FC = () => {
           <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
-              onClick={() => handleQuickLogin('rahul@example.com', 'Password@123')}
+              onClick={() => handleQuickLogin('rahul@example.com', 'Customer@123')}
               className="p-2.5 rounded-xl bg-pink-50/50 hover:bg-pink-100/60 border border-pink-200 text-left transition-all cursor-pointer shadow-sm"
             >
               <div className="text-xs font-bold text-slate-900">Customer</div>
@@ -134,7 +134,7 @@ export const LoginPage: React.FC = () => {
             </button>
             <button
               type="button"
-              onClick={() => handleQuickLogin('admin@myvehiclechoice.in', 'Password@123')}
+              onClick={() => handleQuickLogin('admin@myvehiclechoice.in', 'Admin@123')}
               className="p-2.5 rounded-xl bg-amber-50/50 hover:bg-amber-100/60 border border-amber-200 text-left transition-all cursor-pointer shadow-sm"
             >
               <div className="text-xs font-bold text-amber-900">Administrator</div>
