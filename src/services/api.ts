@@ -23,7 +23,25 @@ import {
   VehicleSummary,
 } from '../types';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+/**
+ * Normalizes backend API base URL:
+ * - Trims trailing slashes
+ * - Automatically appends /api/v1 if the user provided only the domain
+ * - Defaults to /api/v1 for local proxying / same-domain deployments
+ */
+function getApiBaseUrl(): string {
+  const envUrl = (import.meta.env.VITE_API_BASE_URL || '').trim();
+  if (!envUrl) {
+    return '/api/v1';
+  }
+  const cleanUrl = envUrl.replace(/\/+$/, '');
+  if (!cleanUrl.endsWith('/api/v1') && !cleanUrl.includes('/api/')) {
+    return `${cleanUrl}/api/v1`;
+  }
+  return cleanUrl;
+}
+
+export const API_BASE = getApiBaseUrl();
 
 function getAuthHeaders(): HeadersInit {
   const token = localStorage.getItem('mvc_token');
@@ -36,12 +54,43 @@ function getAuthHeaders(): HeadersInit {
   return headers;
 }
 
-async function handleResponse<T>(res: Response): Promise<T> {
-  if (!res.ok) {
-    const errorBody = await res.json().catch(() => null);
-    const message = errorBody?.message || `HTTP error ${res.status}: ${res.statusText}`;
-    throw new Error(message);
+/**
+ * Robust fetch wrapper that handles network errors, Render cold-boots,
+ * and informative diagnostic messaging instead of silent 'Failed to fetch'.
+ */
+async function fetchApi(url: string, init?: RequestInit): Promise<Response> {
+  try {
+    return await fetch(url, init);
+  } catch (err: any) {
+    if (err.name === 'AbortError') {
+      throw new Error('Connection timed out. The backend server might be starting up from idle (cold boot). Please wait a few seconds and try again.');
+    }
+    throw new Error(
+      `Unable to connect to the backend server at ${url}. ` +
+      `Please ensure your backend service on Render is active and VITE_API_BASE_URL is configured properly.`
+    );
   }
+}
+
+async function handleResponse<T>(res: Response): Promise<T> {
+  const contentType = res.headers.get('content-type') || '';
+  if (!res.ok) {
+    if (contentType.includes('application/json')) {
+      const errorBody = await res.json().catch(() => null);
+      const message = errorBody?.message || `HTTP error ${res.status}: ${res.statusText}`;
+      throw new Error(message);
+    } else {
+      const text = await res.text().catch(() => '');
+      throw new Error(`Server returned HTTP ${res.status} (${res.statusText}): ${text.substring(0, 150)}`);
+    }
+  }
+
+  if (!contentType.includes('application/json')) {
+    throw new Error(
+      'Unexpected non-JSON response from server. Check that VITE_API_BASE_URL points to your live backend on Render and not the frontend.'
+    );
+  }
+
   const result: ApiResponse<T> = await res.json();
   if (!result.success) {
     throw new Error(result.message || 'Operation failed');
@@ -52,18 +101,18 @@ async function handleResponse<T>(res: Response): Promise<T> {
 export const api = {
   // Brand Endpoints
   async getBrands(): Promise<Brand[]> {
-    const res = await fetch(`${API_BASE}/brands`);
+    const res = await fetchApi(`${API_BASE}/brands`);
     return handleResponse<Brand[]>(res);
   },
 
   // Vehicle Catalogue Endpoints
   async getTrendingVehicles(): Promise<VehicleSummary[]> {
-    const res = await fetch(`${API_BASE}/vehicles/trending`);
+    const res = await fetchApi(`${API_BASE}/vehicles/trending`);
     return handleResponse<VehicleSummary[]>(res);
   },
 
   async getFeaturedVehicles(): Promise<VehicleSummary[]> {
-    const res = await fetch(`${API_BASE}/vehicles/featured`);
+    const res = await fetchApi(`${API_BASE}/vehicles/featured`);
     return handleResponse<VehicleSummary[]>(res);
   },
 
@@ -80,24 +129,24 @@ export const api = {
     if (params.sortBy) query.set('sortBy', params.sortBy);
     if (params.sortDir) query.set('sortDir', params.sortDir);
 
-    const res = await fetch(`${API_BASE}/vehicles?${query.toString()}`);
+    const res = await fetchApi(`${API_BASE}/vehicles?${query.toString()}`);
     return handleResponse<PageResponse<VehicleSummary>>(res);
   },
 
   async getVehicleById(id: number): Promise<VehicleDetail> {
-    const res = await fetch(`${API_BASE}/vehicles/${id}`);
+    const res = await fetchApi(`${API_BASE}/vehicles/${id}`);
     return handleResponse<VehicleDetail>(res);
   },
 
   async searchVariantsForCompare(query: string, limit: number = 10): Promise<CompareSearchResult[]> {
     if (!query || query.trim().length < 2) return [];
-    const res = await fetch(`${API_BASE}/vehicles/compare-search?query=${encodeURIComponent(query)}&limit=${limit}`);
+    const res = await fetchApi(`${API_BASE}/vehicles/compare-search?query=${encodeURIComponent(query)}&limit=${limit}`);
     return handleResponse<CompareSearchResult[]>(res);
   },
 
   // Authentication Endpoints
   async login(payload: { email: string; password: string }): Promise<AuthResponse> {
-    const res = await fetch(`${API_BASE}/auth/login`, {
+    const res = await fetchApi(`${API_BASE}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -112,7 +161,7 @@ export const api = {
     phone?: string;
     city?: string;
   }): Promise<AuthResponse> {
-    const res = await fetch(`${API_BASE}/auth/register`, {
+    const res = await fetchApi(`${API_BASE}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -121,7 +170,7 @@ export const api = {
   },
 
   async getMe(): Promise<UserProfile> {
-    const res = await fetch(`${API_BASE}/users/me`, {
+    const res = await fetchApi(`${API_BASE}/users/me`, {
       headers: getAuthHeaders(),
     });
     return handleResponse<UserProfile>(res);
@@ -129,14 +178,14 @@ export const api = {
 
   // Customer Wishlist & Saved Comparisons
   async getWishlist(): Promise<VehicleSummary[]> {
-    const res = await fetch(`${API_BASE}/users/wishlist`, {
+    const res = await fetchApi(`${API_BASE}/users/wishlist`, {
       headers: getAuthHeaders(),
     });
     return handleResponse<VehicleSummary[]>(res);
   },
 
   async addToWishlist(vehicleId: number): Promise<void> {
-    const res = await fetch(`${API_BASE}/users/wishlist/${vehicleId}`, {
+    const res = await fetchApi(`${API_BASE}/users/wishlist/${vehicleId}`, {
       method: 'POST',
       headers: getAuthHeaders(),
     });
@@ -144,7 +193,7 @@ export const api = {
   },
 
   async removeFromWishlist(vehicleId: number): Promise<void> {
-    const res = await fetch(`${API_BASE}/users/wishlist/${vehicleId}`, {
+    const res = await fetchApi(`${API_BASE}/users/wishlist/${vehicleId}`, {
       method: 'DELETE',
       headers: getAuthHeaders(),
     });
@@ -152,14 +201,14 @@ export const api = {
   },
 
   async getSavedComparisons(): Promise<any[]> {
-    const res = await fetch(`${API_BASE}/users/saved-comparisons`, {
+    const res = await fetchApi(`${API_BASE}/users/saved-comparisons`, {
       headers: getAuthHeaders(),
     });
     return handleResponse<any[]>(res);
   },
 
   async saveComparison(payload: { title: string; variantIds: number[]; notes?: string }): Promise<any> {
-    const res = await fetch(`${API_BASE}/users/saved-comparisons`, {
+    const res = await fetchApi(`${API_BASE}/users/saved-comparisons`, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify(payload),
@@ -169,7 +218,7 @@ export const api = {
 
   // Recommendation Engine
   async evaluateRecommendations(payload: QuestionnaireAnswers): Promise<RecommendationResponse> {
-    const res = await fetch(`${API_BASE}/recommendations/evaluate`, {
+    const res = await fetchApi(`${API_BASE}/recommendations/evaluate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -179,7 +228,7 @@ export const api = {
 
   // Financial & Ownership Calculators
   async calculateEmi(payload: EmiCalculationRequest): Promise<EmiCalculationResult> {
-    const res = await fetch(`${API_BASE}/calculators/emi`, {
+    const res = await fetchApi(`${API_BASE}/calculators/emi`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -188,7 +237,7 @@ export const api = {
   },
 
   async calculateRunningCost(payload: RunningCostRequest): Promise<RunningCostResult> {
-    const res = await fetch(`${API_BASE}/calculators/running-cost`, {
+    const res = await fetchApi(`${API_BASE}/calculators/running-cost`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -203,7 +252,7 @@ export const api = {
     isElectric?: boolean;
     mileage?: number;
   }): Promise<OwnershipCostResult> {
-    const res = await fetch(`${API_BASE}/calculators/ownership-cost`, {
+    const res = await fetchApi(`${API_BASE}/calculators/ownership-cost`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -247,12 +296,12 @@ export const api = {
       if (queryOrCity) params.set('city', queryOrCity);
       if (brandId) params.set('brandId', brandId.toString());
     }
-    const res = await fetch(`${API_BASE}/dealers?${params.toString()}`);
+    const res = await fetchApi(`${API_BASE}/dealers?${params.toString()}`);
     return handleResponse<Dealer[]>(res);
   },
 
   async submitEnquiry(payload: DealerEnquiryRequest): Promise<DealerEnquiryResponse> {
-    const res = await fetch(`${API_BASE}/enquiries`, {
+    const res = await fetchApi(`${API_BASE}/enquiries`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -262,21 +311,21 @@ export const api = {
 
   // Admin Endpoints
   async getAdminStats(): Promise<AdminStats> {
-    const res = await fetch(`${API_BASE}/admin/stats`, {
+    const res = await fetchApi(`${API_BASE}/admin/stats`, {
       headers: getAuthHeaders(),
     });
     return handleResponse<AdminStats>(res);
   },
 
   async getAdminEnquiries(page: number = 0, size: number = 20): Promise<PageResponse<DealerEnquiryResponse>> {
-    const res = await fetch(`${API_BASE}/admin/enquiries?page=${page}&size=${size}`, {
+    const res = await fetchApi(`${API_BASE}/admin/enquiries?page=${page}&size=${size}`, {
       headers: getAuthHeaders(),
     });
     return handleResponse<PageResponse<DealerEnquiryResponse>>(res);
   },
 
   async updateEnquiryStatus(id: number, status: string): Promise<DealerEnquiryResponse> {
-    const res = await fetch(`${API_BASE}/admin/enquiries/${id}/status?status=${encodeURIComponent(status)}`, {
+    const res = await fetchApi(`${API_BASE}/admin/enquiries/${id}/status?status=${encodeURIComponent(status)}`, {
       method: 'PATCH',
       headers: getAuthHeaders(),
     });
@@ -284,7 +333,7 @@ export const api = {
   },
 
   async createVehicle(payload: any): Promise<VehicleDetail> {
-    const res = await fetch(`${API_BASE}/admin/vehicles`, {
+    const res = await fetchApi(`${API_BASE}/admin/vehicles`, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify(payload),
@@ -293,7 +342,7 @@ export const api = {
   },
 
   async deleteVehicle(id: number): Promise<void> {
-    const res = await fetch(`${API_BASE}/admin/vehicles/${id}`, {
+    const res = await fetchApi(`${API_BASE}/admin/vehicles/${id}`, {
       method: 'DELETE',
       headers: getAuthHeaders(),
     });
@@ -307,7 +356,7 @@ export const api = {
     const headers: Record<string, string> = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    const res = await fetch(`${API_BASE}/admin/import-csv`, {
+    const res = await fetchApi(`${API_BASE}/admin/import-csv`, {
       method: 'POST',
       headers,
       body: formData,
