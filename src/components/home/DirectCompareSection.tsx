@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
 import { CompareSearchResult } from '../../types';
 import { formatIndianPrice } from '../../utils/formatters';
-import { GitCompare, Search, X, ArrowRight, Sparkles } from 'lucide-react';
+import { GitCompare, Search, X, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export const DirectCompareSection: React.FC = () => {
   const navigate = useNavigate();
@@ -76,73 +76,68 @@ export const DirectCompareSection: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-white text-slate-900 border-b border-pink-100 relative overflow-hidden">
-      {/* Radiant very light pink ambient background */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[400px] bg-pink-200/25 blur-[150px] pointer-events-none rounded-full" />
-      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[350px] bg-rose-200/20 blur-[140px] pointer-events-none rounded-full" />
+    <section className="py-20 bg-white text-slate-900 border-b border-slate-200/80 relative overflow-hidden">
+      {/* Mednix Subtle Light Ambience */}
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[400px] bg-slate-100/60 blur-[150px] pointer-events-none rounded-full" />
+      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[350px] bg-rose-500/5 blur-[140px] pointer-events-none rounded-full" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-300 text-rose-600 text-xs font-bold uppercase tracking-wider mb-2">
-            <GitCompare className="w-3.5 h-3.5" />
-            <span>Journey B • Direct Vehicle Comparison</span>
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-extrabold uppercase tracking-wider mb-3">
+            <GitCompare className="w-3.5 h-3.5 text-rose-600" />
+            <span>Side-by-Side Analysis</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight font-heading">
             Already Have Two Vehicles in Mind?
           </h2>
-          <p className="text-slate-600 text-sm mt-2">
-            Search for your preferred cars or motorcycles and compare verified engineering specs, real road mileage, and on-road prices.
+          <p className="text-slate-600 text-sm sm:text-base mt-2 font-body">
+            Compare verified engineering specifications, real Indian road mileage, safety crash stars, and true on-road prices.
           </p>
 
-          {/* Quick presets shortcut */}
+          {/* Quick Preset Matchups */}
           <div className="mt-5 flex flex-wrap justify-center items-center gap-2 text-xs">
-            <span className="text-slate-500 text-xs">Popular match-ups:</span>
+            <span className="text-slate-500 text-xs font-semibold">Popular Indian Matchups:</span>
             <button
               onClick={() => handleQuickPreset('KTM 200', 'Yamaha R15')}
-              className="px-3 py-1.5 rounded-lg bg-rose-50 border border-rose-200 hover:border-rose-400 text-rose-700 font-semibold transition-all text-[11px] cursor-pointer"
+              className="px-3 py-1 rounded-full bg-slate-50 border border-slate-200 hover:border-rose-400 text-slate-700 hover:text-rose-600 font-bold transition-all text-[11px] cursor-pointer"
             >
               KTM Duke 200 vs Yamaha R15 V4
             </button>
             <button
               onClick={() => handleQuickPreset('Nexon', 'Creta')}
-              className="px-3 py-1.5 rounded-lg bg-rose-50 border border-rose-200 hover:border-rose-400 text-rose-700 font-semibold transition-all text-[11px] cursor-pointer"
+              className="px-3 py-1 rounded-full bg-slate-50 border border-slate-200 hover:border-rose-400 text-slate-700 hover:text-rose-600 font-bold transition-all text-[11px] cursor-pointer"
             >
               Tata Nexon vs Hyundai Creta
             </button>
             <button
-              onClick={() => handleQuickPreset('XUV700', 'Thar')}
-              className="px-3 py-1.5 rounded-lg bg-rose-50 border border-rose-200 hover:border-rose-400 text-rose-700 font-semibold transition-all text-[11px] cursor-pointer"
+              onClick={() => handleQuickPreset('Hunter 350', 'Classic 350')}
+              className="px-3 py-1 rounded-full bg-slate-50 border border-slate-200 hover:border-rose-400 text-slate-700 hover:text-rose-600 font-bold transition-all text-[11px] cursor-pointer"
             >
-              Mahindra XUV700 vs Thar 4x4
-            </button>
-            <button
-              onClick={() => handleQuickPreset('Classic 350', 'Hunter 350')}
-              className="px-3 py-1.5 rounded-lg bg-rose-50 border border-rose-200 hover:border-rose-400 text-rose-700 font-semibold transition-all text-[11px] cursor-pointer"
-            >
-              Classic 350 vs Hunter 350
+              Hunter 350 vs Classic 350
             </button>
           </div>
         </div>
 
-        {/* Comparison Selection Box */}
-        <div className="glass-card rounded-3xl p-6 sm:p-8 max-w-4xl mx-auto shadow-xl border border-pink-200/80 bg-white/95 relative">
+        {/* Comparison Selection Box (Mednix Card) */}
+        <div className="mednix-card p-6 sm:p-10 max-w-4xl mx-auto shadow-sm relative">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+            
             {/* Slot 1 */}
             <div className="relative">
-              <label className="block text-xs font-bold text-rose-600 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider mb-2">
                 First Vehicle / Variant
               </label>
 
               {slot1 ? (
-                <div className="p-4 rounded-xl bg-rose-50/50 border border-rose-300 flex items-center justify-between shadow-sm">
-                  <div className="flex items-center gap-3">
+                <div className="p-4 rounded-2xl bg-rose-50/50 border border-rose-200 flex items-center justify-between shadow-2xs">
+                  <div className="flex items-center gap-3.5">
                     <img
                       src={slot1.heroImageUrl}
                       alt={slot1.fullName}
-                      className="w-14 h-14 rounded-lg object-cover bg-slate-100 border border-pink-200"
+                      className="w-14 h-14 rounded-xl object-cover bg-slate-100 border border-slate-200"
                     />
                     <div>
-                      <h4 className="text-sm font-bold text-slate-900 leading-tight">
+                      <h4 className="text-sm font-extrabold text-slate-900 leading-tight font-heading">
                         {slot1.brandName} {slot1.modelName}
                       </h4>
                       <p className="text-xs text-slate-500 mt-0.5">{slot1.variantName}</p>
@@ -153,7 +148,8 @@ export const DirectCompareSection: React.FC = () => {
                   </div>
                   <button
                     onClick={() => { setSlot1(null); setQuery1(''); }}
-                    className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-rose-100/60 transition-colors"
+                    className="p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-rose-100/60 transition-colors cursor-pointer"
+                    aria-label="Remove vehicle"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -166,17 +162,17 @@ export const DirectCompareSection: React.FC = () => {
                       value={query1}
                       onChange={(e) => setQuery1(e.target.value)}
                       onFocus={() => setShowDropdown1(true)}
-                      placeholder='Search first vehicle, e.g. "KTM 200" or "Nexon"'
-                      className="w-full pl-10 pr-4 py-3 rounded-xl bg-white border border-pink-200 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400 transition-all"
+                      placeholder='Search first vehicle, e.g. "Nexon" or "R15"'
+                      className="w-full pl-10 pr-4 py-3 rounded-full bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-500 focus:bg-white transition-all"
                     />
                     <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                   </div>
 
                   {/* Autocomplete Dropdown Slot 1 */}
                   {showDropdown1 && (results1.length > 0 || loading1) && (
-                    <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-pink-200 rounded-xl shadow-2xl z-30 max-h-60 overflow-y-auto">
+                    <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-xl z-30 max-h-60 overflow-y-auto">
                       {loading1 && (
-                        <p className="p-3 text-xs text-slate-400 text-center">Searching variants in MySQL...</p>
+                        <p className="p-3 text-xs text-slate-400 text-center">Searching variants in database...</p>
                       )}
                       {!loading1 && results1.map((item) => (
                         <button
@@ -186,11 +182,11 @@ export const DirectCompareSection: React.FC = () => {
                             setSlot1(item);
                             setShowDropdown1(false);
                           }}
-                          className="w-full text-left p-3 hover:bg-rose-50 flex items-center justify-between border-b border-pink-100 last:border-0 transition-colors"
+                          className="w-full text-left p-3 hover:bg-rose-50 flex items-center justify-between border-b border-slate-100 last:border-0 transition-colors cursor-pointer"
                         >
                           <div>
                             <p className="text-xs font-bold text-slate-900">
-                              {item.brandName} {item.modelName} - {item.variantName}
+                              {item.brandName} {item.modelName} — {item.variantName}
                             </p>
                             <span className="text-[11px] text-slate-500">
                               {item.category} • {item.fuelType}
@@ -209,20 +205,20 @@ export const DirectCompareSection: React.FC = () => {
 
             {/* Slot 2 */}
             <div className="relative">
-              <label className="block text-xs font-bold text-rose-600 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider mb-2">
                 Second Vehicle / Variant
               </label>
 
               {slot2 ? (
-                <div className="p-4 rounded-xl bg-rose-50/50 border border-rose-300 flex items-center justify-between shadow-sm">
-                  <div className="flex items-center gap-3">
+                <div className="p-4 rounded-2xl bg-rose-50/50 border border-rose-200 flex items-center justify-between shadow-2xs">
+                  <div className="flex items-center gap-3.5">
                     <img
                       src={slot2.heroImageUrl}
                       alt={slot2.fullName}
-                      className="w-14 h-14 rounded-lg object-cover bg-slate-100 border border-pink-200"
+                      className="w-14 h-14 rounded-xl object-cover bg-slate-100 border border-slate-200"
                     />
                     <div>
-                      <h4 className="text-sm font-bold text-slate-900 leading-tight">
+                      <h4 className="text-sm font-extrabold text-slate-900 leading-tight font-heading">
                         {slot2.brandName} {slot2.modelName}
                       </h4>
                       <p className="text-xs text-slate-500 mt-0.5">{slot2.variantName}</p>
@@ -233,7 +229,8 @@ export const DirectCompareSection: React.FC = () => {
                   </div>
                   <button
                     onClick={() => { setSlot2(null); setQuery2(''); }}
-                    className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-rose-100/60 transition-colors"
+                    className="p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-rose-100/60 transition-colors cursor-pointer"
+                    aria-label="Remove vehicle"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -246,17 +243,17 @@ export const DirectCompareSection: React.FC = () => {
                       value={query2}
                       onChange={(e) => setQuery2(e.target.value)}
                       onFocus={() => setShowDropdown2(true)}
-                      placeholder='Search second vehicle, e.g. "Yamaha R15" or "Creta"'
-                      className="w-full pl-10 pr-4 py-3 rounded-xl bg-white border border-pink-200 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-400 focus:ring-1 focus:ring-rose-400 transition-all"
+                      placeholder='Search second vehicle, e.g. "Creta" or "Duke 200"'
+                      className="w-full pl-10 pr-4 py-3 rounded-full bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-500 focus:bg-white transition-all"
                     />
                     <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                   </div>
 
                   {/* Autocomplete Dropdown Slot 2 */}
                   {showDropdown2 && (results2.length > 0 || loading2) && (
-                    <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-pink-200 rounded-xl shadow-2xl z-30 max-h-60 overflow-y-auto">
+                    <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-xl z-30 max-h-60 overflow-y-auto">
                       {loading2 && (
-                        <p className="p-3 text-xs text-slate-400 text-center">Searching variants in MySQL...</p>
+                        <p className="p-3 text-xs text-slate-400 text-center">Searching variants in database...</p>
                       )}
                       {!loading2 && results2.map((item) => (
                         <button
@@ -266,11 +263,11 @@ export const DirectCompareSection: React.FC = () => {
                             setSlot2(item);
                             setShowDropdown2(false);
                           }}
-                          className="w-full text-left p-3 hover:bg-rose-50 flex items-center justify-between border-b border-pink-100 last:border-0 transition-colors"
+                          className="w-full text-left p-3 hover:bg-rose-50 flex items-center justify-between border-b border-slate-100 last:border-0 transition-colors cursor-pointer"
                         >
                           <div>
                             <p className="text-xs font-bold text-slate-900">
-                              {item.brandName} {item.modelName} - {item.variantName}
+                              {item.brandName} {item.modelName} — {item.variantName}
                             </p>
                             <span className="text-[11px] text-slate-500">
                               {item.category} • {item.fuelType}
@@ -286,15 +283,16 @@ export const DirectCompareSection: React.FC = () => {
                 </div>
               )}
             </div>
+
           </div>
 
           {/* Compare Button */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-pink-100">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-slate-100">
             <p className="text-xs text-slate-600">
               {slot1 && slot2 ? (
-                <span className="text-rose-600 font-semibold flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  Ready to compare verified engineering specifications side by side.
+                <span className="text-emerald-700 font-bold flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  Ready to compare exact engineering variants side-by-side.
                 </span>
               ) : (
                 <span>Select models or variants in both slots to launch side-by-side spec comparison.</span>
@@ -304,14 +302,12 @@ export const DirectCompareSection: React.FC = () => {
             <button
               onClick={handleCompareNow}
               disabled={!slot1 || !slot2}
-              className={`flex items-center gap-2 px-7 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${
-                slot1 && slot2
-                  ? 'btn-galaxy-primary text-white shadow-md cursor-pointer hover:scale-105 active:scale-95'
-                  : 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
+              className={`btn-pill-primary text-xs ${
+                !slot1 || !slot2 ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
               <GitCompare className="w-4 h-4" />
-              <span>Compare Now</span>
+              <span>Launch Side-by-Side Compare</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

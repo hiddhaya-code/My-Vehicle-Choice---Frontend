@@ -1,130 +1,160 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Car, Bike, Zap, Compass, ChevronRight } from 'lucide-react';
+import { Car, Bike, Zap, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
 import { VehicleCategory } from '../../types';
 
-interface CategoryCard {
-  id: VehicleCategory | 'ANY';
+interface CategoryCardItem {
+  id: VehicleCategory;
   title: string;
-  subtitle: string;
+  badge: string;
+  description: string;
+  models: string;
+  stats: string;
+  imageUrl: string;
   icon: React.ComponentType<{ className?: string }>;
-  tag: string;
-  count: string;
 }
 
-const CATEGORIES: CategoryCard[] = [
+const CATEGORY_CARDS: CategoryCardItem[] = [
   {
     id: 'CAR',
     title: 'Cars & Compact SUVs',
-    subtitle: 'Nexon, Creta, XUV700, Thar, Brezza & Sedans',
+    badge: 'Hatchbacks, Sedans & SUVs',
+    description: 'From 5-star crash-tested compact SUVs to high-performance executive sedans and family haulers.',
+    models: 'Nexon, Creta, XUV700, Brezza, BMW 330Li',
+    stats: 'Starting at ₹7.99 Lakh',
+    imageUrl: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=800&q=80',
     icon: Car,
-    tag: 'Turbo & Hybrid',
-    count: '9+ Models',
   },
   {
     id: 'MOTORCYCLE',
     title: 'Motorcycles',
-    subtitle: 'Hunter 350, R15 V4, Duke 200, Classic 350 & Apache',
+    badge: 'Street, Sport & Cruisers',
+    description: 'Track-bred supersport machines, neo-retro roadsters, and daily fuel-efficient commuter bikes.',
+    models: 'Yamaha R15, RE Hunter 350, KTM Duke 200',
+    stats: 'Up to 51.4 km/l mileage',
+    imageUrl: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80',
     icon: Bike,
-    tag: '150cc – 350cc',
-    count: '6+ Models',
   },
   {
     id: 'SCOOTER',
     title: 'Family Scooters',
-    subtitle: 'Activa 6G, Jupiter & Convenient automatic CVTs',
+    badge: 'Automatic City CVTs',
+    description: 'Reliable, comfortable step-through commuters with generous under-seat storage and telescopic suspension.',
+    models: 'Honda Activa 6G, TVS Jupiter 125, Access',
+    stats: 'Starting at ₹76,000',
+    imageUrl: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=80',
     icon: Bike,
-    tag: '110cc – 125cc',
-    count: '2+ Models',
   },
   {
     id: 'ELECTRIC_CAR',
-    title: 'Electric Cars',
-    subtitle: 'Tata Nexon.ev & High efficiency zero-emission SUVs',
+    title: 'Electric Vehicles (EVs)',
+    badge: 'Zero Emission Mobility',
+    description: 'Next-generation electric cars and connected smart scooters with fast charging and ultra-low running costs.',
+    models: 'Tata Nexon.ev, Ola S1 Pro Gen 2',
+    stats: '₹0.85/km running cost • 465 km Range',
+    imageUrl: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=800&q=80',
     icon: Zap,
-    tag: '465 km Long Range',
-    count: 'Fast DC Charging',
-  },
-  {
-    id: 'ELECTRIC_TWO_WHEELER',
-    title: 'Electric 2-Wheelers',
-    subtitle: 'Ola S1 Pro Gen 2 & High-torque smart EV scooters',
-    icon: Zap,
-    tag: '195 km Range',
-    count: '120 km/h Top Speed',
-  },
-  {
-    id: 'ANY',
-    title: 'All Vehicle Classes',
-    subtitle: 'Full verified Indian garage across all segments',
-    icon: Compass,
-    tag: 'Unified Index',
-    count: '18+ Verified Models',
   },
 ];
 
 export const CategorySelectorSection: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleSelectCategory = (cat: VehicleCategory | 'ANY') => {
-    if (cat === 'ANY') {
-      navigate('/vehicles');
-    } else {
-      navigate(`/vehicles?category=${cat}`);
-    }
-  };
-
   return (
-    <section className="py-16 bg-white border-b border-pink-100 relative overflow-hidden text-slate-900">
-      {/* Radiant very light pink ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] bg-pink-200/20 blur-[130px] pointer-events-none rounded-full" />
-      
+    <section className="py-20 bg-white border-b border-slate-200/80 relative overflow-hidden text-slate-900">
+      {/* Mednix Subtle Ambient Background */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[350px] bg-slate-100/60 blur-[140px] pointer-events-none rounded-full" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-300 text-rose-600 text-xs font-bold uppercase tracking-wider mb-2">
-            Vehicle Taxonomy
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
-            Choose Your Vehicle Category
+        {/* Section Header Treatment (Mednix Pre-title + Title + Subtitle) */}
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-extrabold uppercase tracking-wider mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-rose-600" />
+            <span>Automotive Taxonomy</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight font-heading">
+            Explore by Vehicle Category
           </h2>
-          <p className="text-sm text-slate-600 mt-2">
-            Every category features verified specifications, real-world Indian road mileage, and authenticated pricing.
+          <p className="text-sm sm:text-base text-slate-600 mt-3 font-body">
+            Every category features verified homologation specifications, ARAI test metrics, and certified Indian road pricing.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {CATEGORIES.map((cat) => {
+        {/* 4 Mednix-style Category Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {CATEGORY_CARDS.map((cat) => {
             const Icon = cat.icon;
             return (
-              <button
+              <div
                 key={cat.id}
-                onClick={() => handleSelectCategory(cat.id)}
-                className="group p-5 rounded-2xl glass-card border border-pink-200/80 hover:border-rose-400 hover:shadow-[0_12px_35px_rgba(244,63,94,0.12)] transition-all duration-300 text-left flex flex-col justify-between h-48 cursor-pointer relative overflow-hidden bg-white/95"
+                onClick={() => navigate(`/vehicles?category=${cat.id}`)}
+                className="mednix-card overflow-hidden group cursor-pointer flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="w-10 h-10 rounded-xl bg-rose-50 border border-rose-200 group-hover:border-rose-400 text-rose-600 flex items-center justify-center transition-all group-hover:scale-110">
-                      <Icon className="w-5 h-5" />
+                  {/* Category Image Header */}
+                  <div className="relative h-44 w-full overflow-hidden bg-slate-900">
+                    <img
+                      src={cat.imageUrl}
+                      alt={cat.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+                    
+                    {/* Top Pill Badge */}
+                    <div className="absolute top-3 left-3 z-10">
+                      <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-white/90 backdrop-blur-md text-slate-900 shadow-sm">
+                        {cat.badge}
+                      </span>
                     </div>
-                    <span className="text-[10px] font-mono font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200">
-                      {cat.tag}
-                    </span>
+
+                    {/* Category Icon */}
+                    <div className="absolute bottom-3 left-3 z-10 flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-md">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <span className="text-xs font-bold text-white drop-shadow-sm">
+                        {cat.stats}
+                      </span>
+                    </div>
                   </div>
-                  <h3 className="font-bold text-slate-900 text-sm group-hover:text-rose-600 transition-colors">
-                    {cat.title}
-                  </h3>
-                  <p className="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">
-                    {cat.subtitle}
-                  </p>
+
+                  {/* Card Body */}
+                  <div className="p-5 space-y-2.5">
+                    <h3 className="text-lg font-extrabold text-slate-900 group-hover:text-rose-600 transition-colors font-heading">
+                      {cat.title}
+                    </h3>
+                    <p className="text-xs text-slate-600 leading-relaxed font-body">
+                      {cat.description}
+                    </p>
+                    <div className="pt-1 text-[11px] font-semibold text-slate-400">
+                      <span className="text-slate-600 font-bold">Popular: </span>
+                      {cat.models}
+                    </div>
+                  </div>
                 </div>
 
-                <div className="pt-2 border-t border-pink-100 flex items-center justify-between text-[11px] text-slate-500 group-hover:text-rose-600 transition-colors">
-                  <span>{cat.count}</span>
-                  <ChevronRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
+                {/* Card Action Footer */}
+                <div className="p-5 pt-0">
+                  <div className="w-full py-2.5 px-4 rounded-xl bg-slate-50 group-hover:bg-rose-50 border border-slate-200/80 group-hover:border-rose-200 text-slate-800 group-hover:text-rose-600 text-xs font-bold transition-all flex items-center justify-between">
+                    <span>Explore {cat.title.split(' ')[0]}</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
-              </button>
+              </div>
             );
           })}
+        </div>
+
+        {/* View Full Catalogue Link */}
+        <div className="mt-10 text-center">
+          <button
+            onClick={() => navigate('/vehicles')}
+            className="inline-flex items-center gap-2 text-xs font-extrabold text-slate-700 hover:text-rose-600 bg-slate-50 hover:bg-rose-50 px-5 py-2.5 rounded-full border border-slate-200 hover:border-rose-200 transition-all cursor-pointer shadow-2xs"
+          >
+            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            <span>Browse All 18+ Homologated Models Across India</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
         </div>
       </div>
     </section>

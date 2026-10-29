@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { 
   Calculator, 
   IndianRupee, 
@@ -20,7 +21,16 @@ import {
 import { formatPriceINR } from '../utils/formatters';
 
 export const CalculatorsPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'EMI' | 'SAVINGS' | 'TCO'>('EMI');
+  const [searchParams] = useSearchParams();
+  const tabParam = searchParams.get('tab')?.toUpperCase();
+  const initialTab = (tabParam === 'SAVINGS' || tabParam === 'TCO') ? tabParam : 'EMI';
+  const [activeTab, setActiveTab] = useState<'EMI' | 'SAVINGS' | 'TCO'>(initialTab);
+
+  useEffect(() => {
+    if (tabParam === 'SAVINGS' || tabParam === 'TCO' || tabParam === 'EMI') {
+      setActiveTab(tabParam);
+    }
+  }, [tabParam]);
 
   return (
     <div className="min-h-screen bg-transparent py-10 px-4 sm:px-6 lg:px-8 text-slate-900 relative overflow-hidden">

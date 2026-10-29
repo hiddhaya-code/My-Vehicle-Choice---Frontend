@@ -82,29 +82,29 @@ export const CataloguePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-transparent py-10 relative overflow-hidden text-slate-900">
-      {/* Radiant very light pink ambient background */}
-      <div className="absolute top-0 right-1/4 w-[600px] h-[400px] bg-pink-200/25 blur-[150px] pointer-events-none rounded-full" />
-      <div className="absolute bottom-1/4 left-10 w-[500px] h-[350px] bg-rose-200/20 blur-[140px] pointer-events-none rounded-full" />
+    <div className="min-h-screen bg-[#fafbfc] py-10 relative overflow-hidden text-slate-900">
+      {/* Mednix subtle ambient background */}
+      <div className="absolute top-0 right-1/4 w-[600px] h-[400px] bg-slate-100/70 blur-[150px] pointer-events-none rounded-full" />
+      <div className="absolute bottom-1/4 left-10 w-[500px] h-[350px] bg-rose-500/5 blur-[140px] pointer-events-none rounded-full" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Breadcrumb & Header */}
         <div className="mb-8">
-          <div className="flex items-center text-xs text-slate-500 gap-2 mb-2">
+          <div className="flex items-center text-xs text-slate-500 gap-2 mb-2 font-body">
             <Link to="/" className="hover:text-rose-600 transition-colors">Home</Link>
             <span>/</span>
-            <span className="text-rose-600 font-semibold">Explore Vehicles</span>
+            <span className="text-rose-600 font-bold">Explore Vehicles</span>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-300 text-rose-600 text-xs font-bold uppercase tracking-wider mb-2">
-                <Sparkles className="w-3.5 h-3.5" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-extrabold uppercase tracking-wider mb-2.5">
+                <Sparkles className="w-3.5 h-3.5 text-rose-600" />
                 <span>Verified Indian Garage</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight font-heading">
                 Indian Vehicle Catalogue
               </h1>
-              <p className="text-sm text-slate-600 mt-1">
+              <p className="text-sm sm:text-base text-slate-600 mt-1 max-w-2xl font-body">
                 Browse verified cars, motorcycles, scooters, and electric vehicles with official road test specs and Delhi on-road price estimates.
               </p>
             </div>
@@ -112,19 +112,19 @@ export const CataloguePage: React.FC = () => {
         </div>
 
         {/* Filter Bar */}
-        <div className="glass-card rounded-2xl p-5 shadow-lg mb-8 border border-pink-200/80 bg-white/95">
+        <div className="mednix-card p-5 sm:p-6 mb-8 bg-white border border-slate-200/90 shadow-2xs">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {/* Search Input */}
             <div className="relative">
-              <label className="block text-[11px] font-bold text-rose-600 uppercase tracking-wider mb-1">Search Model</label>
+              <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1.5">Search Model</label>
               <div className="relative">
                 <input
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
-                  placeholder="e.g. Nexon, Hunter, XUV700..."
-                  className="w-full pl-9 pr-3 py-2.5 bg-white border border-pink-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-400 transition-all"
+                  placeholder="e.g. Nexon, Hunter, Creta..."
+                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-500 focus:bg-white transition-all"
                 />
                 <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
               </div>
@@ -132,11 +132,11 @@ export const CataloguePage: React.FC = () => {
 
             {/* Category Select */}
             <div>
-              <label className="block text-[11px] font-bold text-rose-600 uppercase tracking-wider mb-1">Category</label>
+              <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1.5">Category</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as VehicleCategory | '')}
-                className="w-full px-3 py-2.5 bg-white border border-pink-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-rose-400 transition-all"
+                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-900 focus:outline-none focus:border-rose-500 focus:bg-white transition-all cursor-pointer"
               >
                 <option value="">All Categories</option>
                 <option value="CAR">Car / SUV</option>
@@ -149,11 +149,11 @@ export const CataloguePage: React.FC = () => {
 
             {/* Brand Select */}
             <div>
-              <label className="block text-[11px] font-bold text-rose-600 uppercase tracking-wider mb-1">Manufacturer</label>
+              <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1.5">Manufacturer</label>
               <select
                 value={brandId}
                 onChange={(e) => setBrandId(e.target.value)}
-                className="w-full px-3 py-2.5 bg-white border border-pink-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-rose-400 transition-all"
+                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-900 focus:outline-none focus:border-rose-500 focus:bg-white transition-all cursor-pointer"
               >
                 <option value="">All Brands</option>
                 {brands.map((b) => (
@@ -166,14 +166,14 @@ export const CataloguePage: React.FC = () => {
 
             {/* Max Budget */}
             <div>
-              <label className="block text-[11px] font-bold text-rose-600 uppercase tracking-wider mb-1">Max Budget (₹)</label>
+              <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1.5">Max Budget (₹)</label>
               <input
                 type="number"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
                 placeholder="e.g. 1500000"
                 step={50000}
-                className="w-full px-3 py-2.5 bg-white border border-pink-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-400 transition-all"
+                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-500 focus:bg-white transition-all"
               />
             </div>
 
@@ -181,7 +181,7 @@ export const CataloguePage: React.FC = () => {
             <div className="flex items-end gap-2">
               <button
                 onClick={applyFilters}
-                className="flex-1 py-2.5 px-4 rounded-xl btn-galaxy-primary text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer active:scale-95"
+                className="flex-1 py-2.5 px-4 rounded-full btn-pill-primary text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer"
               >
                 <Filter className="w-3.5 h-3.5" />
                 <span>Apply Filter</span>
@@ -189,7 +189,7 @@ export const CataloguePage: React.FC = () => {
               <button
                 onClick={resetFilters}
                 title="Reset Filters"
-                className="p-2.5 rounded-xl bg-white border border-pink-200 hover:border-rose-400 text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
+                className="p-2.5 rounded-full bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
@@ -247,99 +247,101 @@ export const CataloguePage: React.FC = () => {
               {vehicles.map((vehicle) => (
                 <div
                   key={vehicle.id}
-                  className="group flex flex-col rounded-2xl glass-card border border-pink-200/80 overflow-hidden hover:border-rose-400 hover:shadow-[0_12px_40px_rgba(244,63,94,0.12)] transition-all duration-300 bg-white"
+                  className="mednix-card overflow-hidden group flex flex-col justify-between"
                 >
                   {/* Image */}
-                  <div className="relative aspect-[16/10] bg-slate-100 overflow-hidden">
-                    <img
-                      src={vehicle.heroImageUrl}
-                      alt={`${vehicle.brandName} ${vehicle.modelName}`}
-                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 pointer-events-none" />
+                  <div>
+                    <div className="relative aspect-[16/10] bg-slate-900 overflow-hidden">
+                      <img
+                        src={vehicle.heroImageUrl}
+                        alt={`${vehicle.brandName} ${vehicle.modelName}`}
+                        className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-black/20 pointer-events-none" />
 
-                    <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1">
-                      <CategoryBadge category={vehicle.category} />
-                    </div>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        toggleWishlist(vehicle.id);
-                      }}
-                      className={`absolute top-2.5 right-2.5 p-2 rounded-xl backdrop-blur-md transition-all z-10 cursor-pointer ${
-                        isWishlisted(vehicle.id)
-                          ? 'bg-rose-500 text-white shadow-md'
-                          : 'bg-white/80 text-slate-700 hover:text-white hover:bg-rose-600 border border-pink-200'
-                      }`}
-                      title={isWishlisted(vehicle.id) ? 'Remove from Saved' : 'Save to Shortlist'}
-                    >
-                      <Bookmark className={`w-3.5 h-3.5 ${isWishlisted(vehicle.id) ? 'fill-current' : ''}`} />
-                    </button>
-                    {vehicle.primaryKeySpec && (
-                      <div className="absolute bottom-2.5 right-2.5 bg-white/95 backdrop-blur-md border border-pink-200 text-rose-600 px-2 py-0.5 rounded-lg text-[11px] font-bold shadow-sm">
-                        {vehicle.primaryKeySpec}
+                      <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1 z-10">
+                        <CategoryBadge category={vehicle.category} />
                       </div>
-                    )}
-                  </div>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          toggleWishlist(vehicle.id);
+                        }}
+                        className={`absolute top-2.5 right-2.5 p-2 rounded-full backdrop-blur-md transition-all z-10 cursor-pointer ${
+                          isWishlisted(vehicle.id)
+                            ? 'bg-rose-600 text-white shadow-md'
+                            : 'bg-white/90 text-slate-700 hover:text-white hover:bg-rose-600 border border-slate-200'
+                        }`}
+                        title={isWishlisted(vehicle.id) ? 'Remove from Saved' : 'Save to Shortlist'}
+                      >
+                        <Bookmark className={`w-3.5 h-3.5 ${isWishlisted(vehicle.id) ? 'fill-current' : ''}`} />
+                      </button>
+                      {vehicle.primaryKeySpec && (
+                        <div className="absolute bottom-2.5 right-2.5 bg-white/95 backdrop-blur-md border border-slate-200 text-slate-900 px-2.5 py-0.5 rounded-lg text-[11px] font-bold shadow-2xs z-10">
+                          {vehicle.primaryKeySpec}
+                        </div>
+                      )}
+                    </div>
 
-                  {/* Body */}
-                  <div className="p-4 flex-1 flex flex-col justify-between">
-                    <div>
-                      <div className="text-[10px] text-rose-600 font-bold uppercase tracking-wider mb-1">
+                    {/* Body */}
+                    <div className="p-5">
+                      <div className="text-[10px] text-rose-600 font-extrabold uppercase tracking-wider mb-1 font-heading">
                         {vehicle.brandName}
                       </div>
-                      <h3 className="text-base font-bold text-slate-900 group-hover:text-rose-600 transition-colors">
+                      <h3 className="text-base font-extrabold text-slate-950 group-hover:text-rose-600 transition-colors font-heading">
                         <Link to={`/vehicles/${vehicle.id}`}>
                           {vehicle.modelName}
                         </Link>
                       </h3>
 
                       {/* Fuel Types */}
-                      <div className="mt-2 flex flex-wrap gap-1">
+                      <div className="mt-2.5 flex flex-wrap gap-1">
                         {vehicle.availableFuelTypes.map((fuel: string) => (
                           <FuelBadge key={fuel} fuel={fuel} />
                         ))}
                       </div>
                     </div>
+                  </div>
 
-                    {/* Pricing */}
-                    <div className="mt-4 pt-3 border-t border-pink-100">
+                  {/* Pricing & Actions */}
+                  <div className="p-5 pt-0">
+                    <div className="pt-3 border-t border-slate-100">
                       <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">
                         Est. On-Road (Delhi)
                       </span>
                       <div className="flex items-baseline gap-1 mt-0.5">
-                        <span className="text-base font-extrabold text-rose-600">
+                        <span className="text-base font-extrabold text-slate-950">
                           {formatIndianPrice(vehicle.startingOnRoadPrice)}
                         </span>
                         {vehicle.maxOnRoadPrice && vehicle.maxOnRoadPrice > vehicle.startingOnRoadPrice && (
-                          <span className="text-xs text-slate-500">
+                          <span className="text-xs text-slate-500 font-medium">
                             – {formatIndianPrice(vehicle.maxOnRoadPrice)}
                           </span>
                         )}
                       </div>
 
                       {/* Card Actions */}
-                      <div className="mt-4 grid grid-cols-2 gap-2 pt-2 border-t border-pink-100">
+                      <div className="mt-4 grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
                         <Link
                           to={`/vehicles/${vehicle.id}`}
-                          className="text-center py-2 px-3 rounded-xl btn-galaxy-primary text-white text-xs font-bold shadow-sm transition-all"
+                          className="btn-pill-primary text-xs py-2 px-3 text-center"
                         >
                           Details
                         </Link>
                         <Link
                           to={`/compare?vehicle1=${vehicle.id}`}
-                          className="flex items-center justify-center gap-1 py-2 px-3 rounded-xl bg-white border border-pink-200 hover:border-rose-400 text-slate-700 hover:text-rose-600 text-xs font-bold transition-all shadow-sm"
+                          className="btn-pill-outline text-xs py-2 px-3"
                         >
-                          <GitCompare className="w-3 h-3 text-rose-500" />
+                          <GitCompare className="w-3 h-3 text-slate-400" />
                           <span>Compare</span>
                         </Link>
                       </div>
 
                       <Link
                         to={`/where-to-buy?vehicleId=${vehicle.id}&brandId=${vehicle.brandId}&category=${vehicle.category}`}
-                        className="mt-2.5 text-center text-[11px] font-semibold text-slate-600 hover:text-rose-600 py-0.5 block transition-colors"
+                        className="mt-2.5 text-center text-[11px] font-bold text-slate-600 hover:text-rose-600 py-0.5 block transition-colors"
                       >
                         Where to Buy & Dealers →
                       </Link>

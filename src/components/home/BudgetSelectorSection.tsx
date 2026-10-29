@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HelpCircle, ArrowRight } from 'lucide-react';
+import { HelpCircle, ArrowRight, IndianRupee, Sparkles, Sliders } from 'lucide-react';
 import { formatIndianPrice } from '../../utils/formatters';
 
 interface BudgetPreset {
@@ -15,7 +15,7 @@ const PURCHASE_PRESETS: BudgetPreset[] = [
   { label: '₹5–8 Lakh', min: 500000, max: 800000 },
   { label: '₹8–12 Lakh', min: 800000, max: 1200000 },
   { label: '₹12–20 Lakh', min: 1200000, max: 2000000 },
-  { label: '₹20 Lakh & Above', min: 2000000, max: 5000000 },
+  { label: '₹20 Lakh & Above', min: 2000000, max: 7500000 },
 ];
 
 export const BudgetSelectorSection: React.FC = () => {
@@ -38,35 +38,38 @@ export const BudgetSelectorSection: React.FC = () => {
   };
 
   return (
-    <section id="budget-selector" className="py-16 bg-gradient-to-b from-[#fff5f8] via-white to-[#fff0f4] border-b border-pink-100 text-slate-900 relative overflow-hidden">
-      {/* Radiant very light pink ambient background */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[350px] bg-pink-200/25 blur-[140px] pointer-events-none rounded-full" />
-      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[300px] bg-rose-200/20 blur-[130px] pointer-events-none rounded-full" />
+    <section id="budget-selector" className="py-20 bg-white border-b border-slate-200/80 text-slate-900 relative overflow-hidden">
+      {/* Mednix Light Ambient Glow */}
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[350px] bg-slate-100/70 blur-[140px] pointer-events-none rounded-full" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="glass-card rounded-3xl p-6 sm:p-10 shadow-xl border border-pink-200/80 relative overflow-hidden">
+        <div className="mednix-card p-6 sm:p-12 shadow-sm relative overflow-hidden">
+          
           <div className="max-w-3xl">
-            <span className="text-rose-600 text-xs font-bold uppercase tracking-wider block mb-1">
-              Step 1 • Budget Definition
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
-              What is your targeted vehicle budget?
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-extrabold uppercase tracking-wider mb-3">
+              <Sliders className="w-3.5 h-3.5 text-rose-600" />
+              <span>Financial Comfort Bounds</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight font-heading">
+              Define Your Targeted Vehicle Budget
             </h2>
-            <p className="text-sm text-slate-600 mt-2">
-              Select your realistic ceiling to filter vehicles matching your financial comfort.
+            <p className="text-sm sm:text-base text-slate-600 mt-2 font-body">
+              Filter vehicles matching your realistic comfort level, whether buying outright or planning a monthly car loan EMI.
             </p>
           </div>
 
           {/* Budget Type Toggle */}
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <span className="text-xs font-semibold text-slate-600">Budget Perspective:</span>
-            <div className="inline-flex rounded-xl bg-white p-1 border border-pink-200 shadow-sm">
+            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+              Budget Mode:
+            </span>
+            <div className="inline-flex rounded-full bg-slate-100 p-1 border border-slate-200">
               <button
                 type="button"
                 onClick={() => setBudgetType('PURCHASE')}
-                className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                className={`px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
                   budgetType === 'PURCHASE'
-                    ? 'bg-gradient-to-r from-rose-600 to-pink-500 text-white shadow-sm font-extrabold'
+                    ? 'bg-slate-900 text-white shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
@@ -75,13 +78,13 @@ export const BudgetSelectorSection: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setBudgetType('EMI')}
-                className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                className={`px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
                   budgetType === 'EMI'
-                    ? 'bg-gradient-to-r from-rose-600 to-pink-500 text-white shadow-sm font-extrabold'
+                    ? 'bg-slate-900 text-white shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                Maximum Monthly EMI Limit
+                Monthly Loan EMI Perspective
               </button>
             </div>
 
@@ -89,28 +92,29 @@ export const BudgetSelectorSection: React.FC = () => {
               <HelpCircle className="w-3.5 h-3.5 text-rose-500" />
               <span>
                 {budgetType === 'PURCHASE'
-                  ? 'Includes road tax, registration & mandatory insurance'
-                  : 'Calculated assuming 5-year tenure at standard ~9.5% interest rate'}
+                  ? 'Includes representative state road tax, registration & insurance'
+                  : 'Assumes 5-year loan tenure at standard ~9.5% interest rate with 20% down payment'}
               </span>
             </div>
           </div>
 
-          {/* Preset Chips */}
-          <div className="mt-6">
-            <label className="text-xs font-semibold text-slate-600 block mb-2">
-              Quick Budget Presets:
+          {/* Quick Preset Chips */}
+          <div className="mt-8">
+            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-3">
+              Common Indian Price Segments
             </label>
             <div className="flex flex-wrap gap-2">
               {PURCHASE_PRESETS.map((preset) => {
-                const isSelected = minBudget === preset.min && maxBudget === preset.max;
+                const isActive = minBudget === preset.min && maxBudget === preset.max;
                 return (
                   <button
                     key={preset.label}
+                    type="button"
                     onClick={() => handleApplyPreset(preset)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                      isSelected
-                        ? 'bg-rose-50 text-rose-600 border border-rose-400 font-bold shadow-sm'
-                        : 'bg-white text-slate-700 hover:bg-rose-50/60 border border-pink-200'
+                    className={`px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                      isActive
+                        ? 'bg-rose-600 text-white shadow-xs'
+                        : 'bg-slate-50 border border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-100'
                     }`}
                   >
                     {preset.label}
@@ -120,80 +124,68 @@ export const BudgetSelectorSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Interactive Range Slider & Editable Inputs */}
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-6 border-t border-pink-100">
+          {/* Dual Sliders / Value Inputs */}
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
             <div>
-              <div className="flex justify-between items-center text-sm font-semibold mb-2">
-                <span className="text-slate-700">Target Upper Ceiling:</span>
-                <span className="text-rose-600 text-lg font-bold">
+              <div className="flex justify-between items-center text-xs font-bold text-slate-700 mb-2">
+                <span>Minimum Budget</span>
+                <span className="text-sm font-extrabold text-slate-900">
+                  {formatIndianPrice(minBudget)}
+                </span>
+              </div>
+              <input
+                type="range"
+                min="50000"
+                max="5000000"
+                step="50000"
+                value={minBudget}
+                onChange={(e) => setMinBudget(Number(e.target.value))}
+                className="w-full accent-rose-600 cursor-pointer"
+              />
+              <div className="flex justify-between text-[10px] text-slate-400 mt-1 font-semibold">
+                <span>₹50,000</span>
+                <span>₹50 Lakh</span>
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between items-center text-xs font-bold text-slate-700 mb-2">
+                <span>Maximum Ceiling</span>
+                <span className="text-sm font-extrabold text-rose-600">
                   {formatIndianPrice(maxBudget)}
                 </span>
               </div>
               <input
                 type="range"
-                min={75000}
-                max={4000000}
-                step={25000}
+                min="100000"
+                max="7500000"
+                step="50000"
                 value={maxBudget}
                 onChange={(e) => setMaxBudget(Number(e.target.value))}
-                className="w-full h-2 bg-pink-100 rounded-lg appearance-none cursor-pointer accent-rose-500"
+                className="w-full accent-rose-600 cursor-pointer"
               />
-              <div className="flex justify-between text-[11px] text-slate-500 mt-1.5">
-                <span>₹75,000 (Commuter 2W)</span>
-                <span>₹40 Lakh (Premium SUV)</span>
-              </div>
-            </div>
-
-            {/* Manual Numeric Inputs & Submit */}
-            <div className="flex flex-col sm:flex-row items-center gap-3">
-              <div className="w-full sm:w-1/2">
-                <label className="block text-[11px] text-slate-600 font-medium mb-1">Min Budget (₹)</label>
-                <div className="relative">
-                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-xs">₹</span>
-                  <input
-                    type="number"
-                    value={minBudget}
-                    onChange={(e) => setMinBudget(Number(e.target.value))}
-                    step={25000}
-                    className="w-full pl-7 pr-3 py-2 bg-white border border-pink-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-rose-400"
-                  />
-                </div>
-              </div>
-
-              <div className="w-full sm:w-1/2">
-                <label className="block text-[11px] text-slate-600 font-medium mb-1">Max Budget (₹)</label>
-                <div className="relative">
-                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-xs">₹</span>
-                  <input
-                    type="number"
-                    value={maxBudget}
-                    onChange={(e) => setMaxBudget(Number(e.target.value))}
-                    step={25000}
-                    className="w-full pl-7 pr-3 py-2 bg-white border border-pink-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:border-rose-400"
-                  />
-                </div>
+              <div className="flex justify-between text-[10px] text-slate-400 mt-1 font-semibold">
+                <span>₹1 Lakh</span>
+                <span>₹75 Lakh</span>
               </div>
             </div>
           </div>
 
-          {/* Action Trigger */}
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
-            <button
-              onClick={() => navigate('/find-my-vehicle')}
-              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-rose-50 text-rose-600 font-bold text-xs border border-pink-300 transition-all active:scale-95 shadow-sm cursor-pointer"
-            >
-              <span>Launch 6-Step Dynamic Questionnaire</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+          {/* Action Row */}
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-100">
+            <div className="text-xs text-slate-500">
+              Selected Range: <strong className="text-slate-900">{formatIndianPrice(minBudget)}</strong> to <strong className="text-slate-900">{formatIndianPrice(maxBudget)}</strong>
+            </div>
 
             <button
               onClick={handleSearchWithBudget}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl btn-galaxy-primary text-white font-extrabold text-sm transition-all shadow-md active:scale-95 cursor-pointer"
+              className="btn-pill-primary text-xs w-full sm:w-auto"
             >
-              <span>Explore Vehicles in {formatIndianPrice(minBudget)} – {formatIndianPrice(maxBudget)}</span>
+              <span>Explore Matching Vehicles</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
+
         </div>
       </div>
     </section>
