@@ -1,49 +1,85 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
-import { Dealer, VehicleDetail } from '../types';
+import { Dealer, VehicleDetail, VehicleSummary, VehicleVariant } from '../types';
 import { formatPriceINR } from '../utils/formatters';
 import { 
   MapPin, 
   ShieldCheck, 
   Phone, 
-  Globe, 
   Clock, 
-  Star,
   CheckCircle2,
-  X,
-  Send,
-  Navigation,
-  ExternalLink,
-  AlertCircle,
-  Car,
-  Compass,
-  CheckCircle,
-  HelpCircle,
-  RefreshCw
+  X, 
+  Send, 
+  Navigation, 
+  ExternalLink, 
+  AlertCircle, 
+  Car, 
+  Compass, 
+  CheckCircle, 
+  HelpCircle, 
+  RefreshCw,
+  Search,
+  ChevronDown
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
+// Verified Manufacturer Locator Directory for direct OEM routing
+const OEM_LOCATORS: Record<string, string> = {
+  'Tata Motors': 'https://dealer-locator.cars.tatamotors.com/',
+  'Hyundai': 'https://www.hyundai.com/in/en/click-to-buy/find-a-dealer-and-website',
+  'Maruti Suzuki': 'https://www.marutisuzuki.com/dealer-locator',
+  'KTM': 'https://www.ktmindia.com/ktm-dealers',
+  'Yamaha': 'https://www.yamaha-motor-india.com/dealer-locator.html',
+  'Royal Enfield': 'https://dealers.royalenfield.com/',
+  'Ather Energy': 'https://www.atherenergy.com/experience-centres',
+  'Honda': 'https://www.hondacarindia.com/dealer-locator',
+  'Mahindra': 'https://auto.mahindra.com/dealer-locator',
+  'Kia': 'https://www.kia.com/in/buy/find-a-dealer.html',
+  'TVS Motor': 'https://dealers.tvsmotor.com/',
+  'Bajaj Auto': 'https://www.bajajauto.com/dealer-locator',
+  'Ola Electric': 'https://www.olaelectric.com/experience-centres',
+  'BMW': 'https://www.bmw.in/en/fastlane/dealer-locator.html',
+};
+
 export const WhereToBuyPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
   const vehicleIdParam = searchParams.get('vehicleId');
   const variantIdParam = searchParams.get('variantId');
-  const queryModel = searchParams.get('model');
   const queryBrandId = searchParams.get('brandId');
   const queryCategory = searchParams.get('category');
+  const queryModel = searchParams.get('model');
 
   const { user } = useAuth();
   const [vehicle, setVehicle] = useState<VehicleDetail | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<VehicleVariant | null>(null);
+  const [vehicleLoading, setVehicleLoading] = useState(false);
+  const [vehicleLoadError, setVehicleLoadError] = useState<string | null>(null);
+
   const [dealers, setDealers] = useState<Dealer[]>([]);
   const [selectedCity, setSelectedCity] = useState<string>('New Delhi');
   const [pincodeFilter, setPincodeFilter] = useState<string>('');
   const [radiusFilter, setRadiusFilter] = useState<string>('50');
   const [loading, setLoading] = useState(true);
 
+  // In-page vehicle selector for direct / unlinked visits
+  const [availableVehicles, setAvailableVehicles] = useState<VehicleSummary[]>([]);
+  const [catalogueLoading, setCatalogueLoading] = useState(false);
+
   // Geolocation state (permission-gated)
   const [gpsLoading, setGpsLoading] = useState(false);
   const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [gpsError, setGpsError] = useState<string | null>(null);
+
+  // Dynamic Date calculation helpers (Tomorrow & Today)
+  const getTodayStr = () => new Date().toISOString().split('T')[0];
+  const getTomorrowStr = () => {
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+    return d.toISOString().split('T')[0];
+  };
 
   // Enquiry Modal state
   const [activeDealer, setActiveDealer] = useState<Dealer | null>(null);
@@ -51,27 +87,82 @@ export const WhereToBuyPage: React.FC = () => {
   const [customerEmail, setCustomerEmail] = useState(user?.email || '');
   const [customerPhone, setCustomerPhone] = useState(user?.phone || '');
   const [enquiryType, setEnquiryType] = useState<'TEST_DRIVE' | 'PRICE_QUOTE' | 'FINANCING'>('TEST_DRIVE');
-  const [preferredDate, setPreferredDate] = useState('2026-03-10');
+  const [preferredDate, setPreferredDate] = useState<string>(getTomorrowStr());
+  const [dateError, setDateError] = useState<string | null>(null);
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
 
+  // Auto-populate authenticated user details
   useEffect(() => {
     if (user) {
-      setCustomerName(user.fullName);
-      setCustomerEmail(user.email);
-      if (user.phone) setCustomerPhone(user.phone);
+      if (!customerName) setCustomerName(user.fullName);
+      if (!customerEmail) setCustomerEmail(user.email);
+      if (user.phone && !customerPhone) setCustomerPhone(user.phone);
     }
   }, [user]);
 
   // Load canonical vehicle detail if vehicleId is in URL
   useEffect(() => {
     if (vehicleIdParam) {
+      setVehicleLoading(true);
+      setVehicleLoadError(null);
       api.getVehicleById(Number(vehicleIdParam))
-        .then((detail) => setVehicle(detail))
-        .catch((err) => console.error('Failed to load vehicle detail:', err));
+        .then((detail) => {
+          setVehicle(detail);
+          // Match variant from variantIdParam or default to first variant
+          if (detail.variants && detail.variants.length > 0) {
+            const matched = variantIdParam 
+              ? detail.variants.find(v => v.id === Number(variantIdParam)) || detail.variants[0]
+              : detail.variants[0];
+            setSelectedVariant(matched);
+          }
+        })
+        .catch((err) => {
+          console.error('Failed to load vehicle detail:', err);
+          setVehicleLoadError(`Vehicle ID ${vehicleIdParam} could not be loaded (${err.message || 'Not found'}).`);
+          setVehicle(null);
+          setSelectedVariant(null);
+        })
+        .finally(() => {
+          setVehicleLoading(false);
+        });
+    } else {
+      setVehicle(null);
+      setSelectedVariant(null);
+      setVehicleLoadError(null);
+
+      // Load catalogue summaries so the user can easily select a vehicle
+      setCatalogueLoading(true);
+      api.getVehicles({ size: 12 })
+        .then((page) => setAvailableVehicles(page.content))
+        .catch((err) => console.error('Failed to load vehicle picker list:', err))
+        .finally(() => setCatalogueLoading(false));
     }
-  }, [vehicleIdParam]);
+  }, [vehicleIdParam, variantIdParam]);
+
+  // Handle in-page variant change
+  const handleVariantChange = (variantId: number) => {
+    if (!vehicle) return;
+    const variant = vehicle.variants.find(v => v.id === variantId);
+    if (variant) {
+      setSelectedVariant(variant);
+      const newParams = new URLSearchParams(searchParams);
+      newParams.set('variantId', String(variant.id));
+      setSearchParams(newParams);
+    }
+  };
+
+  // Select vehicle from the in-page picker
+  const handleSelectVehicle = (selected: VehicleSummary) => {
+    setSearchParams({
+      vehicleId: String(selected.id),
+      brandId: String(selected.brandId),
+      category: selected.category,
+      model: selected.modelName
+    });
+  };
 
   // Fetch verified authorized dealers
   useEffect(() => {
@@ -84,10 +175,10 @@ export const WhereToBuyPage: React.FC = () => {
 
         const list = await api.getDealers({
           vehicleId: vId,
-          variantId: variantIdParam ? Number(variantIdParam) : undefined,
+          variantId: selectedVariant ? selectedVariant.id : (variantIdParam ? Number(variantIdParam) : undefined),
           brandId: bId,
           category: cat,
-          dealerType: 'SALES', // Excludes service-only workshops by default for purchases
+          dealerType: 'SALES', // Excludes service-only workshops for vehicle purchases
           city: selectedCity !== 'ALL' ? selectedCity : undefined,
           pincode: pincodeFilter.trim() ? pincodeFilter.trim() : undefined,
           latitude: userCoords?.lat,
@@ -105,9 +196,9 @@ export const WhereToBuyPage: React.FC = () => {
     };
 
     fetchAccurateDealers();
-  }, [selectedCity, pincodeFilter, radiusFilter, vehicleIdParam, vehicle, queryBrandId, queryCategory, userCoords]);
+  }, [selectedCity, pincodeFilter, radiusFilter, vehicleIdParam, vehicle, selectedVariant, queryBrandId, queryCategory, userCoords]);
 
-  // Request browser geolocation with user consent
+  // Geolocation handling
   const handleRequestGps = () => {
     if (!navigator.geolocation) {
       setGpsError('Geolocation is not supported by your browser.');
@@ -127,7 +218,7 @@ export const WhereToBuyPage: React.FC = () => {
       (err) => {
         setGpsLoading(false);
         if (err.code === err.PERMISSION_DENIED) {
-          setGpsError('Location permission denied. Please search by city or PIN code instead.');
+          setGpsError('Location permission denied. Please select your city or enter your PIN code instead.');
         } else {
           setGpsError('Unable to retrieve location. Please search manually.');
         }
@@ -141,44 +232,63 @@ export const WhereToBuyPage: React.FC = () => {
     setGpsError(null);
   };
 
+  // Submit Enquiry with strict validation
   const handleSubmitEnquiry = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError(null);
+    setDateError(null);
+
     if (!activeDealer) return;
+
+    // Requirement: Require a valid selected vehicle before submitting
+    if (!vehicle) {
+      setFormError('Please select a valid vehicle before submitting a test drive or price quote enquiry.');
+      return;
+    }
+
+    // Requirement: Validate preferred test-drive date is strictly not in the past
+    const today = getTodayStr();
+    if (preferredDate && preferredDate < today) {
+      setDateError('Test drive date cannot be in the past. Please select today or a future date.');
+      return;
+    }
+
     setSubmitting(true);
 
     try {
-      await api.submitEnquiry({
+      const response = await api.submitEnquiry({
         dealerId: activeDealer.id,
-        vehicleId: vehicle ? vehicle.id : 1,
-        variantId: variantIdParam ? Number(variantIdParam) : (vehicle?.variants[0]?.id),
-        customerName,
-        customerEmail,
-        customerPhone,
+        vehicleId: vehicle.id, // Strictly canonical ID (never hardcoded fallback)
+        variantId: selectedVariant?.id,
+        customerName: customerName.trim(),
+        customerEmail: customerEmail.trim(),
+        customerPhone: customerPhone.trim(),
         city: activeDealer.city || selectedCity,
         enquiryType,
-        preferredDate,
-        message: message.trim() ? message : `Interested in test drive/quote at ${activeDealer.name}`,
+        preferredDate: preferredDate || undefined,
+        message: message.trim() ? message.trim() : `Interested in test drive/quote for ${vehicle.brandName} ${vehicle.modelName} at ${activeDealer.name}`,
       });
 
-      setToastMessage(`Your enquiry for ${activeDealer.name} has been sent successfully! Reference lead generated.`);
+      setToastMessage(`Your enquiry for ${activeDealer.name} has been transmitted successfully! Reference ID: #${response.id}`);
       setActiveDealer(null);
       setMessage('');
-      setTimeout(() => setToastMessage(null), 5000);
+      setTimeout(() => setToastMessage(null), 6000);
     } catch (err: any) {
-      alert(`Submission failed: ${err.message}`);
+      setFormError(err.message || 'Enquiry submission failed. Please verify your details.');
     } finally {
       setSubmitting(false);
     }
   };
 
-  // Canonical manufacturer brand name and fallback locator
-  const activeBrandName = vehicle?.brandName || (dealers.length > 0 ? dealers[0].brandName : undefined);
-  const activeOfficialLocatorUrl = dealers.find(d => d.officialLocatorUrl)?.officialLocatorUrl 
-    || 'https://www.google.com/search?q=' + encodeURIComponent((activeBrandName || 'manufacturer') + ' official dealer locator india');
+  // Verified Official OEM Locator derivation (never derived from unrelated first dealer)
+  const activeBrandName = vehicle?.brandName;
+  const officialOemLocatorUrl = activeBrandName && OEM_LOCATORS[activeBrandName] 
+    ? OEM_LOCATORS[activeBrandName] 
+    : (vehicle ? `https://www.google.com/search?q=${encodeURIComponent(vehicle.brandName + ' official dealer locator india')}` : null);
 
   return (
     <div className="min-h-screen bg-transparent py-10 px-4 sm:px-6 lg:px-8 text-slate-900 relative overflow-hidden">
-      {/* Radiant very light pink ambient background */}
+      {/* Radiant ambient glow */}
       <div className="absolute top-10 right-1/4 w-[600px] h-[350px] bg-pink-200/25 blur-[150px] pointer-events-none rounded-full" />
       <div className="absolute bottom-1/4 left-10 w-[500px] h-[350px] bg-rose-200/20 blur-[140px] pointer-events-none rounded-full" />
 
@@ -194,20 +304,43 @@ export const WhereToBuyPage: React.FC = () => {
             <span>Where to Buy & Schedule Test Drive</span>
           </h1>
           <p className="text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">
-            Strict canonical manufacturer matching. Only officially authorized sales dealerships for the selected brand and vehicle category are displayed. No competitor brand substitution.
+            Strict canonical manufacturer matching. Only verified sales dealerships authorized for the selected brand and vehicle category are displayed. No competitor brand substitution.
           </p>
         </div>
 
-        {/* Selected Vehicle Card if navigated from a model */}
-        {(vehicle || queryModel) && (
-          <div className="p-4 glass-card rounded-2xl border border-pink-200/80 shadow-md flex flex-wrap items-center justify-between gap-4 bg-white">
+        {/* Visible Vehicle Loading Error Alert */}
+        {vehicleLoadError && (
+          <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-xs flex items-start justify-between gap-3 shadow-sm">
+            <div className="flex items-start gap-2.5">
+              <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-bold">{vehicleLoadError}</p>
+                <p className="text-red-700 mt-0.5">Please choose a valid vehicle from our verified catalogue to locate authorized showrooms.</p>
+              </div>
+            </div>
+            <Link
+              to="/vehicles"
+              className="px-3 py-1.5 rounded-xl bg-white border border-red-300 hover:bg-red-100 text-red-800 font-bold shrink-0 transition-colors"
+            >
+              Browse Catalogue
+            </Link>
+          </div>
+        )}
+
+        {/* Selected Vehicle & Variant Card */}
+        {vehicle ? (
+          <div className="p-5 glass-card rounded-2xl border border-pink-200/80 shadow-md flex flex-wrap items-center justify-between gap-4 bg-white">
             <div className="flex items-center gap-4">
-              {vehicle?.heroImageUrl && (
+              {vehicle.heroImageUrl ? (
                 <img
                   src={vehicle.heroImageUrl}
                   alt={vehicle.modelName}
-                  className="w-20 h-14 rounded-xl object-cover bg-slate-100 border border-pink-200"
+                  className="w-24 h-16 rounded-xl object-cover bg-slate-100 border border-pink-200"
                 />
+              ) : (
+                <div className="w-24 h-16 rounded-xl bg-rose-50 border border-pink-200 flex items-center justify-center text-rose-500">
+                  <Car className="w-8 h-8" />
+                </div>
               )}
               <div>
                 <div className="flex items-center gap-2">
@@ -215,31 +348,103 @@ export const WhereToBuyPage: React.FC = () => {
                     Selected Vehicle
                   </span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700">
-                    {vehicle?.category || queryCategory}
+                    {vehicle.category}
                   </span>
                 </div>
                 <h3 className="text-lg font-bold text-slate-900">
-                  {vehicle ? `${vehicle.brandName} ${vehicle.modelName}` : queryModel}
+                  {vehicle.brandName} {vehicle.modelName}
                 </h3>
-                {vehicle?.headline && (
-                  <p className="text-xs text-slate-500 line-clamp-1 max-w-md">{vehicle.headline}</p>
+                
+                {/* Variant Switcher Dropdown */}
+                {vehicle.variants && vehicle.variants.length > 0 && (
+                  <div className="flex items-center gap-2 mt-1.5">
+                    <span className="text-xs text-slate-500 font-medium">Variant:</span>
+                    <select
+                      value={selectedVariant?.id || vehicle.variants[0].id}
+                      onChange={(e) => handleVariantChange(Number(e.target.value))}
+                      className="px-2.5 py-1 text-xs font-semibold rounded-lg bg-pink-50/60 border border-pink-200 text-slate-800 focus:outline-none focus:border-rose-500 cursor-pointer"
+                    >
+                      {vehicle.variants.map((v) => (
+                        <option key={v.id} value={v.id}>
+                          {v.variantName} ({v.fuelType} {v.transmission}) — {formatPriceINR(v.estimatedOnRoadPrice)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 )}
               </div>
             </div>
 
-            {vehicle && (
+            {selectedVariant ? (
+              <div className="text-right">
+                <span className="text-[10px] text-slate-400 uppercase block font-medium">On-Road Estimate</span>
+                <span className="text-xl font-extrabold text-rose-600">
+                  {formatPriceINR(selectedVariant.estimatedOnRoadPrice)}
+                </span>
+                <span className="text-[11px] text-slate-500 block">Ex-showroom: {formatPriceINR(selectedVariant.exShowroomPrice)}</span>
+              </div>
+            ) : (
               <div className="text-right">
                 <span className="text-[10px] text-slate-400 uppercase block font-medium">Starting On-Road</span>
-                <span className="text-lg font-extrabold text-rose-600">
+                <span className="text-xl font-extrabold text-rose-600">
                   {formatPriceINR(vehicle.startingOnRoadPrice)}
                 </span>
                 <span className="text-[11px] text-slate-500 block">Ex-showroom: {formatPriceINR(vehicle.startingExShowroomPrice)}</span>
               </div>
             )}
           </div>
+        ) : !vehicleIdParam && (
+          /* Direct visit prompt with in-page vehicle selector */
+          <div className="p-6 glass-card rounded-2xl border border-pink-200/80 bg-white/95 shadow-sm space-y-4">
+            <div className="flex items-start justify-between flex-wrap gap-2">
+              <div>
+                <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                  <Search className="w-4 h-4 text-rose-500" />
+                  <span>Select a Vehicle to Find Authorized Dealerships</span>
+                </h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Choose a model below to locate verified authorized showrooms and schedule test drives.
+                </p>
+              </div>
+              <Link
+                to="/vehicles"
+                className="text-xs font-bold text-rose-600 hover:text-rose-700 hover:underline flex items-center gap-1"
+              >
+                <span>View Full Catalogue</span>
+                <ChevronDown className="w-3.5 h-3.5 -rotate-90" />
+              </Link>
+            </div>
+
+            {catalogueLoading ? (
+              <div className="py-6 text-center text-xs text-slate-500">Loading catalogue models...</div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                {availableVehicles.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => handleSelectVehicle(item)}
+                    className="p-2.5 rounded-xl border border-pink-100 hover:border-rose-400 bg-white hover:bg-pink-50/50 text-left transition-all group cursor-pointer shadow-2xs"
+                  >
+                    <img
+                      src={item.heroImageUrl}
+                      alt={item.modelName}
+                      className="w-full h-16 rounded-lg object-cover bg-slate-100 mb-1.5 border border-pink-100"
+                    />
+                    <div className="text-[10px] text-rose-600 font-bold uppercase truncate">{item.brandName}</div>
+                    <div className="text-xs font-bold text-slate-900 truncate group-hover:text-rose-600 transition-colors">
+                      {item.modelName}
+                    </div>
+                    <div className="text-[10px] text-slate-500 font-medium mt-0.5">
+                      {formatPriceINR(item.startingOnRoadPrice)}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         )}
 
-        {/* Search & Location Controls */}
+        {/* Location & Radius Controls */}
         <div className="glass-card rounded-2xl border border-pink-200/80 p-5 shadow-sm bg-white space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
@@ -247,7 +452,7 @@ export const WhereToBuyPage: React.FC = () => {
                 1. Select Location or Use GPS
               </span>
               <p className="text-xs text-slate-500">
-                Filter by verified city, PIN code, or calculate exact distance with your permission.
+                Filter by verified city, PIN code, or calculate exact distance with your consent.
               </p>
             </div>
 
@@ -318,6 +523,7 @@ export const WhereToBuyPage: React.FC = () => {
                 <button
                   onClick={() => setPincodeFilter('')}
                   className="text-slate-400 hover:text-slate-600 cursor-pointer"
+                  title="Clear PIN code"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -375,7 +581,7 @@ export const WhereToBuyPage: React.FC = () => {
               </div>
               <div className="space-y-1">
                 <h3 className="text-base font-bold text-slate-900">
-                  No verified authorized sales dealer found for this vehicle in your selected area.
+                  No verified authorized sales dealer found for {vehicle ? `${vehicle.brandName} (${vehicle.category})` : 'this selection'} in your selected area.
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed max-w-lg mx-auto">
                   To protect your purchase, MyVehicleChoice strictly never substitutes competitor brands or unverified third-party brokers.
@@ -395,21 +601,23 @@ export const WhereToBuyPage: React.FC = () => {
                   <span>Search All Locations (Pan-India)</span>
                 </button>
 
-                <a
-                  href={activeOfficialLocatorUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-xl bg-white border border-pink-200 hover:border-rose-400 text-slate-700 hover:text-rose-600 font-bold text-xs transition-all shadow-sm flex items-center gap-1.5"
-                >
-                  <ExternalLink className="w-3.5 h-3.5 text-rose-500" />
-                  <span>Open Official {activeBrandName || 'Manufacturer'} Locator</span>
-                </a>
+                {officialOemLocatorUrl && (
+                  <a
+                    href={officialOemLocatorUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 rounded-xl bg-white border border-pink-200 hover:border-rose-400 text-slate-700 hover:text-rose-600 font-bold text-xs transition-all shadow-sm flex items-center gap-1.5"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5 text-rose-500" />
+                    <span>Open Official {activeBrandName} Locator</span>
+                  </a>
+                )}
               </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {dealers.map((dealer) => {
-                // Determine model availability badge
+                // Stock Availability Badge (Accurately distinguishes confirmed stock vs test-drive demo unit)
                 let availBadge = null;
                 if (dealer.availabilityStatus === 'CONFIRMED_IN_STOCK') {
                   availBadge = (
@@ -441,6 +649,9 @@ export const WhereToBuyPage: React.FC = () => {
                   );
                 }
 
+                // OEM Authorized evidence check
+                const isVerifiedOem = dealer.isAuthorized && dealer.verificationStatus === 'OFFICIAL_OEM_VERIFIED';
+
                 return (
                   <div
                     key={dealer.id}
@@ -468,10 +679,14 @@ export const WhereToBuyPage: React.FC = () => {
                             </span>
                           )}
 
-                          {dealer.isAuthorized && (
+                          {isVerifiedOem ? (
                             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-semibold">
                               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
                               <span>OEM Authorized</span>
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200 text-[10px] font-semibold">
+                              <span>Partner Dealer</span>
                             </span>
                           )}
                         </div>
@@ -506,7 +721,7 @@ export const WhereToBuyPage: React.FC = () => {
                         {availBadge}
                       </div>
 
-                      {/* Contact & Hours */}
+                      {/* Contact & Audit Source */}
                       <div className="space-y-1.5 text-xs text-slate-500 pt-3 border-t border-pink-100">
                         <div className="flex items-center gap-2">
                           <Phone className="w-3.5 h-3.5 text-slate-400" />
@@ -530,7 +745,11 @@ export const WhereToBuyPage: React.FC = () => {
                     {/* Actions */}
                     <div className="pt-4 border-t border-pink-100 grid grid-cols-3 gap-2">
                       <button
-                        onClick={() => setActiveDealer(dealer)}
+                        onClick={() => {
+                          setActiveDealer(dealer);
+                          setFormError(null);
+                          setDateError(null);
+                        }}
                         className="py-2.5 px-2 rounded-xl btn-galaxy-primary text-white font-bold text-xs transition-colors shadow-sm text-center cursor-pointer col-span-1"
                       >
                         Book Test Drive
@@ -596,7 +815,43 @@ export const WhereToBuyPage: React.FC = () => {
                 </button>
               </div>
 
+              {formError && (
+                <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+                  <span>{formError}</span>
+                </div>
+              )}
+
               <form onSubmit={handleSubmitEnquiry} className="space-y-3 text-xs">
+                {/* Vehicle of Interest Warning / Selector */}
+                <div>
+                  <label className="block text-slate-700 uppercase font-semibold mb-1">Vehicle of Interest *</label>
+                  {vehicle ? (
+                    <div className="p-2.5 rounded-xl bg-pink-50/50 border border-pink-200 flex items-center justify-between">
+                      <div>
+                        <span className="font-bold text-slate-900 block">{vehicle.brandName} {vehicle.modelName}</span>
+                        {selectedVariant && (
+                          <span className="text-[11px] text-rose-600 font-medium">Variant: {selectedVariant.variantName}</span>
+                        )}
+                      </div>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-white text-slate-600 border border-pink-200">
+                        {vehicle.category}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs space-y-2">
+                      <p className="font-bold">No vehicle selected!</p>
+                      <p>Please select a vehicle before scheduling a test drive or requesting a dealer quotation.</p>
+                      <Link
+                        to="/vehicles"
+                        className="inline-block px-3 py-1.5 rounded-lg bg-amber-600 text-white font-bold text-[11px]"
+                      >
+                        Choose Vehicle from Catalogue
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
                 <div>
                   <label className="block text-slate-700 uppercase font-semibold mb-1">Your Name *</label>
                   <input
@@ -651,30 +906,29 @@ export const WhereToBuyPage: React.FC = () => {
                     <label className="block text-slate-700 uppercase font-semibold mb-1">Preferred Date</label>
                     <input
                       type="date"
+                      min={getTodayStr()}
                       value={preferredDate}
-                      onChange={(e) => setPreferredDate(e.target.value)}
-                      className="w-full bg-white border border-pink-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500"
+                      onChange={(e) => {
+                        setPreferredDate(e.target.value);
+                        if (e.target.value < getTodayStr()) {
+                          setDateError('Test drive date cannot be in the past.');
+                        } else {
+                          setDateError(null);
+                        }
+                      }}
+                      className={`w-full bg-white border ${dateError ? 'border-red-400' : 'border-pink-200'} rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500`}
                     />
+                    {dateError && <span className="text-[10px] text-red-600 block mt-0.5">{dateError}</span>}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 uppercase font-semibold mb-1">Vehicle of Interest</label>
-                  <input
-                    type="text"
-                    readOnly
-                    value={vehicle ? `${vehicle.brandName} ${vehicle.modelName}` : (queryModel || 'General Inquiry')}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-600 font-semibold cursor-not-allowed"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-slate-700 uppercase font-semibold mb-1">Special Notes / Variant Choice</label>
+                  <label className="block text-slate-700 uppercase font-semibold mb-1">Special Notes / Requests</label>
                   <textarea
                     rows={2}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="e.g. Please bring an automatic variant for test drive"
+                    placeholder="e.g. Please arrange an automatic test drive vehicle"
                     className="w-full bg-white border border-pink-200 rounded-xl px-3 py-2 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500"
                   />
                 </div>
@@ -682,7 +936,7 @@ export const WhereToBuyPage: React.FC = () => {
                 <div className="pt-2">
                   <button
                     type="submit"
-                    disabled={submitting}
+                    disabled={submitting || !vehicle || Boolean(dateError)}
                     className="w-full py-2.5 rounded-xl btn-galaxy-primary text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition-colors disabled:opacity-50 cursor-pointer"
                   >
                     {submitting ? (

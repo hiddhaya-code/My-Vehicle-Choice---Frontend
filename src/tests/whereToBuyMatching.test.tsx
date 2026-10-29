@@ -12,6 +12,7 @@ vi.mock('../services/api', () => ({
     getVehicleById: vi.fn(),
     getDealers: vi.fn(),
     submitEnquiry: vi.fn(),
+    getVehicles: vi.fn(),
   },
 }));
 
@@ -25,6 +26,14 @@ vi.mock('../context/AuthContext', () => ({
 describe('WhereToBuyPage Frontend Dealer Matching Regression Suite', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.mocked(api.getVehicles).mockResolvedValue({
+      content: [],
+      totalElements: 0,
+      totalPages: 0,
+      page: 0,
+      size: 12,
+      last: true,
+    });
   });
 
   it('Tata Nexon renders only Tata dealership and NEVER Hyundai or BMW', async () => {
@@ -187,7 +196,7 @@ describe('WhereToBuyPage Frontend Dealer Matching Regression Suite', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText(/No verified authorized sales dealer found for this vehicle in your selected area/i)).toBeDefined();
+      expect(screen.getByText(/No verified authorized sales dealer found for .* in your selected area/i)).toBeDefined();
     });
 
     expect(screen.getByText(/Search All Locations/i)).toBeDefined();
@@ -222,5 +231,93 @@ describe('WhereToBuyPage Frontend Dealer Matching Regression Suite', () => {
 
     // Must NOT show "Confirmed in Stock"
     expect(screen.queryByText(/Confirmed in Stock/i)).toBeNull();
+  });
+
+  it('Displays visible error alert when vehicle fails to load', async () => {
+    vi.mocked(api.getVehicleById).mockRejectedValue(new Error('Vehicle not found'));
+    vi.mocked(api.getDealers).mockResolvedValue([]);
+
+    render(
+      <MemoryRouter initialEntries={['/where-to-buy?vehicleId=9999']}>
+        <WhereToBuyPage />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/Vehicle ID 9999 could not be loaded/i)).toBeDefined();
+    });
+
+    expect(screen.getByText(/Browse Catalogue/i)).toBeDefined();
+  });
+
+  it('Direct visit without vehicleId renders in-page vehicle selector', async () => {
+    vi.mocked(api.getDealers).mockResolvedValue([]);
+    vi.mocked(api.getVehicles as any).mockResolvedValue({
+      content: [
+        {
+          id: 1,
+          brandId: 1,
+          brandName: 'Tata Motors',
+          modelName: 'Nexon',
+          category: 'CAR',
+          startingOnRoadPrice: 915000,
+          startingExShowroomPrice: 799000,
+          heroImageUrl: 'https://example.com/nexon.jpg',
+        },
+      ],
+      totalElements: 1,
+      totalPages: 1,
+      page: 0,
+      size: 12,
+      last: true,
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/where-to-buy']}>
+        <WhereToBuyPage />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Select a Vehicle to Find Authorized Dealerships')).toBeDefined();
+    });
+  });
+
+  it('Enquiry modal rejects submission without a selected vehicle', async () => {
+    const tataDealer: Dealer = {
+      id: 1,
+      name: 'SAB Motors Tata Authorized Dealership',
+      brandName: 'Tata Motors',
+      dealerType: 'SALES',
+      address: 'Mohan Cooperative',
+      city: 'New Delhi',
+      phone: '+91 11 4167 8900',
+      isAuthorized: true,
+      availabilityStatus: 'AVAILABLE_FOR_TEST_DRIVE',
+    };
+
+    vi.mocked(api.getDealers).mockResolvedValue([tataDealer]);
+
+    const { getByText } = render(
+      <MemoryRouter initialEntries={['/where-to-buy']}>
+        <WhereToBuyPage />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Book Test Drive')).toBeDefined();
+    });
+
+    // Open Enquiry Modal
+    getByText('Book Test Drive').click();
+
+    await waitFor(() => {
+      expect(screen.getByText('No vehicle selected!')).toBeDefined();
+    });
+
+    // Verify submit button is disabled
+    const submitBtn = screen.getByText('Confirm & Send to Dealer').closest('button');
+    expect(submitBtn?.disabled).toBe(true);
+    expect(api.submitEnquiry).not.toHaveBeenCalled();
   });
 });

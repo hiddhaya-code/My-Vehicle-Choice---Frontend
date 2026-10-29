@@ -333,7 +333,7 @@ export interface Dealer {
 }
 
 export interface DealerEnquiryRequest {
-  dealerId?: number;
+  dealerId: number;
   vehicleId: number;
   variantId?: number;
   customerName: string;
