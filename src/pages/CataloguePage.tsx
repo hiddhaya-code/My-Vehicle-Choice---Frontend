@@ -82,29 +82,25 @@ export const CataloguePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafbfc] py-10 relative overflow-hidden text-slate-900">
-      {/* Mednix subtle ambient background */}
-      <div className="absolute top-0 right-1/4 w-[600px] h-[400px] bg-slate-100/70 blur-[150px] pointer-events-none rounded-full" />
-      <div className="absolute bottom-1/4 left-10 w-[500px] h-[350px] bg-rose-500/5 blur-[140px] pointer-events-none rounded-full" />
-
+    <div className="min-h-screen bg-[#F4F0E8] py-10 relative overflow-hidden text-[#171717] font-body">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Breadcrumb & Header */}
         <div className="mb-8">
-          <div className="flex items-center text-xs text-slate-500 gap-2 mb-2 font-body">
-            <Link to="/" className="hover:text-rose-600 transition-colors">Home</Link>
+          <div className="flex items-center text-xs text-stone-500 gap-2 mb-2 font-body">
+            <Link to="/" className="hover:text-[#B9975B] transition-colors">Home</Link>
             <span>/</span>
-            <span className="text-rose-600 font-bold">Explore Vehicles</span>
+            <span className="text-[#B9975B] font-semibold">Explore Vehicles</span>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-extrabold uppercase tracking-wider mb-2.5">
-                <Sparkles className="w-3.5 h-3.5 text-rose-600" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#171717] border border-[#B9975B]/30 text-[#B9975B] text-xs font-semibold uppercase tracking-wider mb-2.5 font-heading shadow-xs">
+                <Sparkles className="w-3.5 h-3.5 text-[#B9975B]" />
                 <span>Verified Indian Garage</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight font-heading">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
                 Indian Vehicle Catalogue
               </h1>
-              <p className="text-sm sm:text-base text-slate-600 mt-1 max-w-2xl font-body">
+              <p className="text-sm sm:text-base text-stone-600 mt-1 max-w-2xl font-body">
                 Browse verified cars, motorcycles, scooters, and electric vehicles with official road test specs and Delhi on-road price estimates.
               </p>
             </div>
@@ -112,11 +108,11 @@ export const CataloguePage: React.FC = () => {
         </div>
 
         {/* Filter Bar */}
-        <div className="mednix-card p-5 sm:p-6 mb-8 bg-white border border-slate-200/90 shadow-2xs">
+        <div className="luxury-card p-5 sm:p-6 mb-8 bg-white border border-[#E5E0D8] shadow-xs">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {/* Search Input */}
             <div className="relative">
-              <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1.5">Search Model</label>
+              <label className="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-heading">Search Model</label>
               <div className="relative">
                 <input
                   type="text"
@@ -124,19 +120,19 @@ export const CataloguePage: React.FC = () => {
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
                   placeholder="e.g. Nexon, Hunter, Creta..."
-                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-500 focus:bg-white transition-all"
+                  className="w-full pl-9 pr-3 py-2.5 bg-[#FAF8F5] border border-[#E5E0D8] rounded-full text-xs text-[#171717] placeholder-stone-400 focus:outline-none focus:border-[#B9975B] focus:bg-white transition-all font-body"
                 />
-                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                <Search className="w-4 h-4 text-stone-400 absolute left-3 top-3" />
               </div>
             </div>
 
             {/* Category Select */}
             <div>
-              <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1.5">Category</label>
+              <label className="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-heading">Category</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as VehicleCategory | '')}
-                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-900 focus:outline-none focus:border-rose-500 focus:bg-white transition-all cursor-pointer"
+                className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E5E0D8] rounded-full text-xs text-[#171717] focus:outline-none focus:border-[#B9975B] focus:bg-white transition-all cursor-pointer font-body"
               >
                 <option value="">All Categories</option>
                 <option value="CAR">Car / SUV</option>
@@ -149,11 +145,11 @@ export const CataloguePage: React.FC = () => {
 
             {/* Brand Select */}
             <div>
-              <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1.5">Manufacturer</label>
+              <label className="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-heading">Manufacturer</label>
               <select
                 value={brandId}
                 onChange={(e) => setBrandId(e.target.value)}
-                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-900 focus:outline-none focus:border-rose-500 focus:bg-white transition-all cursor-pointer"
+                className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E5E0D8] rounded-full text-xs text-[#171717] focus:outline-none focus:border-[#B9975B] focus:bg-white transition-all cursor-pointer font-body"
               >
                 <option value="">All Brands</option>
                 {brands.map((b) => (
@@ -166,22 +162,22 @@ export const CataloguePage: React.FC = () => {
 
             {/* Max Budget */}
             <div>
-              <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1.5">Max Budget (₹)</label>
+              <label className="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1.5 font-heading">Max Budget (₹)</label>
               <input
                 type="number"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
                 placeholder="e.g. 1500000"
                 step={50000}
-                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-500 focus:bg-white transition-all"
+                className="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#E5E0D8] rounded-full text-xs text-[#171717] placeholder-stone-400 focus:outline-none focus:border-[#B9975B] focus:bg-white transition-all tabular-numbers font-body"
               />
             </div>
 
             {/* Filter Buttons */}
-            <div className="flex items-end gap-2">
+            <div className="flex items-end gap-2 font-body">
               <button
                 onClick={applyFilters}
-                className="flex-1 py-2.5 px-4 rounded-full btn-pill-primary text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer"
+                className="flex-1 py-2.5 px-4 rounded-full btn-gold text-xs shadow-xs transition-all cursor-pointer"
               >
                 <Filter className="w-3.5 h-3.5" />
                 <span>Apply Filter</span>
@@ -189,7 +185,7 @@ export const CataloguePage: React.FC = () => {
               <button
                 onClick={resetFilters}
                 title="Reset Filters"
-                className="p-2.5 rounded-full bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
+                className="p-2.5 rounded-full bg-[#FAF8F5] border border-[#E5E0D8] hover:border-[#B9975B] text-stone-600 hover:text-[#171717] transition-colors cursor-pointer"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
@@ -199,36 +195,36 @@ export const CataloguePage: React.FC = () => {
 
         {/* Loading State */}
         {loading && (
-          <div className="flex flex-col items-center justify-center py-20 text-slate-500">
-            <Loader2 className="w-9 h-9 animate-spin text-rose-500 mb-3" />
-            <p className="text-sm font-medium">Filtering catalogue records from MySQL...</p>
+          <div className="flex flex-col items-center justify-center py-20 text-stone-500 font-body">
+            <Loader2 className="w-8 h-8 animate-spin text-[#B9975B] mb-3" />
+            <p className="text-sm font-medium">Filtering catalogue records from database...</p>
           </div>
         )}
 
         {/* Error State */}
         {error && (
-          <div className="p-6 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 flex items-center gap-3">
-            <AlertCircle className="w-6 h-6 shrink-0 text-rose-600" />
+          <div className="p-6 rounded-3xl bg-amber-50 border border-amber-200 text-amber-800 flex items-center gap-3 font-body">
+            <AlertCircle className="w-6 h-6 shrink-0 text-amber-600" />
             <div>
-              <p className="text-sm font-semibold">Unable to fetch vehicles</p>
-              <p className="text-xs text-rose-600">{error}</p>
+              <p className="text-sm font-semibold font-heading">Unable to fetch vehicles</p>
+              <p className="text-xs text-amber-700">{error}</p>
             </div>
           </div>
         )}
 
         {/* Empty State */}
         {!loading && !error && vehicles.length === 0 && (
-          <div className="text-center py-16 glass-card rounded-2xl p-8 border border-pink-200/80 bg-white">
-            <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-400 mx-auto flex items-center justify-center mb-3 border border-pink-200">
+          <div className="text-center py-16 luxury-card p-8 bg-white">
+            <div className="w-12 h-12 rounded-full bg-[#FAF8F5] text-[#B9975B] mx-auto flex items-center justify-center mb-3 border border-[#E5E0D8]">
               <Search className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-bold text-slate-900">No matching vehicles found</h3>
-            <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1">
+            <h3 className="text-base font-bold text-[#171717] font-heading">No matching vehicles found</h3>
+            <p className="text-xs text-stone-500 max-w-sm mx-auto mt-1 font-body">
               We couldn't find any vehicle matching your current filter criteria. Try expanding your price limit or clearing specific brand filters.
             </p>
             <button
               onClick={resetFilters}
-              className="mt-4 px-5 py-2.5 rounded-xl btn-galaxy-primary text-white font-bold text-xs inline-flex items-center gap-1.5 shadow-md hover:scale-105 transition-all cursor-pointer"
+              className="mt-4 px-6 py-2.5 rounded-full btn-gold text-xs inline-flex items-center gap-1.5 shadow-sm transition-all cursor-pointer font-body"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Reset All Filters</span>
@@ -239,28 +235,28 @@ export const CataloguePage: React.FC = () => {
         {/* Vehicle Cards Grid */}
         {!loading && !error && vehicles.length > 0 && (
           <div>
-            <div className="flex justify-between items-center mb-6 text-xs text-slate-500 font-medium">
-              <span>Showing <strong className="text-rose-600 font-bold">{vehicles.length}</strong> verified Indian vehicles</span>
+            <div className="flex justify-between items-center mb-6 text-xs text-stone-600 font-medium font-body">
+              <span>Showing <strong className="text-[#171717] font-bold tabular-numbers">{vehicles.length}</strong> verified Indian vehicles</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {vehicles.map((vehicle) => (
                 <div
                   key={vehicle.id}
-                  className="mednix-card overflow-hidden group flex flex-col justify-between"
+                  className="luxury-card overflow-hidden group flex flex-col justify-between bg-white"
                 >
                   {/* Image */}
                   <div>
-                    <div className="relative aspect-[16/10] bg-slate-900 overflow-hidden">
+                    <div className="relative aspect-[16/10] bg-[#171717] overflow-hidden">
                       <img
                         src={vehicle.heroImageUrl}
                         alt={`${vehicle.brandName} ${vehicle.modelName}`}
                         className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-black/20 pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#171717]/80 via-transparent to-black/20 pointer-events-none" />
 
-                      <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1 z-10">
+                      <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1 z-10 font-heading">
                         <CategoryBadge category={vehicle.category} />
                       </div>
                       <button
@@ -271,15 +267,15 @@ export const CataloguePage: React.FC = () => {
                         }}
                         className={`absolute top-2.5 right-2.5 p-2 rounded-full backdrop-blur-md transition-all z-10 cursor-pointer ${
                           isWishlisted(vehicle.id)
-                            ? 'bg-rose-600 text-white shadow-md'
-                            : 'bg-white/90 text-slate-700 hover:text-white hover:bg-rose-600 border border-slate-200'
+                            ? 'bg-[#B9975B] text-[#171717] shadow-xs'
+                            : 'bg-white/90 text-[#171717] hover:bg-[#B9975B] hover:text-[#171717] border border-[#E5E0D8]'
                         }`}
                         title={isWishlisted(vehicle.id) ? 'Remove from Saved' : 'Save to Shortlist'}
                       >
                         <Bookmark className={`w-3.5 h-3.5 ${isWishlisted(vehicle.id) ? 'fill-current' : ''}`} />
                       </button>
                       {vehicle.primaryKeySpec && (
-                        <div className="absolute bottom-2.5 right-2.5 bg-white/95 backdrop-blur-md border border-slate-200 text-slate-900 px-2.5 py-0.5 rounded-lg text-[11px] font-bold shadow-2xs z-10">
+                        <div className="absolute bottom-2.5 right-2.5 bg-white/95 backdrop-blur-md border border-[#E5E0D8] text-[#171717] px-2.5 py-0.5 rounded-lg text-[11px] font-bold shadow-2xs z-10 font-heading">
                           {vehicle.primaryKeySpec}
                         </div>
                       )}
@@ -287,10 +283,10 @@ export const CataloguePage: React.FC = () => {
 
                     {/* Body */}
                     <div className="p-5">
-                      <div className="text-[10px] text-rose-600 font-extrabold uppercase tracking-wider mb-1 font-heading">
+                      <div className="text-[10px] text-[#B9975B] font-extrabold uppercase tracking-wider mb-1 font-heading">
                         {vehicle.brandName}
                       </div>
-                      <h3 className="text-base font-extrabold text-slate-950 group-hover:text-rose-600 transition-colors font-heading">
+                      <h3 className="text-base font-bold text-[#171717] group-hover:text-[#B9975B] transition-colors font-heading truncate">
                         <Link to={`/vehicles/${vehicle.id}`}>
                           {vehicle.modelName}
                         </Link>
@@ -307,41 +303,41 @@ export const CataloguePage: React.FC = () => {
 
                   {/* Pricing & Actions */}
                   <div className="p-5 pt-0">
-                    <div className="pt-3 border-t border-slate-100">
-                      <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">
+                    <div className="pt-3 border-t border-[#E5E0D8]">
+                      <span className="text-[10px] uppercase font-bold text-stone-400 block tracking-wider font-heading">
                         Est. On-Road (Delhi)
                       </span>
                       <div className="flex items-baseline gap-1 mt-0.5">
-                        <span className="text-base font-extrabold text-slate-950">
+                        <span className="text-base font-extrabold text-[#171717] tabular-numbers font-heading">
                           {formatIndianPrice(vehicle.startingOnRoadPrice)}
                         </span>
                         {vehicle.maxOnRoadPrice && vehicle.maxOnRoadPrice > vehicle.startingOnRoadPrice && (
-                          <span className="text-xs text-slate-500 font-medium">
+                          <span className="text-xs text-stone-500 font-medium tabular-numbers font-body">
                             – {formatIndianPrice(vehicle.maxOnRoadPrice)}
                           </span>
                         )}
                       </div>
 
                       {/* Card Actions */}
-                      <div className="mt-4 grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
+                      <div className="mt-4 grid grid-cols-2 gap-2 pt-2 border-t border-[#E5E0D8] font-body">
                         <Link
                           to={`/vehicles/${vehicle.id}`}
-                          className="btn-pill-primary text-xs py-2 px-3 text-center"
+                          className="btn-gold text-xs py-2 px-3 text-center"
                         >
                           Details
                         </Link>
                         <Link
                           to={`/compare?vehicle1=${vehicle.id}`}
-                          className="btn-pill-outline text-xs py-2 px-3"
+                          className="btn-outline-gold text-xs py-2 px-3"
                         >
-                          <GitCompare className="w-3 h-3 text-slate-400" />
+                          <GitCompare className="w-3 h-3 text-[#B9975B]" />
                           <span>Compare</span>
                         </Link>
                       </div>
 
                       <Link
                         to={`/where-to-buy?vehicleId=${vehicle.id}&brandId=${vehicle.brandId}&category=${vehicle.category}`}
-                        className="mt-2.5 text-center text-[11px] font-bold text-slate-600 hover:text-rose-600 py-0.5 block transition-colors"
+                        className="mt-2.5 text-center text-[11px] font-semibold text-stone-600 hover:text-[#B9975B] py-0.5 block transition-colors font-body"
                       >
                         Where to Buy & Dealers →
                       </Link>

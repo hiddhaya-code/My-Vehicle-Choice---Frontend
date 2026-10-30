@@ -61,26 +61,23 @@ export const CategorySelectorSection: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="py-20 bg-white border-b border-slate-200/80 relative overflow-hidden text-slate-900">
-      {/* Mednix Subtle Ambient Background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[350px] bg-slate-100/60 blur-[140px] pointer-events-none rounded-full" />
-
+    <section className="py-20 bg-[#FAF8F5] border-b border-[#E5E0D8] relative overflow-hidden text-[#171717]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header Treatment (Mednix Pre-title + Title + Subtitle) */}
+        {/* Section Header Treatment */}
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-extrabold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-rose-600" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#171717] border border-[#B9975B]/30 text-[#B9975B] text-xs font-semibold uppercase tracking-wider mb-3 font-heading shadow-xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#B9975B]" />
             <span>Automotive Taxonomy</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight font-heading">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
             Explore by Vehicle Category
           </h2>
-          <p className="text-sm sm:text-base text-slate-600 mt-3 font-body">
+          <p className="text-sm sm:text-base text-stone-600 mt-2 font-body">
             Every category features verified homologation specifications, ARAI test metrics, and certified Indian road pricing.
           </p>
         </div>
 
-        {/* 4 Mednix-style Category Cards */}
+        {/* 4 Luxury Category Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {CATEGORY_CARDS.map((cat) => {
             const Icon = cat.icon;
@@ -88,31 +85,31 @@ export const CategorySelectorSection: React.FC = () => {
               <div
                 key={cat.id}
                 onClick={() => navigate(`/vehicles?category=${cat.id}`)}
-                className="mednix-card overflow-hidden group cursor-pointer flex flex-col justify-between"
+                className="luxury-card overflow-hidden group cursor-pointer flex flex-col justify-between"
               >
                 <div>
                   {/* Category Image Header */}
-                  <div className="relative h-44 w-full overflow-hidden bg-slate-900">
+                  <div className="relative h-44 w-full overflow-hidden bg-[#171717]">
                     <img
                       src={cat.imageUrl}
                       alt={cat.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#171717]/85 via-[#171717]/25 to-transparent" />
                     
                     {/* Top Pill Badge */}
                     <div className="absolute top-3 left-3 z-10">
-                      <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-white/90 backdrop-blur-md text-slate-900 shadow-sm">
+                      <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#171717]/90 backdrop-blur-md text-[#B9975B] border border-[#B9975B]/40 font-heading">
                         {cat.badge}
                       </span>
                     </div>
 
                     {/* Category Icon */}
-                    <div className="absolute bottom-3 left-3 z-10 flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-md">
+                    <div className="absolute bottom-3 left-3 z-10 flex items-center gap-2 font-heading">
+                      <div className="w-8 h-8 rounded-full bg-[#B9975B] text-[#171717] flex items-center justify-center shadow-md">
                         <Icon className="w-4 h-4" />
                       </div>
-                      <span className="text-xs font-bold text-white drop-shadow-sm">
+                      <span className="text-xs font-bold text-white drop-shadow-sm tabular-numbers">
                         {cat.stats}
                       </span>
                     </div>
@@ -120,14 +117,14 @@ export const CategorySelectorSection: React.FC = () => {
 
                   {/* Card Body */}
                   <div className="p-5 space-y-2.5">
-                    <h3 className="text-lg font-extrabold text-slate-900 group-hover:text-rose-600 transition-colors font-heading">
+                    <h3 className="text-lg font-bold text-[#171717] group-hover:text-[#B9975B] transition-colors font-heading">
                       {cat.title}
                     </h3>
-                    <p className="text-xs text-slate-600 leading-relaxed font-body">
+                    <p className="text-xs text-stone-600 leading-relaxed font-body">
                       {cat.description}
                     </p>
-                    <div className="pt-1 text-[11px] font-semibold text-slate-400">
-                      <span className="text-slate-600 font-bold">Popular: </span>
+                    <div className="pt-1 text-[11px] font-semibold text-stone-500 font-body">
+                      <span className="text-[#171717] font-bold">Popular: </span>
                       {cat.models}
                     </div>
                   </div>
@@ -135,7 +132,7 @@ export const CategorySelectorSection: React.FC = () => {
 
                 {/* Card Action Footer */}
                 <div className="p-5 pt-0">
-                  <div className="w-full py-2.5 px-4 rounded-xl bg-slate-50 group-hover:bg-rose-50 border border-slate-200/80 group-hover:border-rose-200 text-slate-800 group-hover:text-rose-600 text-xs font-bold transition-all flex items-center justify-between">
+                  <div className="w-full py-2.5 px-4 rounded-full bg-[#FAF8F5] group-hover:bg-[#B9975B]/15 border border-[#E5E0D8] group-hover:border-[#B9975B] text-[#171717] group-hover:text-[#B9975B] text-xs font-semibold transition-all flex items-center justify-between font-heading">
                     <span>Explore {cat.title.split(' ')[0]}</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -149,9 +146,9 @@ export const CategorySelectorSection: React.FC = () => {
         <div className="mt-10 text-center">
           <button
             onClick={() => navigate('/vehicles')}
-            className="inline-flex items-center gap-2 text-xs font-extrabold text-slate-700 hover:text-rose-600 bg-slate-50 hover:bg-rose-50 px-5 py-2.5 rounded-full border border-slate-200 hover:border-rose-200 transition-all cursor-pointer shadow-2xs"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-[#171717] hover:text-[#B9975B] bg-white hover:bg-[#FAF8F5] px-6 py-3 rounded-full border border-[#E5E0D8] hover:border-[#B9975B] transition-all cursor-pointer shadow-xs font-heading"
           >
-            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            <ShieldCheck className="w-4 h-4 text-[#B9975B]" />
             <span>Browse All 18+ Homologated Models Across India</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>

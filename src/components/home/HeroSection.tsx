@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   Sparkles, 
@@ -8,22 +8,27 @@ import {
   Car, 
   Bike, 
   Zap, 
-  MapPin, 
   Search,
   CheckCircle,
   TrendingUp,
-  Award
+  Award,
+  Play,
+  Pause,
+  ChevronRight
 } from 'lucide-react';
 import { formatIndianPrice } from '../../utils/formatters';
 
-interface FeaturedVehicle {
+interface CinematicScene {
   id: number;
   type: 'CAR' | 'BIKE' | 'EV';
+  categoryLabel: string;
   name: string;
   brand: string;
   variant: string;
   tagline: string;
   imageUrl: string;
+  atmosphereBg: string;
+  lightingTone: string;
   exShowroomPrice: number;
   estimatedOnRoadPrice: number;
   highlightBadge: string;
@@ -37,35 +42,19 @@ interface FeaturedVehicle {
   };
 }
 
-const FEATURED_VEHICLES: FeaturedVehicle[] = [
-  {
-    id: 4,
-    type: 'EV',
-    name: 'Tata Nexon.ev',
-    brand: 'Tata Motors',
-    variant: 'Empowered+ Long Range (45 kWh)',
-    tagline: 'India’s most celebrated electric SUV with V2L bidirectional charging.',
-    imageUrl: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1600&q=85',
-    exShowroomPrice: 1699000,
-    estimatedOnRoadPrice: 1785000,
-    highlightBadge: '5-Star Bharat NCAP',
-    specs: {
-      label1: 'Certified Range',
-      val1: '465 km ARAI',
-      label2: 'Running Cost',
-      val2: '₹0.85 / km',
-      label3: 'Acceleration',
-      val3: '0-100 in 8.9s'
-    }
-  },
+// 3-Vehicle Cinematic Sequence: BMW -> Superbike -> EV -> BMW
+const CINEMATIC_SCENES: CinematicScene[] = [
   {
     id: 19,
     type: 'CAR',
-    name: 'BMW 3 Series GL',
+    categoryLabel: 'Luxury Sedan',
+    name: 'BMW 3 Series Gran Limousine',
     brand: 'BMW',
     variant: '330Li M Sport Gran Limousine',
-    tagline: 'TwinPower Turbo dynamics, 50:50 weight distribution & limousine rear legroom.',
+    tagline: 'TwinPower Turbo dynamics, 50:50 weight distribution & executive limousine rear legroom.',
     imageUrl: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1600&q=85',
+    atmosphereBg: 'radial-gradient(ellipse at 70% 40%, rgba(185, 151, 91, 0.22) 0%, rgba(23, 23, 23, 0.95) 75%)',
+    lightingTone: 'from-[#B9975B]/20 via-transparent to-transparent',
     exShowroomPrice: 6060000,
     estimatedOnRoadPrice: 6240000,
     highlightBadge: '5-Star Euro NCAP',
@@ -81,11 +70,14 @@ const FEATURED_VEHICLES: FeaturedVehicle[] = [
   {
     id: 6,
     type: 'BIKE',
+    categoryLabel: 'Supersport',
     name: 'Yamaha YZF R15 V4',
     brand: 'Yamaha',
-    variant: 'Racing Edition Dual ABS',
-    tagline: 'Track-bred Variable Valve Actuation (VVA) and factory quickshifter.',
+    variant: 'Racing Edition Dual-Channel ABS',
+    tagline: 'Track-bred Variable Valve Actuation (VVA), factory quickshifter, and aggressive aerodynamics.',
     imageUrl: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&w=1600&q=85',
+    atmosphereBg: 'radial-gradient(ellipse at 70% 40%, rgba(201, 171, 117, 0.25) 0%, rgba(23, 23, 23, 0.95) 75%)',
+    lightingTone: 'from-[#C9AB75]/25 via-transparent to-transparent',
     exShowroomPrice: 187000,
     estimatedOnRoadPrice: 215000,
     highlightBadge: 'Dual-Channel ABS',
@@ -99,34 +91,78 @@ const FEATURED_VEHICLES: FeaturedVehicle[] = [
     }
   },
   {
-    id: 7,
-    type: 'BIKE',
-    name: 'Royal Enfield Hunter 350',
-    brand: 'Royal Enfield',
-    variant: 'Metro Dapper Series',
-    tagline: 'Agile 17-inch alloy dynamics with the iconic 349cc J-Series counterbalanced thumper.',
-    imageUrl: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1600&q=85',
-    exShowroomPrice: 149900,
-    estimatedOnRoadPrice: 178000,
-    highlightBadge: 'Neo-Retro Roadster',
+    id: 4,
+    type: 'EV',
+    categoryLabel: 'Electric SUV',
+    name: 'Tata Nexon.ev',
+    brand: 'Tata Motors',
+    variant: 'Empowered+ Long Range (45 kWh)',
+    tagline: 'India’s most celebrated electric SUV with 465 km range and V2L bidirectional charging.',
+    imageUrl: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1600&q=85',
+    atmosphereBg: 'radial-gradient(ellipse at 70% 40%, rgba(185, 151, 91, 0.18) 0%, rgba(23, 23, 23, 0.95) 75%)',
+    lightingTone: 'from-[#B9975B]/20 via-transparent to-transparent',
+    exShowroomPrice: 1699000,
+    estimatedOnRoadPrice: 1785000,
+    highlightBadge: '5-Star Bharat NCAP',
     specs: {
-      label1: 'Torque Curve',
-      val1: '27 Nm @ 4k RPM',
-      label2: 'Fuel Economy',
-      val2: '36.2 km/l ARAI',
-      label3: 'Kerb Weight',
-      val3: '181 kg Agile'
+      label1: 'Certified Range',
+      val1: '465 km ARAI',
+      label2: 'Running Cost',
+      val2: '₹0.85 / km',
+      label3: 'Acceleration',
+      val3: '0-100 in 8.9s'
     }
   }
 ];
 
 export const HeroSection: React.FC = () => {
   const navigate = useNavigate();
-  const [selectedIdx, setSelectedIdx] = useState(0);
+  const [currentSceneIdx, setCurrentSceneIdx] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  
+  // Quick Search States
   const [quickCategory, setQuickCategory] = useState<'ALL' | 'CAR' | 'MOTORCYCLE' | 'EV'>('ALL');
   const [budgetRange, setBudgetRange] = useState<string>('all');
 
-  const currentVehicle = FEATURED_VEHICLES[selectedIdx];
+  const SCENE_DURATION_MS = 5200; // ~5 seconds per scene
+
+  // Check prefers-reduced-motion
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
+
+  // Continuous Cinematic 3D Loop: BMW -> Superbike -> EV -> BMW
+  useEffect(() => {
+    if (!isPlaying || prefersReducedMotion) return;
+
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentSceneIdx((prev) => (prev + 1) % CINEMATIC_SCENES.length);
+        setIsTransitioning(false);
+      }, 500); // 500ms crossfade point
+    }, SCENE_DURATION_MS);
+
+    return () => clearInterval(interval);
+  }, [isPlaying, prefersReducedMotion]);
+
+  const currentScene = CINEMATIC_SCENES[currentSceneIdx];
+
+  const handleManualSceneSelect = (idx: number) => {
+    if (idx === currentSceneIdx) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentSceneIdx(idx);
+      setIsTransitioning(false);
+    }, 300);
+  };
 
   const handleQuickSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -161,42 +197,45 @@ export const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative pt-8 pb-16 lg:pt-14 lg:pb-24 overflow-hidden bg-gradient-to-b from-[#fafbfc] via-white to-[#f8fafc] border-b border-slate-200/80">
-      {/* Background Ambient Glows */}
-      <div className="absolute top-10 left-1/4 -translate-y-1/2 w-[700px] h-[350px] bg-rose-500/5 blur-[160px] pointer-events-none rounded-full" />
-      <div className="absolute bottom-10 right-10 w-[600px] h-[300px] bg-emerald-500/5 blur-[150px] pointer-events-none rounded-full" />
+    <section className="relative pt-8 pb-16 lg:pt-12 lg:pb-20 overflow-hidden bg-[#F4F0E8] border-b border-[#E5E0D8]">
+      {/* Subtle Warm Luxury Ambient Accents */}
+      <div className="absolute top-0 right-1/4 -translate-y-1/2 w-[700px] h-[350px] bg-[#B9975B]/10 blur-[160px] pointer-events-none rounded-full" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start">
           
-          {/* Left Column: Hero Content & Quick Budget Selector */}
+          {/* =========================================================================
+             LEFT COLUMN: STABLE FOREGROUND CONTENT & QUICK BUDGET SELECTOR
+             (Guaranteed 100% stable, high contrast, never obscured)
+             ========================================================================= */}
           <div className="lg:col-span-7 space-y-6">
-            {/* Mednix Style Pre-Title Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-extrabold uppercase tracking-wider shadow-2xs">
-              <Sparkles className="w-3.5 h-3.5 text-rose-600" />
-              <span>Independent Automotive Decision Platform</span>
+            
+            {/* Luxury Pre-Title Pill Badge */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#171717] border border-[#B9975B]/40 text-[#B9975B] text-xs font-semibold uppercase tracking-wider font-heading shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#B9975B]" />
+              <span>Independent Luxury Automotive Decision Platform</span>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-950 tracking-tight leading-[1.1] font-heading">
+            {/* Main Headline (Manrope 700-800) */}
+            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold text-[#171717] tracking-tight leading-[1.12] font-heading">
               Find the Vehicle That <br className="hidden sm:inline" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-rose-500 to-pink-500">
+              <span className="text-[#B9975B]">
                 Fits Your Life.
               </span>
             </h1>
 
-            {/* Supporting Text */}
-            <p className="text-base sm:text-lg text-slate-600 max-w-xl font-body leading-relaxed">
+            {/* Supporting Text (DM Sans 400-500) */}
+            <p className="text-base sm:text-lg text-[#404040] max-w-xl font-body leading-relaxed">
               Compare cars and bikes, explore your best options, and make a confident buying decision without dealer markups or showroom pressure.
             </p>
 
-            {/* Prominent Quick Budget Selector Box (Mednix Card Layout) */}
-            <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200/90 shadow-[0_8px_30px_rgb(0,0,0,0.06)] space-y-4">
+            {/* Prominent Quick Budget Selector Box in Luxury Palette */}
+            <div className="luxury-card p-5 sm:p-6 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                <span className="text-xs font-bold text-[#171717] uppercase tracking-wider font-heading">
                   Quick Vehicle Finder
                 </span>
-                <span className="text-[11px] font-semibold text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-full">
+                <span className="text-[11px] font-semibold text-[#9F7F45] bg-[#B9975B]/12 px-2.5 py-0.5 rounded-full font-heading">
                   18+ Verified Indian Models
                 </span>
               </div>
@@ -204,7 +243,7 @@ export const HeroSection: React.FC = () => {
               {/* Category Radio Pills */}
               <div className="flex flex-wrap gap-2">
                 {[
-                  { id: 'ALL', label: 'All Classes', icon: TrendingUp },
+                  { id: 'ALL', label: 'All Classes', icon: Sparkles },
                   { id: 'CAR', label: 'Cars', icon: Car },
                   { id: 'MOTORCYCLE', label: 'Bikes', icon: Bike },
                   { id: 'EV', label: 'Electric EVs', icon: Zap },
@@ -216,10 +255,10 @@ export const HeroSection: React.FC = () => {
                       key={item.id}
                       type="button"
                       onClick={() => setQuickCategory(item.id as any)}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer font-heading ${
                         isSelected
-                          ? 'bg-slate-900 text-white shadow-sm'
-                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200/80 hover:text-slate-900'
+                          ? 'bg-[#171717] text-[#B9975B] border border-[#B9975B] shadow-xs'
+                          : 'bg-[#FAF8F5] border border-[#E5E0D8] text-[#404040] hover:border-[#B9975B] hover:text-[#171717]'
                       }`}
                     >
                       <Icon className="w-3.5 h-3.5" />
@@ -235,184 +274,227 @@ export const HeroSection: React.FC = () => {
                   <select
                     value={budgetRange}
                     onChange={(e) => setBudgetRange(e.target.value)}
-                    className="w-full h-11 px-4 rounded-full border border-slate-200 bg-slate-50 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition-all cursor-pointer"
+                    className="w-full h-11 px-4 rounded-full border border-[#E5E0D8] bg-[#FAF8F5] text-xs font-medium text-[#171717] focus:outline-none focus:border-[#B9975B] focus:bg-white transition-all cursor-pointer font-body"
                   >
-                    <option value="all">Any Price / Budget</option>
-                    <option value="under-2l">Under ₹2 Lakh (2-Wheelers)</option>
+                    <option value="all">Any Price / Budget Ceiling</option>
+                    <option value="under-2l">Under ₹2 Lakh (Two-Wheelers & Scooters)</option>
                     <option value="5-8l">₹5 Lakh – ₹8 Lakh (Budget Hatchbacks)</option>
                     <option value="8-12l">₹8 Lakh – ₹12 Lakh (Compact SUVs & Sedans)</option>
                     <option value="12-20l">₹12 Lakh – ₹20 Lakh (Midsize SUVs & EVs)</option>
-                    <option value="above-20l">₹20 Lakh & Above (Premium & Luxury)</option>
+                    <option value="above-20l">₹20 Lakh & Above (Premium & Luxury Cars)</option>
                   </select>
                 </div>
                 <button
                   type="submit"
-                  className="h-11 px-6 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow-md"
+                  className="btn-charcoal h-11 px-6 text-xs text-[#FFFFFF]"
                 >
-                  <Search className="w-3.5 h-3.5" />
+                  <Search className="w-3.5 h-3.5 text-[#B9975B]" />
                   <span>Search Matches</span>
                 </button>
               </form>
             </div>
 
             {/* Primary & Secondary Dual CTAs */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex flex-wrap items-center gap-4 pt-1 font-body">
               <Link
                 to="/find-my-vehicle"
-                className="btn-pill-primary text-sm shadow-md group"
+                className="btn-gold text-sm shadow-md group"
               >
-                <Sparkles className="w-4 h-4 text-white" />
+                <Sparkles className="w-4 h-4 text-[#171717]" />
                 <span>Find My Vehicle</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
 
               <Link
                 to="/compare"
-                className="btn-pill-outline text-sm"
+                className="btn-outline-gold text-sm"
               >
-                <GitCompare className="w-4 h-4 text-slate-500" />
+                <GitCompare className="w-4 h-4 text-[#B9975B]" />
                 <span>Compare Vehicles</span>
               </Link>
             </div>
 
-            {/* Trust Badges Strip */}
-            <div className="pt-4 flex flex-wrap items-center gap-y-2 gap-x-6 text-xs text-slate-500 font-medium">
-              <span className="flex items-center gap-1.5 text-slate-700">
-                <CheckCircle className="w-4 h-4 text-emerald-600" />
+            {/* Trust Indicators Strip */}
+            <div className="pt-2 flex flex-wrap items-center gap-y-2 gap-x-6 text-xs text-[#525252] font-medium font-body">
+              <span className="flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-[#B9975B]" />
                 <span>SIAM & ARAI Homologated</span>
               </span>
-              <span className="flex items-center gap-1.5 text-slate-700">
-                <ShieldCheck className="w-4 h-4 text-rose-600" />
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-[#B9975B]" />
                 <span>Bharat NCAP Tested</span>
               </span>
-              <span className="flex items-center gap-1.5 text-slate-700">
-                <MapPin className="w-4 h-4 text-blue-600" />
+              <span className="flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-[#B9975B]" />
                 <span>Verified OEM Dealerships</span>
               </span>
             </div>
           </div>
 
-          {/* Right Column: Mednix-style Automotive Composition with Floating Stat Badges */}
-          <div className="lg:col-span-5 relative">
-            {/* Interactive Vehicle Switcher Tabs */}
+          {/* =========================================================================
+             RIGHT COLUMN: CINEMATIC DYNAMIC 3D VEHICLE SHOWCASE
+             (Completely fixes the overlap defect - all metrics in normal document flow)
+             ========================================================================= */}
+          <div className="lg:col-span-5 w-full">
+            
+            {/* Cinematic Stage Header: Scene Indicators & Pause/Resume Control */}
             <div className="flex items-center justify-between mb-3 px-1">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Featured Showroom Picks
-              </span>
-              <div className="flex items-center gap-1">
-                {FEATURED_VEHICLES.map((v, idx) => (
-                  <button
-                    key={v.id}
-                    onClick={() => setSelectedIdx(idx)}
-                    className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
-                      selectedIdx === idx ? 'w-6 bg-rose-600' : 'bg-slate-300 hover:bg-slate-400'
-                    }`}
-                    aria-label={`View ${v.name}`}
-                  />
-                ))}
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] font-bold text-stone-600 uppercase tracking-wider font-heading">
+                  Cinematic Stage
+                </span>
+                <span className="text-[10px] text-[#B9975B] font-semibold bg-[#B9975B]/15 px-2 py-0.5 rounded-full font-heading">
+                  Scene {currentSceneIdx + 1} of 3
+                </span>
               </div>
-            </div>
 
-            {/* Main Showcase Card */}
-            <div className="mednix-card overflow-hidden relative group">
-              {/* Vehicle Image Container */}
-              <div className="relative h-72 sm:h-80 w-full overflow-hidden bg-slate-900">
-                <img
-                  src={currentVehicle.imageUrl}
-                  alt={currentVehicle.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
-
-                {/* Floating Top Badge: Highlight (e.g. 5-Star NCAP) */}
-                <div className="absolute top-4 left-4 z-20">
-                  <div className="mednix-floating-badge px-3 py-1.5 flex items-center gap-2">
-                    <Award className="w-4 h-4 text-rose-600" />
-                    <span className="text-xs font-extrabold text-slate-900">
-                      {currentVehicle.highlightBadge}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Vehicle Quick Switch Pill */}
-                <div className="absolute top-4 right-4 z-20 flex gap-1">
-                  {FEATURED_VEHICLES.map((v, idx) => (
+              {/* Controls: Manual scene tabs + Pause/Play */}
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1">
+                  {CINEMATIC_SCENES.map((scene, idx) => (
                     <button
-                      key={v.id}
-                      onClick={() => setSelectedIdx(idx)}
-                      className={`px-2.5 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer ${
-                        selectedIdx === idx
-                          ? 'bg-rose-600 text-white shadow-md'
-                          : 'bg-white/80 backdrop-blur-md text-slate-800 hover:bg-white'
+                      key={scene.id}
+                      onClick={() => handleManualSceneSelect(idx)}
+                      className={`px-2.5 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer font-heading ${
+                        currentSceneIdx === idx
+                          ? 'bg-[#171717] text-[#B9975B] border border-[#B9975B]'
+                          : 'bg-white border border-[#E5E0D8] text-stone-500 hover:text-[#171717]'
                       }`}
+                      aria-label={`Switch to ${scene.name}`}
                     >
-                      {v.type}
+                      {scene.type}
                     </button>
                   ))}
                 </div>
 
-                {/* Image Overlay Title & Variant */}
-                <div className="absolute bottom-4 left-4 right-4 z-20 text-white">
-                  <span className="text-[11px] font-bold text-rose-400 uppercase tracking-wider block">
-                    {currentVehicle.brand}
+                <button
+                  type="button"
+                  onClick={() => setIsPlaying(!isPlaying)}
+                  className="p-1.5 rounded-full bg-white border border-[#E5E0D8] text-stone-600 hover:text-[#171717] hover:border-[#B9975B] transition-all cursor-pointer"
+                  title={isPlaying ? 'Pause 3D Transition' : 'Resume 3D Transition'}
+                  aria-label={isPlaying ? 'Pause 3D Transition' : 'Resume 3D Transition'}
+                >
+                  {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 text-[#B9975B]" />}
+                </button>
+              </div>
+            </div>
+
+            {/* Main Showcase Card with Explicit Layout Boundary (Zero Overlaps) */}
+            <div className="luxury-card overflow-hidden relative shadow-sm border border-[#E5E0D8] bg-white">
+              
+              {/* Dynamic 3D Vehicle Stage Container */}
+              <div 
+                className="relative h-64 sm:h-72 w-full overflow-hidden bg-[#171717] perspective-1000"
+                style={{ background: currentScene.atmosphereBg }}
+              >
+                {/* 3D Depth Layer with Smooth Perspective Transform */}
+                <div 
+                  className={`w-full h-full relative transition-all duration-700 ease-out preserve-3d ${
+                    isTransitioning 
+                      ? 'opacity-0 scale-95 translate-y-2' 
+                      : 'opacity-100 scale-100 translate-y-0'
+                  }`}
+                  style={{
+                    transform: prefersReducedMotion ? 'none' : 'perspective(1000px) rotateY(-2deg) translateZ(10px)'
+                  }}
+                >
+                  <img
+                    src={currentScene.imageUrl}
+                    alt={currentScene.name}
+                    className="w-full h-full object-cover object-center"
+                    loading="eager"
+                  />
+                  {/* Subtle Luxury Vignette & Contrast Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#171717]/90 via-[#171717]/25 to-transparent pointer-events-none" />
+                </div>
+
+                {/* Golden Light Sweep Animation during Scene Transitions */}
+                {isTransitioning && (
+                  <div className="absolute inset-0 pointer-events-none z-30 overflow-hidden">
+                    <div className="w-1/2 h-full bg-gradient-to-r from-transparent via-[#B9975B]/60 to-transparent animate-gold-sweep" />
+                  </div>
+                )}
+
+                {/* Top Badge: Verified Rating / Safety Standard */}
+                <div className="absolute top-4 left-4 z-20">
+                  <div className="bg-[#171717]/90 backdrop-blur-md border border-[#B9975B]/50 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
+                    <Award className="w-3.5 h-3.5 text-[#B9975B]" />
+                    <span className="text-[11px] font-bold text-white font-heading">
+                      {currentScene.highlightBadge}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Category Pill Tag */}
+                <div className="absolute top-4 right-4 z-20">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#B9975B] text-[#171717] shadow-sm font-heading">
+                    {currentScene.categoryLabel}
                   </span>
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-white font-heading">
-                    {currentVehicle.name}
+                </div>
+
+                {/* Vehicle Identification Overlay */}
+                <div className="absolute bottom-3 left-4 right-4 z-20 text-white">
+                  <span className="text-[11px] font-bold text-[#B9975B] uppercase tracking-wider block font-heading">
+                    {currentScene.brand}
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-white font-heading leading-tight truncate">
+                    {currentScene.name}
                   </h3>
-                  <p className="text-xs text-slate-300 font-medium truncate mt-0.5">
-                    {currentVehicle.variant}
+                  <p className="text-xs text-stone-300 font-medium truncate mt-0.5 font-body">
+                    {currentScene.variant}
                   </p>
                 </div>
               </div>
 
-              {/* Specs & Pricing Details */}
+              {/* Showcase Card Specifications & Pricing Area */}
               <div className="p-5 sm:p-6 bg-white space-y-4">
-                {/* 3 Key Specs Strip */}
-                <div className="grid grid-cols-3 gap-2 py-3 px-3.5 rounded-2xl bg-slate-50 border border-slate-100 text-center">
+                
+                {/* 3 Key Homologated Specs Strip (Tabular Numerals) */}
+                <div className="grid grid-cols-3 gap-2 py-3 px-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E5E0D8] text-center font-body">
                   <div>
-                    <span className="text-[10px] font-semibold text-slate-400 block uppercase">
-                      {currentVehicle.specs.label1}
+                    <span className="text-[10px] font-semibold text-stone-500 block uppercase font-heading">
+                      {currentScene.specs.label1}
                     </span>
-                    <span className="text-xs font-bold text-slate-900 mt-0.5 block">
-                      {currentVehicle.specs.val1}
+                    <span className="text-xs font-bold text-[#171717] mt-0.5 block tabular-numbers">
+                      {currentScene.specs.val1}
                     </span>
                   </div>
-                  <div className="border-x border-slate-200">
-                    <span className="text-[10px] font-semibold text-slate-400 block uppercase">
-                      {currentVehicle.specs.label2}
+                  <div className="border-x border-[#E5E0D8]">
+                    <span className="text-[10px] font-semibold text-stone-500 block uppercase font-heading">
+                      {currentScene.specs.label2}
                     </span>
-                    <span className="text-xs font-bold text-emerald-600 mt-0.5 block">
-                      {currentVehicle.specs.val2}
+                    <span className="text-xs font-bold text-[#B9975B] mt-0.5 block tabular-numbers">
+                      {currentScene.specs.val2}
                     </span>
                   </div>
                   <div>
-                    <span className="text-[10px] font-semibold text-slate-400 block uppercase">
-                      {currentVehicle.specs.label3}
+                    <span className="text-[10px] font-semibold text-stone-500 block uppercase font-heading">
+                      {currentScene.specs.label3}
                     </span>
-                    <span className="text-xs font-bold text-slate-900 mt-0.5 block">
-                      {currentVehicle.specs.val3}
+                    <span className="text-xs font-bold text-[#171717] mt-0.5 block tabular-numbers">
+                      {currentScene.specs.val3}
                     </span>
                   </div>
                 </div>
 
-                {/* Pricing & Actions */}
+                {/* Pricing & Call to Action (Completely Visible & Unobstructed) */}
                 <div className="flex items-center justify-between pt-1">
                   <div>
-                    <span className="text-[10px] font-bold text-slate-400 block uppercase">
+                    <span className="text-[10px] font-bold text-stone-400 block uppercase font-heading">
                       Est. On-Road (Delhi)
                     </span>
-                    <span className="text-xl font-extrabold text-slate-900">
-                      {formatIndianPrice(currentVehicle.estimatedOnRoadPrice)}
+                    <span className="text-xl font-extrabold text-[#171717] tabular-numbers font-heading">
+                      {formatIndianPrice(currentScene.estimatedOnRoadPrice)}
                     </span>
-                    <span className="text-[10px] text-slate-500 block">
-                      Ex-showroom: {formatIndianPrice(currentVehicle.exShowroomPrice)}
+                    <span className="text-[10px] text-stone-500 block tabular-numbers font-body">
+                      Ex-showroom: {formatIndianPrice(currentScene.exShowroomPrice)}
                     </span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <Link
-                      to={`/vehicles/${currentVehicle.id}`}
-                      className="btn-pill-primary text-xs py-2 px-4 shadow-sm"
+                      to={`/vehicles/${currentScene.id}`}
+                      className="btn-gold text-xs py-2 px-4 shadow-sm"
                     >
                       <span>Explore</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -422,26 +504,34 @@ export const HeroSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Mednix Floating Micro-Card Over Hero: Dealer Locator / Pan-India Verification */}
-            <div className="mednix-floating-badge p-3.5 sm:p-4 absolute -bottom-6 -left-4 sm:-left-6 max-w-[260px] z-30 shadow-xl hidden sm:flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-5 h-5" />
+            {/* =========================================================================
+               FIX FOR OVERLAP DEFECT:
+               Information cards placed in normal document flow directly below the showcase
+               ========================================================================= */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+              
+              {/* Feature Badge 1: 100% OEM Authorized */}
+              <div className="p-3.5 rounded-2xl bg-white border border-[#E5E0D8] shadow-xs flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#171717] text-[#B9975B] flex items-center justify-center shrink-0 border border-[#B9975B]/30">
+                  <ShieldCheck className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-[#171717] font-heading">100% OEM Authorized</p>
+                  <p className="text-[11px] text-stone-500 font-body leading-tight">Official brand showrooms verified across India</p>
+                </div>
               </div>
-              <div>
-                <p className="text-xs font-extrabold text-slate-900">100% OEM Authorized</p>
-                <p className="text-[11px] text-slate-500">Official brand showrooms verified across India</p>
-              </div>
-            </div>
 
-            {/* Mednix Floating Micro-Card Over Hero: Efficiency / Savings */}
-            <div className="mednix-floating-badge p-3.5 sm:p-4 absolute -top-5 -right-4 sm:-right-6 max-w-[240px] z-30 shadow-xl hidden sm:flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center shrink-0">
-                <TrendingUp className="w-5 h-5" />
+              {/* Feature Badge 2: Real TCO Math */}
+              <div className="p-3.5 rounded-2xl bg-white border border-[#E5E0D8] shadow-xs flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#B9975B]/15 text-[#9F7F45] flex items-center justify-center shrink-0 border border-[#B9975B]/40">
+                  <TrendingUp className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-[#171717] font-heading">Real TCO Math</p>
+                  <p className="text-[11px] text-stone-500 font-body leading-tight">5-year fuel & maintenance projections</p>
+                </div>
               </div>
-              <div>
-                <p className="text-xs font-extrabold text-slate-900">Real TCO Math</p>
-                <p className="text-[11px] text-slate-500">5-year fuel & maintenance analytics</p>
-              </div>
+
             </div>
 
           </div>

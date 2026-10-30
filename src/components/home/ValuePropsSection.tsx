@@ -10,13 +10,9 @@ import {
   Calculator, 
   Zap, 
   TrendingUp, 
-  Car, 
-  Bike, 
-  ArrowRight,
-  BookOpen,
-  Award,
-  CheckCircle2,
-  Lock
+  ArrowRight, 
+  BookOpen, 
+  CheckCircle2 
 } from 'lucide-react';
 
 export const ValuePropsSection: React.FC = () => {
@@ -28,28 +24,24 @@ export const ValuePropsSection: React.FC = () => {
       title: 'Zero Spec Fabrication',
       desc: 'Every engine displacement, power figure, ARAI certified mileage, and battery kWh is audited against official SIAM and OEM homologation documentation.',
       badge: 'Certified Data',
-      color: 'rose',
     },
     {
       icon: IndianRupee,
       title: 'Real Total Ownership Costs',
       desc: 'We calculate realistic 5-year running costs comparing ₹100/L petrol against ₹8/kWh home EV charging, factoring in periodic servicing and scheduled maintenance.',
       badge: '5-Year TCO',
-      color: 'emerald',
     },
     {
       icon: Cpu,
       title: 'Deterministic Scoring Engine',
       desc: 'Our recommendation logic evaluates hard budget and lifestyle constraints with explainable mathematical weights — never paid manufacturer promotions.',
       badge: '100% Unbiased',
-      color: 'indigo',
     },
     {
       icon: MapPin,
       title: 'Verified Authorized Dealers',
       desc: 'Connect directly with certified OEM brand showrooms across major Indian metros. No middlemen markups, fabricated stock, or phantom discounts.',
       badge: 'OEM Authorized',
-      color: 'blue',
     },
   ];
 
@@ -121,19 +113,19 @@ export const ValuePropsSection: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-0">
-      {/* 1. MEDNIX VALUE PROPOSITIONS SECTION */}
-      <section className="py-20 bg-white border-b border-slate-200/80 relative overflow-hidden text-slate-900">
+    <div className="space-y-0 font-body">
+      {/* 1. LUXURY VALUE PROPOSITIONS SECTION */}
+      <section className="py-20 bg-white border-b border-[#E5E0D8] relative overflow-hidden text-[#171717]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-extrabold uppercase tracking-wider mb-3">
-              <ShieldCheck className="w-3.5 h-3.5 text-rose-600" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#171717] border border-[#B9975B]/30 text-[#B9975B] text-xs font-semibold uppercase tracking-wider mb-3 font-heading shadow-xs">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#B9975B]" />
               <span>Core Engineering Principles</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight font-heading">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
               Why Buyers Trust MyVehicleChoice
             </h2>
-            <p className="text-sm sm:text-base text-slate-600 mt-2 font-body">
+            <p className="text-sm sm:text-base text-stone-600 mt-2 font-body">
               Built from first principles to eliminate showroom pressure, exaggerated mileage claims, and confusing specification sheets.
             </p>
           </div>
@@ -144,28 +136,28 @@ export const ValuePropsSection: React.FC = () => {
               return (
                 <div
                   key={item.title}
-                  className="mednix-card p-6 flex flex-col justify-between group"
+                  className="luxury-card p-6 flex flex-col justify-between group bg-white"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-100 text-rose-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <div className="w-12 h-12 rounded-2xl bg-[#171717] text-[#B9975B] flex items-center justify-center group-hover:scale-105 transition-transform border border-[#B9975B]/30 shadow-xs">
                         <Icon className="w-6 h-6" />
                       </div>
-                      <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 uppercase tracking-wider">
+                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#FAF8F5] text-stone-700 uppercase tracking-wider border border-[#E5E0D8] font-heading">
                         {item.badge}
                       </span>
                     </div>
 
-                    <h3 className="text-base font-extrabold text-slate-950 mb-2 group-hover:text-rose-600 transition-colors font-heading">
+                    <h3 className="text-base font-bold text-[#171717] mb-2 group-hover:text-[#B9975B] transition-colors font-heading">
                       {item.title}
                     </h3>
-                    <p className="text-xs text-slate-600 leading-relaxed font-body">
+                    <p className="text-xs text-stone-600 leading-relaxed font-body">
                       {item.desc}
                     </p>
                   </div>
 
-                  <div className="mt-5 pt-3 border-t border-slate-100 flex items-center gap-1.5 text-[11px] font-bold text-rose-600">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
+                  <div className="mt-5 pt-3 border-t border-[#E5E0D8] flex items-center gap-1.5 text-[11px] font-semibold text-[#B9975B] font-heading">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#B9975B]" />
                     <span>Verified Authenticity</span>
                   </div>
                 </div>
@@ -175,70 +167,69 @@ export const ValuePropsSection: React.FC = () => {
         </div>
       </section>
 
-      {/* 2. INTERACTIVE RECOMMENDATION TEASER BANNER (MEDNIX APPOINTMENT/CALLOUT CONVERTED) */}
-      <section className="py-20 bg-[#fafbfc] border-b border-slate-200/80 relative overflow-hidden">
+      {/* 2. INTERACTIVE RECOMMENDATION TEASER BANNER (CHARCOAL & GOLD) */}
+      <section className="py-20 bg-[#F4F0E8] border-b border-[#E5E0D8] relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="mednix-card p-8 sm:p-14 bg-gradient-to-br from-slate-950 via-[#0b132b] to-slate-900 text-white relative overflow-hidden shadow-2xl">
-            {/* Ambient subtle glow inside dark banner */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-rose-500/15 blur-[120px] pointer-events-none rounded-full" />
-            <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-500/10 blur-[100px] pointer-events-none rounded-full" />
+          <div className="luxury-card p-8 sm:p-14 bg-[#171717] text-white border border-[#2E2E2E] shadow-2xl relative overflow-hidden">
+            {/* Ambient subtle champagne glow inside dark banner */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#B9975B]/15 blur-[120px] pointer-events-none rounded-full" />
 
             <div className="max-w-3xl relative z-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs font-bold uppercase tracking-wider mb-4">
-                <Sparkles className="w-3.5 h-3.5 text-rose-400" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B9975B]/15 border border-[#B9975B]/35 text-[#B9975B] text-xs font-semibold uppercase tracking-wider mb-4 font-heading">
+                <Sparkles className="w-3.5 h-3.5 text-[#B9975B]" />
                 <span>Intelligent Decision Flow</span>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight font-heading leading-tight">
                 Not Sure Which Vehicle Fits? <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-pink-300 to-rose-200">
+                <span className="text-[#B9975B]">
                   Find Your Perfect Match in 2 Minutes.
                 </span>
               </h2>
-              <p className="text-sm sm:text-base text-slate-300 mt-4 leading-relaxed font-body">
+              <p className="text-sm sm:text-base text-stone-300 mt-4 leading-relaxed font-body">
                 Answer a few quick questions about your budget, monthly commute, fuel preferences, and seating requirements. Our mathematical scoring engine ranks the top candidates with transparent trade-offs.
               </p>
             </div>
 
             {/* 3 Steps Visual Strip */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10 pt-8 border-t border-slate-800 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10 pt-8 border-t border-[#2E2E2E] relative z-10">
               <div className="space-y-1.5">
-                <span className="text-2xl font-black text-rose-400 font-heading">01</span>
+                <span className="text-2xl font-black text-[#B9975B] font-heading">01</span>
                 <h4 className="text-sm font-bold text-white font-heading">Define Budget & Body Class</h4>
-                <p className="text-xs text-slate-400 leading-relaxed font-body">
+                <p className="text-xs text-stone-400 leading-relaxed font-body">
                   Select Cars, Motorcycles, or EVs, along with purchase budget ceiling or monthly loan EMI.
                 </p>
               </div>
 
               <div className="space-y-1.5">
-                <span className="text-2xl font-black text-rose-400 font-heading">02</span>
+                <span className="text-2xl font-black text-[#B9975B] font-heading">02</span>
                 <h4 className="text-sm font-bold text-white font-heading">Usage & Non-Negotiables</h4>
-                <p className="text-xs text-slate-400 leading-relaxed font-body">
+                <p className="text-xs text-stone-400 leading-relaxed font-body">
                   Specify city commute distance, highway frequency, 5-star NCAP safety, or transmission preferences.
                 </p>
               </div>
 
               <div className="space-y-1.5">
-                <span className="text-2xl font-black text-rose-400 font-heading">03</span>
+                <span className="text-2xl font-black text-[#B9975B] font-heading">03</span>
                 <h4 className="text-sm font-bold text-white font-heading">Get Ranked Matches & TCO</h4>
-                <p className="text-xs text-slate-400 leading-relaxed font-body">
+                <p className="text-xs text-stone-400 leading-relaxed font-body">
                   Receive an explainable match score with 5-year running cost projections and dealer quotes.
                 </p>
               </div>
             </div>
 
-            <div className="mt-10 pt-4 flex flex-wrap items-center gap-4 relative z-10">
+            <div className="mt-10 pt-4 flex flex-wrap items-center gap-4 relative z-10 font-body">
               <Link
                 to="/find-my-vehicle"
-                className="btn-pill-primary text-sm shadow-xl"
+                className="btn-gold text-sm shadow-xl"
               >
-                <Sparkles className="w-4 h-4" />
+                <Sparkles className="w-4 h-4 text-[#171717]" />
                 <span>Start Recommendation Wizard</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
 
               <Link
                 to="/vehicles"
-                className="btn-pill-outline text-sm bg-transparent text-white border-slate-700 hover:bg-slate-800 hover:text-white"
+                className="btn-charcoal text-sm bg-transparent text-white border-stone-600 hover:border-[#B9975B] hover:text-[#B9975B]"
               >
                 <span>Browse Catalogue Directly</span>
               </Link>
@@ -248,25 +239,25 @@ export const ValuePropsSection: React.FC = () => {
       </section>
 
       {/* 3. FINANCIAL CALCULATORS TEASER SECTION */}
-      <section className="py-20 bg-white border-b border-slate-200/80 relative overflow-hidden text-slate-900">
+      <section className="py-20 bg-white border-b border-[#E5E0D8] relative overflow-hidden text-[#171717]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-extrabold uppercase tracking-wider mb-2.5">
-                <Calculator className="w-3.5 h-3.5 text-rose-600" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#171717] border border-[#B9975B]/30 text-[#B9975B] text-xs font-semibold uppercase tracking-wider mb-2.5 font-heading shadow-xs">
+                <Calculator className="w-3.5 h-3.5 text-[#B9975B]" />
                 <span>Financial Intelligence</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight font-heading">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
                 Automotive Financial Calculators
               </h2>
-              <p className="text-sm sm:text-base text-slate-600 mt-2 max-w-xl font-body">
+              <p className="text-sm sm:text-base text-stone-600 mt-2 max-w-xl font-body">
                 Make fully informed calculations before stepping into any dealership showroom.
               </p>
             </div>
 
             <Link
               to="/calculators"
-              className="btn-pill-outline text-xs self-start md:self-auto"
+              className="btn-outline-gold text-xs self-start md:self-auto font-heading"
             >
               <span>Open All Calculators</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -279,30 +270,30 @@ export const ValuePropsSection: React.FC = () => {
               return (
                 <div
                   key={calc.title}
-                  className="mednix-card p-6 sm:p-7 flex flex-col justify-between group"
+                  className="luxury-card p-6 sm:p-7 flex flex-col justify-between group bg-white"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-100 text-rose-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <div className="w-12 h-12 rounded-2xl bg-[#171717] text-[#B9975B] flex items-center justify-center group-hover:scale-105 transition-transform border border-[#B9975B]/30 shadow-xs">
                         <Icon className="w-6 h-6" />
                       </div>
-                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 uppercase tracking-wider">
+                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#FAF8F5] text-stone-700 uppercase tracking-wider border border-[#E5E0D8] font-heading">
                         {calc.tag}
                       </span>
                     </div>
 
-                    <h3 className="text-lg font-extrabold text-slate-950 mb-2 group-hover:text-rose-600 transition-colors font-heading">
+                    <h3 className="text-lg font-bold text-[#171717] mb-2 group-hover:text-[#B9975B] transition-colors font-heading">
                       {calc.title}
                     </h3>
-                    <p className="text-xs text-slate-600 leading-relaxed font-body">
+                    <p className="text-xs text-stone-600 leading-relaxed font-body">
                       {calc.desc}
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-100">
+                  <div className="mt-6 pt-4 border-t border-[#E5E0D8]">
                     <Link
                       to={calc.link}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-600 hover:text-rose-700 transition-colors"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#B9975B] hover:text-[#9F7F45] transition-colors font-heading"
                     >
                       <span>Calculate Now</span>
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -316,33 +307,33 @@ export const ValuePropsSection: React.FC = () => {
       </section>
 
       {/* 4. WHERE TO BUY / DEALER DISCOVERY TEASER */}
-      <section className="py-20 bg-[#fafbfc] border-b border-slate-200/80 relative overflow-hidden text-slate-900">
+      <section className="py-20 bg-[#F4F0E8] border-b border-[#E5E0D8] relative overflow-hidden text-[#171717]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="mednix-card p-8 sm:p-12 shadow-sm bg-white border border-slate-200/80">
+          <div className="luxury-card p-8 sm:p-12 shadow-sm bg-white border border-[#E5E0D8]">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div className="lg:col-span-7 space-y-4">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-extrabold uppercase tracking-wider">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#171717] border border-[#B9975B]/30 text-[#B9975B] text-xs font-semibold uppercase tracking-wider font-heading shadow-xs">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#B9975B]" />
                   <span>Verified Network</span>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950 font-heading">
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-[#171717] font-heading">
                   Find Verified Authorized Dealerships Near You
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-body">
                   Locate certified brand showrooms for Tata, Hyundai, Mahindra, Maruti Suzuki, BMW, Yamaha, Royal Enfield, and Ola Electric. Filter by sales showrooms, compare estimated delivery times, and request authentic test drives.
                 </p>
 
                 {/* Popular Metros */}
                 <div className="pt-2">
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-2">
+                  <span className="text-xs font-bold text-stone-500 uppercase tracking-wider block mb-2 font-heading">
                     Popular Metros:
                   </span>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 font-heading">
                     {['Delhi NCR', 'Mumbai', 'Bengaluru', 'Chennai', 'Hyderabad', 'Pune'].map((city) => (
                       <Link
                         key={city}
                         to={`/where-to-buy?city=${encodeURIComponent(city.split(' ')[0])}`}
-                        className="px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-slate-700 hover:border-rose-400 hover:text-rose-600 text-xs font-bold transition-all"
+                        className="px-3 py-1 rounded-full bg-[#FAF8F5] border border-[#E5E0D8] text-[#171717] hover:border-[#B9975B] hover:text-[#B9975B] text-xs font-semibold transition-all"
                       >
                         {city}
                       </Link>
@@ -354,13 +345,13 @@ export const ValuePropsSection: React.FC = () => {
               <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 justify-center">
                 <Link
                   to="/where-to-buy"
-                  className="btn-pill-primary text-xs py-3.5 px-6 shadow-md text-center"
+                  className="btn-gold text-xs py-3.5 px-6 shadow-md text-center font-heading"
                 >
-                  <MapPin className="w-4 h-4" />
+                  <MapPin className="w-4 h-4 text-[#171717]" />
                   <span>Launch Dealer Locator</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
-                <div className="text-center text-[11px] text-slate-500 font-medium">
+                <div className="text-center text-[11px] text-stone-500 font-medium font-body">
                   Verified against official OEM manufacturer directories. Zero spam brokers.
                 </div>
               </div>
@@ -369,18 +360,18 @@ export const ValuePropsSection: React.FC = () => {
         </div>
       </section>
 
-      {/* 5. EDUCATIONAL BUYER WISDOM (REPLACING MEDICAL TESTIMONIALS) */}
-      <section className="py-20 bg-white border-b border-slate-200/80 relative overflow-hidden text-slate-900">
+      {/* 5. EDUCATIONAL BUYER WISDOM */}
+      <section className="py-20 bg-white border-b border-[#E5E0D8] relative overflow-hidden text-[#171717]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-extrabold uppercase tracking-wider mb-3">
-              <BookOpen className="w-3.5 h-3.5 text-rose-600" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#171717] border border-[#B9975B]/30 text-[#B9975B] text-xs font-semibold uppercase tracking-wider mb-3 font-heading shadow-xs">
+              <BookOpen className="w-3.5 h-3.5 text-[#B9975B]" />
               <span>Automotive Buying Knowledge</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight font-heading">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
               Indian Automotive Buyer Wisdom
             </h2>
-            <p className="text-sm sm:text-base text-slate-600 mt-2 font-body">
+            <p className="text-sm sm:text-base text-stone-600 mt-2 font-body">
               Clear, transparent guides to demystify on-road pricing, EV ownership realities, and crash test ratings.
             </p>
           </div>
@@ -389,32 +380,32 @@ export const ValuePropsSection: React.FC = () => {
             {buyerGuides.map((guide) => (
               <div
                 key={guide.title}
-                className="mednix-card p-6 flex flex-col justify-between group"
+                className="luxury-card p-6 flex flex-col justify-between group bg-white"
               >
                 <div>
-                  <div className="flex items-center justify-between text-xs text-slate-400 mb-3">
-                    <span className="font-bold text-rose-600 uppercase tracking-wider text-[10px]">
+                  <div className="flex items-center justify-between text-xs text-stone-400 mb-3 font-body">
+                    <span className="font-bold text-[#B9975B] uppercase tracking-wider text-[10px] font-heading">
                       {guide.category}
                     </span>
                     <span>{guide.readTime}</span>
                   </div>
 
-                  <h3 className="text-base font-extrabold text-slate-950 group-hover:text-rose-600 transition-colors font-heading mb-2 leading-snug">
+                  <h3 className="text-base font-bold text-[#171717] group-hover:text-[#B9975B] transition-colors font-heading mb-2 leading-snug">
                     {guide.title}
                   </h3>
 
-                  <p className="text-xs text-slate-600 leading-relaxed font-body">
+                  <p className="text-xs text-stone-600 leading-relaxed font-body">
                     {guide.summary}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-100">
+                <div className="mt-6 pt-4 border-t border-[#E5E0D8]">
                   <Link
                     to={guide.link}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-900 hover:text-rose-600 transition-colors"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#171717] hover:text-[#B9975B] transition-colors font-heading"
                   >
                     <span>Read Full Guide</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-rose-600" />
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-[#B9975B]" />
                   </Link>
                 </div>
               </div>
@@ -424,13 +415,13 @@ export const ValuePropsSection: React.FC = () => {
       </section>
 
       {/* 6. FAQS ACCORDION */}
-      <section className="py-20 bg-[#fafbfc] border-b border-slate-200/80 relative overflow-hidden text-slate-900">
+      <section className="py-20 bg-[#F4F0E8] border-b border-[#E5E0D8] relative overflow-hidden text-[#171717]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950 font-heading">
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-[#171717] font-heading">
               Frequently Asked Questions
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600 mt-2 font-body">
+            <p className="text-xs sm:text-sm text-stone-600 mt-2 font-body">
               Everything you need to know about our data sources, pricing models, and verification methods.
             </p>
           </div>
@@ -441,21 +432,21 @@ export const ValuePropsSection: React.FC = () => {
               return (
                 <div
                   key={faq.q}
-                  className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xs transition-all duration-200"
+                  className="bg-white rounded-2xl border border-[#E5E0D8] overflow-hidden shadow-xs transition-all duration-200"
                 >
                   <button
                     onClick={() => setOpenFaq(isOpen ? null : index)}
-                    className="w-full text-left px-6 py-4.5 flex items-center justify-between text-sm font-bold text-slate-900 hover:text-rose-600 transition-colors cursor-pointer"
+                    className="w-full text-left px-6 py-4.5 flex items-center justify-between text-sm font-bold text-[#171717] hover:text-[#B9975B] transition-colors cursor-pointer"
                   >
                     <span className="font-heading">{faq.q}</span>
                     <ChevronDown
-                      className={`w-4 h-4 text-slate-400 transition-transform duration-200 shrink-0 ml-4 ${
-                        isOpen ? 'rotate-180 text-rose-600' : ''
+                      className={`w-4 h-4 text-stone-400 transition-transform duration-200 shrink-0 ml-4 ${
+                        isOpen ? 'rotate-180 text-[#B9975B]' : ''
                       }`}
                     />
                   </button>
                   {isOpen && (
-                    <div className="px-6 pb-5 text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-3.5 bg-slate-50/50 font-body">
+                    <div className="px-6 pb-5 text-xs text-stone-600 leading-relaxed border-t border-[#E5E0D8] pt-3.5 bg-[#FAF8F5] font-body">
                       {faq.a}
                     </div>
                   )}

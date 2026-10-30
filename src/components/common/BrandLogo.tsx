@@ -3,110 +3,106 @@ import React from 'react';
 interface BrandLogoProps {
   size?: 'sm' | 'md' | 'lg';
   showText?: boolean;
+  variant?: 'light' | 'dark';
   className?: string;
 }
 
-export const BrandCarIcon: React.FC<{ className?: string }> = ({ className = 'w-6 h-6' }) => (
+export const BrandMIcon: React.FC<{ className?: string }> = ({ className = 'w-6 h-6' }) => (
   <svg
     className={className}
-    viewBox="0 0 32 32"
+    viewBox="0 0 48 48"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    {/* Aerodynamic GT Sports Coupe Silhouette */}
-    {/* Roofline, Windshield & Fastback Contour */}
-    <path
-      d="M5.5 17.5C5.5 17.5 7.2 13.8 11 12.2L16.2 10.3C18.8 9.6 22 10.4 24.2 12.6L27.2 16.2C28.2 17.2 28.5 18.5 27.2 19.2C25.8 19.5 24.5 19.5 24.5 19.5"
-      stroke="currentColor"
+    {/* Geometric Outer Shield / Precision Medallion */}
+    <circle
+      cx="24"
+      cy="24"
+      r="22"
+      fill="#171717"
+      stroke="#B9975B"
       strokeWidth="1.75"
+    />
+    
+    {/* Geometric M Architecture + Ascending Road Horizon */}
+    {/* Left Vertical Pillar & Apex Descent */}
+    <path
+      d="M13 35V14.5L20.5 28"
+      stroke="#B9975B"
+      strokeWidth="2.75"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-    {/* Front low-slung splitter and nose */}
+    
+    {/* Right Vertical Pillar & Apex Descent */}
     <path
-      d="M3.8 18.8C3.8 17.8 4.8 17.5 5.8 17.7L8 18.2H12"
-      stroke="currentColor"
-      strokeWidth="1.75"
+      d="M35 35V14.5L27.5 28"
+      stroke="#B9975B"
+      strokeWidth="2.75"
       strokeLinecap="round"
-    />
-    {/* Sleek Aerodynamic Tinted Glass */}
-    <path
-      d="M11.5 12.7L16.5 11C18.5 10.3 20.8 10.9 22.2 12.5L24.5 15.8H11L11.5 12.7Z"
-      fill="currentColor"
-      fillOpacity="0.25"
-      stroke="currentColor"
-      strokeWidth="1.2"
       strokeLinejoin="round"
     />
-    {/* Laser LED Headlight Arc */}
-    <path
-      d="M24.8 15L27.8 16.8"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-    />
-    {/* Rear Sport Spoiler Wing */}
-    <path
-      d="M5 14.5L7.5 15"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-    />
-    {/* Front Wheel with Alloy Center */}
-    <circle
-      cx="9"
-      cy="19.5"
-      r="2.6"
-      stroke="currentColor"
-      strokeWidth="1.75"
-      fill="currentColor"
-      fillOpacity="0.12"
-    />
-    <circle cx="9" cy="19.5" r="0.8" fill="currentColor" />
 
-    {/* Rear Wheel with Alloy Center */}
-    <circle
-      cx="22"
-      cy="19.5"
-      r="2.6"
-      stroke="currentColor"
-      strokeWidth="1.75"
-      fill="currentColor"
-      fillOpacity="0.12"
-    />
-    <circle cx="22" cy="19.5" r="0.8" fill="currentColor" />
-
-    {/* Low Aerodynamic Rocker Sill */}
+    {/* Forward Ascending Perspective Road Bed */}
     <path
-      d="M11.6 20H19.4"
-      stroke="currentColor"
+      d="M17.5 35L22.8 24.5H25.2L30.5 35Z"
+      fill="#B9975B"
+      fillOpacity="0.2"
+      stroke="#B9975B"
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+    />
+
+    {/* Highway Center Median Marker Dashes */}
+    <line
+      x1="24"
+      y1="33"
+      x2="24"
+      y2="30"
+      stroke="#B9975B"
       strokeWidth="1.75"
       strokeLinecap="round"
     />
+    <line
+      x1="24"
+      y1="28"
+      x2="24"
+      y2="26"
+      stroke="#B9975B"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+
+    {/* Horizon Apex Guide Star */}
+    <circle cx="24" cy="18.5" r="1.5" fill="#B9975B" />
   </svg>
 );
+
+// Backward compatibility alias for legacy imports
+export const BrandCarIcon = BrandMIcon;
 
 export const BrandLogo: React.FC<BrandLogoProps> = ({
   size = 'md',
   showText = true,
+  variant = 'light',
   className = '',
 }) => {
   const sizeMap = {
     sm: {
-      badge: 'w-8 h-8 p-[1.5px]',
-      icon: 'w-5 h-5',
+      badge: 'w-8 h-8',
+      icon: 'w-8 h-8',
       title: 'text-base',
       subtitle: 'text-[9px]',
     },
     md: {
-      badge: 'w-11 h-11 p-[2px]',
-      icon: 'w-6 h-6',
+      badge: 'w-10 h-10',
+      icon: 'w-10 h-10',
       title: 'text-xl',
       subtitle: 'text-[10px]',
     },
     lg: {
-      badge: 'w-14 h-14 p-[2.5px]',
-      icon: 'w-8 h-8',
+      badge: 'w-13 h-13',
+      icon: 'w-13 h-13',
       title: 'text-2xl',
       subtitle: 'text-xs',
     },
@@ -116,22 +112,29 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
   return (
     <div className={`flex items-center space-x-3 group ${className}`}>
-      {/* Round Shape Logo Badge */}
+      {/* Approved Geometric M and Road Medallion */}
       <div
-        className={`relative ${currentSize.badge} rounded-full bg-gradient-to-tr from-rose-600 via-pink-500 to-rose-400 shadow-[0_0_18px_rgba(244,63,94,0.35)] group-hover:shadow-[0_0_28px_rgba(244,63,94,0.55)] group-hover:scale-105 transition-all duration-300 flex items-center justify-center shrink-0`}
+        className={`relative ${currentSize.badge} shrink-0 transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_2px_8px_rgba(185,151,91,0.25)]`}
       >
-        <div className="w-full h-full rounded-full bg-gradient-to-b from-white via-pink-50/60 to-white flex items-center justify-center text-rose-600 group-hover:bg-gradient-to-br group-hover:from-rose-600 group-hover:to-pink-500 group-hover:text-white transition-all duration-300 shadow-inner">
-          <BrandCarIcon className={`${currentSize.icon} transition-transform duration-300 group-hover:scale-110`} />
-        </div>
+        <BrandMIcon className={currentSize.icon} />
       </div>
 
       {showText && (
-        <div>
-          <span className={`${currentSize.title} font-extrabold tracking-tight text-slate-900 flex items-center gap-1.5 leading-none`}>
-            MyVehicle<span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-pink-500 to-rose-500">Choice</span>
+        <div className="flex flex-col">
+          <span
+            className={`${currentSize.title} font-extrabold tracking-tight flex items-center leading-none font-heading ${
+              variant === 'dark' ? 'text-white' : 'text-[#171717]'
+            }`}
+          >
+            MyVehicle
+            <span className="text-[#B9975B] ml-0.5">Choice</span>
           </span>
-          <p className={`${currentSize.subtitle} text-slate-500 tracking-wider uppercase font-semibold mt-1`}>
-            Make Every Vehicle Decision Count
+          <p
+            className={`${currentSize.subtitle} tracking-wider uppercase font-semibold mt-1 font-body ${
+              variant === 'dark' ? 'text-stone-400' : 'text-stone-600'
+            }`}
+          >
+            Make Every Vehicle Decision Count.
           </p>
         </div>
       )}
