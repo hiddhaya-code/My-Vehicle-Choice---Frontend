@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Lock, Mail, User, Phone, MapPin, AlertCircle, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Lock, Mail, User, Phone, AlertCircle, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { BrandLogo } from '../components/common/BrandLogo';
 
@@ -137,12 +137,11 @@ export const RegisterPage: React.FC = () => {
               <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1 font-heading">
                 City *
               </label>
-              <div className="relative">
-                <MapPin className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5" />
+              <div>
                 <select
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
-                  className="w-full pl-9 pr-3 py-3 rounded-xl bg-white border border-[#171717]/15 text-[#171717] text-xs focus:outline-none focus:border-[#B9975B] transition-all shadow-sm cursor-pointer"
+                  className="w-full px-3.5 py-3 rounded-xl bg-white border border-[#171717]/15 text-[#171717] text-xs focus:outline-none focus:border-[#B9975B] transition-all shadow-sm cursor-pointer"
                 >
                   <option value="New Delhi">New Delhi</option>
                   <option value="Bengaluru">Bengaluru</option>

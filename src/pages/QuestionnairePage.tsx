@@ -13,7 +13,6 @@ import {
   AlertCircle,
   Zap,
   Sliders,
-  MapPin,
   Bike,
   Info
 } from 'lucide-react';
@@ -361,10 +360,7 @@ export const QuestionnairePage: React.FC = () => {
                           : 'bg-white border-[#171717]/10 text-neutral-700 hover:border-[#B9975B]/50 hover:bg-[#B9975B]/5'
                       }`}
                     >
-                      <div className="flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5 text-[#B9975B]" />
-                        <span>{loc.city}</span>
-                      </div>
+                      <span className="font-semibold">{loc.city}</span>
                       <span className="text-[10px] text-neutral-400 font-normal">{loc.state}</span>
                     </button>
                   ))}

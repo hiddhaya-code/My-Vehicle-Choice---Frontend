@@ -4,7 +4,6 @@ import {
   Car, 
   Bike,
   GitCompare, 
-  MapPin, 
   Bookmark, 
   Menu, 
   X, 
@@ -32,7 +31,7 @@ export const Navbar: React.FC = () => {
     { label: 'Compare Vehicles', path: '/compare', icon: GitCompare },
     { label: 'Cars', path: '/vehicles?category=CAR', icon: Car },
     { label: 'Bikes', path: '/vehicles?category=MOTORCYCLE', icon: Bike },
-    { label: 'Where to Buy', path: '/where-to-buy', icon: MapPin },
+    { label: 'Where to Buy', path: '/where-to-buy' },
     { label: 'Calculators', path: '/calculators', icon: Calculator },
   ];
 

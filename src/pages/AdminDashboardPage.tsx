@@ -12,7 +12,6 @@ import {
   RefreshCw,
   PhoneCall,
   Mail,
-  MapPin,
   Clock,
   FileSpreadsheet
 } from 'lucide-react';

@@ -6,7 +6,6 @@ import { CategoryBadge, FuelBadge } from '../components/common/Badge';
 import { formatIndianPrice } from '../utils/formatters';
 import { 
   ShieldCheck, 
-  MapPin, 
   GitCompare, 
   Settings, 
   Calendar, 
@@ -249,9 +248,8 @@ export const VehicleDetailPage: React.FC = () => {
                   <div className="pt-2 grid grid-cols-2 gap-2">
                     <Link
                       to={`/where-to-buy?vehicleId=${vehicle.id}&variantId=${currentVar.id}&brandId=${vehicle.brandId}&category=${vehicle.category}`}
-                      className="btn-gold flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs font-bold shadow-sm transition-all text-center"
+                      className="btn-gold flex items-center justify-center py-2.5 px-3 rounded-xl text-xs font-bold shadow-sm transition-all text-center"
                     >
-                      <MapPin className="w-3.5 h-3.5" />
                       <span>Where to Buy</span>
                     </Link>
 

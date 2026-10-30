@@ -4,7 +4,7 @@ import { api } from '../../services/api';
 import { VehicleSummary } from '../../types';
 import { CategoryBadge, FuelBadge } from '../common/Badge';
 import { formatIndianPrice } from '../../utils/formatters';
-import { GitCompare, MapPin, ArrowRight, Loader2, AlertCircle, Sparkles, ShieldCheck } from 'lucide-react';
+import { GitCompare, ArrowRight, Loader2, AlertCircle, Sparkles, ShieldCheck } from 'lucide-react';
 
 export const TrendingSection: React.FC = () => {
   const [vehicles, setVehicles] = useState<VehicleSummary[]>([]);
@@ -199,10 +199,9 @@ export const TrendingSection: React.FC = () => {
 
                     <Link
                       to={`/where-to-buy?vehicleId=${vehicle.id}`}
-                      className="mt-3 flex items-center justify-center gap-1.5 text-[11px] font-semibold text-stone-600 hover:text-[#B9975B] py-1 transition-colors font-body"
+                      className="mt-3 block text-center text-[11px] font-semibold text-stone-600 hover:text-[#B9975B] py-1 transition-colors font-body"
                     >
-                      <MapPin className="w-3.5 h-3.5 text-[#B9975B]" />
-                      <span>Find Authorized Dealerships</span>
+                      Find Authorized Dealerships
                     </Link>
                   </div>
                 </div>

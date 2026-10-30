@@ -7,7 +7,6 @@ import {
   Sparkles, 
   GitCompare, 
   Calculator, 
-  MapPin, 
   Car, 
   Bike, 
   Zap 
@@ -144,13 +143,12 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/where-to-buy" className="hover:text-[#B9975B] transition-colors flex items-center gap-2">
-                  <MapPin className="w-3.5 h-3.5 text-stone-500" />
+                <Link to="/where-to-buy" className="hover:text-[#B9975B] transition-colors flex items-center">
                   <span>Verified Dealer Locator</span>
                 </Link>
               </li>
               <li>
-                <Link to="/saved" className="hover:text-[#B9975B] transition-colors flex items-center gap-2">
+                <Link to="/saved" className="hover:text-[#B9975B] transition-colors flex items-center">
                   <span>Saved Comparisons</span>
                 </Link>
               </li>

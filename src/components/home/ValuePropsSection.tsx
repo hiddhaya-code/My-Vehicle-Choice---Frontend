@@ -6,7 +6,7 @@ import {
   Cpu, 
   ChevronDown, 
   Sparkles, 
-  MapPin, 
+  Building2, 
   Calculator, 
   Zap, 
   TrendingUp, 
@@ -38,7 +38,7 @@ export const ValuePropsSection: React.FC = () => {
       badge: '100% Unbiased',
     },
     {
-      icon: MapPin,
+      icon: Building2,
       title: 'Verified Authorized Dealers',
       desc: 'Connect directly with certified OEM brand showrooms across major Indian metros. No middlemen markups, fabricated stock, or phantom discounts.',
       badge: 'OEM Authorized',
@@ -345,9 +345,8 @@ export const ValuePropsSection: React.FC = () => {
               <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 justify-center">
                 <Link
                   to="/where-to-buy"
-                  className="btn-gold text-xs py-3.5 px-6 shadow-md text-center font-heading"
+                  className="btn-gold text-xs py-3.5 px-6 shadow-md text-center font-heading inline-flex items-center justify-center gap-2"
                 >
-                  <MapPin className="w-4 h-4 text-[#171717]" />
                   <span>Launch Dealer Locator</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>

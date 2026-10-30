@@ -4,7 +4,6 @@ import { api } from '../services/api';
 import { Dealer, VehicleDetail, VehicleSummary, VehicleVariant } from '../types';
 import { formatPriceINR } from '../utils/formatters';
 import { 
-  MapPin, 
   ShieldCheck, 
   Phone, 
   Clock, 
@@ -302,9 +301,8 @@ export const WhereToBuyPage: React.FC = () => {
             <ShieldCheck className="w-3.5 h-3.5 text-[#B9975B]" />
             <span>OEM Verified Authorized Dealership Network</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight flex items-center gap-2 font-heading">
-            <MapPin className="w-8 h-8 text-[#B9975B]" />
-            <span>Where to Buy & Schedule Test Drive</span>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
+            Where to Buy & Schedule Test Drive
           </h1>
           <p className="text-sm text-neutral-600 mt-1 max-w-3xl leading-relaxed font-body">
             Strict canonical manufacturer matching. Only verified sales dealerships authorized for the selected brand and vehicle category are displayed. No competitor brand substitution.
@@ -676,8 +674,7 @@ export const WhereToBuyPage: React.FC = () => {
 
                         <div className="flex items-center gap-1.5">
                           {dealer.distanceKm != null && (
-                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#B9975B]/15 text-[#8C6F37] border border-[#B9975B]/30 text-[10px] font-bold tabular-nums">
-                              <MapPin className="w-3 h-3 text-[#B9975B]" />
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-[#B9975B]/15 text-[#8C6F37] border border-[#B9975B]/30 text-[10px] font-bold tabular-nums">
                               <span>{dealer.distanceKm} km away</span>
                             </span>
                           )}
@@ -708,15 +705,12 @@ export const WhereToBuyPage: React.FC = () => {
                       </div>
 
                       {/* Address */}
-                      <p className="text-xs text-neutral-600 flex items-start gap-1.5 mb-3 leading-relaxed font-body">
-                        <MapPin className="w-4 h-4 text-neutral-400 shrink-0 mt-0.5" />
-                        <span>
-                          {dealer.address}
-                          {dealer.locality ? `, ${dealer.locality}` : ''}
-                          , {dealer.city}
-                          {dealer.state ? `, ${dealer.state}` : ''}
-                          {dealer.pincode ? ` – ${dealer.pincode}` : ''}
-                        </span>
+                      <p className="text-xs text-neutral-600 mb-3 leading-relaxed font-body">
+                        {dealer.address}
+                        {dealer.locality ? `, ${dealer.locality}` : ''}
+                        , {dealer.city}
+                        {dealer.state ? `, ${dealer.state}` : ''}
+                        {dealer.pincode ? ` – ${dealer.pincode}` : ''}
                       </p>
 
                       {/* Inventory Availability Box */}
@@ -782,9 +776,8 @@ export const WhereToBuyPage: React.FC = () => {
                           href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(dealer.name + ' ' + dealer.address + ' ' + dealer.city)}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-1 py-2.5 px-2 rounded-xl border border-[#171717]/15 hover:bg-[#B9975B]/10 text-neutral-700 text-xs font-semibold transition-colors shadow-sm col-span-1"
+                          className="flex items-center justify-center py-2.5 px-2 rounded-xl border border-[#171717]/15 hover:bg-[#B9975B]/10 text-neutral-700 text-xs font-semibold transition-colors shadow-sm col-span-1"
                         >
-                          <MapPin className="w-3.5 h-3.5 text-neutral-500" />
                           <span>Map</span>
                         </a>
                       )}
