@@ -166,10 +166,6 @@ export const AdminDashboardPage: React.FC = () => {
         {/* Admin Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-[#171717]/10 gap-4">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B9975B]/15 border border-[#B9975B]/30 text-[#8C6F37] text-xs font-semibold mb-2 font-heading">
-              <ShieldAlert className="w-3.5 h-3.5 text-[#B9975B]" />
-              <span>Platform Operations & Data Quality Console</span>
-            </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-[#171717] font-heading">Administrator Control Center</h1>
             <p className="text-neutral-500 text-xs mt-1 font-body">
               Signed in as <strong className="text-neutral-800">{user?.fullName}</strong> ({user?.email})

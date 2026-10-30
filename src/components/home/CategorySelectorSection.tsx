@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Car, Bike, Zap, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
+import { Car, Bike, Zap, ArrowRight, ShieldCheck } from 'lucide-react';
 import { VehicleCategory } from '../../types';
 
 interface CategoryCardItem {
@@ -65,10 +65,6 @@ export const CategorySelectorSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header Treatment */}
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#171717] border border-[#B9975B]/30 text-[#B9975B] text-xs font-semibold uppercase tracking-wider mb-3 font-heading shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#B9975B]" />
-            <span>Automotive Taxonomy</span>
-          </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
             Explore by Vehicle Category
           </h2>

@@ -4,7 +4,7 @@ import { api } from '../../services/api';
 import { VehicleSummary } from '../../types';
 import { CategoryBadge, FuelBadge } from '../common/Badge';
 import { formatIndianPrice } from '../../utils/formatters';
-import { GitCompare, ArrowRight, Loader2, AlertCircle, Sparkles, ShieldCheck } from 'lucide-react';
+import { GitCompare, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
 
 export const TrendingSection: React.FC = () => {
   const [vehicles, setVehicles] = useState<VehicleSummary[]>([]);
@@ -44,10 +44,6 @@ export const TrendingSection: React.FC = () => {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#171717] border border-[#B9975B]/30 text-[#B9975B] text-xs font-semibold uppercase tracking-wider mb-2.5 font-heading shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-[#B9975B]" />
-              <span>Database-Backed Picks</span>
-            </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
               Trending Vehicles in India
             </h2>
@@ -112,13 +108,9 @@ export const TrendingSection: React.FC = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#171717]/80 via-transparent to-black/20 pointer-events-none" />
                     
-                    {/* Top Pill Badges */}
-                    <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10 font-heading">
+                    {/* Top Category Badge */}
+                    <div className="absolute top-3 left-3 z-10 font-heading">
                       <CategoryBadge category={vehicle.category} />
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#171717]/90 backdrop-blur-md text-[#B9975B] border border-[#B9975B]/30 shadow-2xs">
-                        <ShieldCheck className="w-3 h-3 text-[#B9975B]" />
-                        <span>Verified</span>
-                      </span>
                     </div>
 
                     {vehicle.primaryKeySpec && (

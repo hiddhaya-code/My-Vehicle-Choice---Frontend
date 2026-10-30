@@ -11,8 +11,7 @@ import {
   Loader2, 
   AlertCircle, 
   RotateCcw,
-  Bookmark,
-  Sparkles
+  Bookmark
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -93,10 +92,6 @@ export const CataloguePage: React.FC = () => {
           </div>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#171717] border border-[#B9975B]/30 text-[#B9975B] text-xs font-semibold uppercase tracking-wider mb-2.5 font-heading shadow-xs">
-                <Sparkles className="w-3.5 h-3.5 text-[#B9975B]" />
-                <span>Verified Indian Garage</span>
-              </div>
               <h1 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
                 Indian Vehicle Catalogue
               </h1>

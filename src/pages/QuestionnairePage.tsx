@@ -178,10 +178,6 @@ export const QuestionnairePage: React.FC = () => {
       <div className="max-w-3xl mx-auto relative z-10">
         {/* Wizard Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#B9975B]/15 border border-[#B9975B]/30 text-[#8C6F37] text-xs font-bold uppercase tracking-wider mb-3 shadow-sm font-heading">
-            <Sparkles className="w-3.5 h-3.5 text-[#B9975B]" />
-            <span>Multi-Category Automotive Recommendation Engine</span>
-          </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#171717] font-heading">
             Find Your Ideal Vehicle
           </h1>

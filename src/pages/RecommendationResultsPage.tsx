@@ -71,10 +71,6 @@ export const RecommendationResultsPage: React.FC = () => {
         {/* Top Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#171717]/10">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B9975B]/15 border border-[#B9975B]/30 text-[#8C6F37] text-xs font-bold uppercase tracking-wider mb-2 shadow-sm font-heading">
-              <Sparkles className="w-3.5 h-3.5 text-[#B9975B]" />
-              <span>Multi-Category Recommendation Engine • Verified Audit Quality</span>
-            </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
               {guestName ? `Recommended Vehicles for ${guestName}` : 'Your Personalized Vehicle Recommendations'}
             </h1>
@@ -177,9 +173,6 @@ export const RecommendationResultsPage: React.FC = () => {
         {nearMatches.length > 0 && (
           <div className="pt-8 border-t border-[#171717]/10">
             <div className="mb-4">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B9975B]/15 border border-[#B9975B]/30 text-[#8C6F37] text-xs font-bold uppercase tracking-wider mb-1 font-heading">
-                <span>Near-Match Consideration</span>
-              </div>
               <h3 className="text-xl font-bold text-[#171717] font-heading">
                 High-Value Alternatives Slightly Outside Your Filter Ceiling
               </h3>

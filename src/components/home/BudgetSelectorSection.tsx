@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HelpCircle, ArrowRight, Sliders } from 'lucide-react';
+import { HelpCircle, ArrowRight } from 'lucide-react';
 import { formatIndianPrice } from '../../utils/formatters';
 
 interface BudgetPreset {
@@ -43,10 +43,6 @@ export const BudgetSelectorSection: React.FC = () => {
         <div className="luxury-card p-6 sm:p-12 shadow-sm relative overflow-hidden bg-white">
           
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#171717] border border-[#B9975B]/30 text-[#B9975B] text-xs font-semibold uppercase tracking-wider mb-3 font-heading shadow-xs">
-              <Sliders className="w-3.5 h-3.5 text-[#B9975B]" />
-              <span>Financial Comfort Bounds</span>
-            </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
               Define Your Targeted Vehicle Budget
             </h2>

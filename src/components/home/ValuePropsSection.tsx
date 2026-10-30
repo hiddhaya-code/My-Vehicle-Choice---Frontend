@@ -11,7 +11,6 @@ import {
   Zap, 
   TrendingUp, 
   ArrowRight, 
-  BookOpen, 
   CheckCircle2 
 } from 'lucide-react';
 
@@ -118,10 +117,6 @@ export const ValuePropsSection: React.FC = () => {
       <section className="py-20 bg-white border-b border-[#E5E0D8] relative overflow-hidden text-[#171717]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#171717] border border-[#B9975B]/30 text-[#B9975B] text-xs font-semibold uppercase tracking-wider mb-3 font-heading shadow-xs">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#B9975B]" />
-              <span>Core Engineering Principles</span>
-            </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
               Why Buyers Trust MyVehicleChoice
             </h2>
@@ -175,10 +170,6 @@ export const ValuePropsSection: React.FC = () => {
             <div className="absolute top-0 right-0 w-96 h-96 bg-[#B9975B]/15 blur-[120px] pointer-events-none rounded-full" />
 
             <div className="max-w-3xl relative z-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B9975B]/15 border border-[#B9975B]/35 text-[#B9975B] text-xs font-semibold uppercase tracking-wider mb-4 font-heading">
-                <Sparkles className="w-3.5 h-3.5 text-[#B9975B]" />
-                <span>Intelligent Decision Flow</span>
-              </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight font-heading leading-tight">
                 Not Sure Which Vehicle Fits? <br />
                 <span className="text-[#B9975B]">
@@ -243,10 +234,6 @@ export const ValuePropsSection: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#171717] border border-[#B9975B]/30 text-[#B9975B] text-xs font-semibold uppercase tracking-wider mb-2.5 font-heading shadow-xs">
-                <Calculator className="w-3.5 h-3.5 text-[#B9975B]" />
-                <span>Financial Intelligence</span>
-              </div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
                 Automotive Financial Calculators
               </h2>
@@ -312,10 +299,6 @@ export const ValuePropsSection: React.FC = () => {
           <div className="luxury-card p-8 sm:p-12 shadow-sm bg-white border border-[#E5E0D8]">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div className="lg:col-span-7 space-y-4">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#171717] border border-[#B9975B]/30 text-[#B9975B] text-xs font-semibold uppercase tracking-wider font-heading shadow-xs">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#B9975B]" />
-                  <span>Verified Network</span>
-                </div>
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-[#171717] font-heading">
                   Find Verified Authorized Dealerships Near You
                 </h3>
@@ -363,10 +346,6 @@ export const ValuePropsSection: React.FC = () => {
       <section className="py-20 bg-white border-b border-[#E5E0D8] relative overflow-hidden text-[#171717]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#171717] border border-[#B9975B]/30 text-[#B9975B] text-xs font-semibold uppercase tracking-wider mb-3 font-heading shadow-xs">
-              <BookOpen className="w-3.5 h-3.5 text-[#B9975B]" />
-              <span>Automotive Buying Knowledge</span>
-            </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
               Indian Automotive Buyer Wisdom
             </h2>

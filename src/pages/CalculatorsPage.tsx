@@ -35,10 +35,6 @@ export const CalculatorsPage: React.FC = () => {
       <div className="max-w-5xl mx-auto space-y-8 relative z-10">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B9975B]/15 border border-[#B9975B]/30 text-[#8C6F37] text-xs font-bold uppercase tracking-wider mb-3 font-heading">
-            <Calculator className="w-3.5 h-3.5 text-[#B9975B]" />
-            <span>Automotive Financial Intelligence</span>
-          </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
             Vehicle Ownership & Financial Calculators
           </h1>

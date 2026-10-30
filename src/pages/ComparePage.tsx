@@ -8,7 +8,6 @@ import {
   Search, 
   X, 
   ArrowLeft,
-  Sparkles,
   ShieldCheck,
   Building2
 } from 'lucide-react';
@@ -87,10 +86,6 @@ export const ComparePage: React.FC = () => {
               </Link>
               <span>/</span>
               <span className="text-[#8C6F37] font-semibold">Compare Vehicles</span>
-            </div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B9975B]/15 border border-[#B9975B]/30 text-[#8C6F37] text-xs font-bold uppercase tracking-wider mb-2.5">
-              <Sparkles className="w-3.5 h-3.5 text-[#B9975B]" />
-              <span>Multi-Vehicle Comparison Engine</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight flex items-center gap-3 font-heading">
               <GitCompare className="w-8 h-8 text-[#B9975B]" />

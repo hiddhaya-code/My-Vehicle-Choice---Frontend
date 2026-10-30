@@ -11,7 +11,6 @@ import {
   Search,
   CheckCircle,
   TrendingUp,
-  Award,
   Play,
   Pause,
   ChevronRight
@@ -210,12 +209,6 @@ export const HeroSection: React.FC = () => {
              ========================================================================= */}
           <div className="lg:col-span-7 space-y-6">
             
-            {/* Luxury Pre-Title Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#171717] border border-[#B9975B]/40 text-[#B9975B] text-xs font-semibold uppercase tracking-wider font-heading shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-[#B9975B]" />
-              <span>Independent Luxury Automotive Decision Platform</span>
-            </div>
-
             {/* Main Headline (Manrope 700-800) */}
             <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold text-[#171717] tracking-tight leading-[1.12] font-heading">
               Find the Vehicle That <br className="hidden sm:inline" />
@@ -414,16 +407,6 @@ export const HeroSection: React.FC = () => {
                     <div className="w-1/2 h-full bg-gradient-to-r from-transparent via-[#B9975B]/60 to-transparent animate-gold-sweep" />
                   </div>
                 )}
-
-                {/* Top Badge: Verified Rating / Safety Standard */}
-                <div className="absolute top-4 left-4 z-20">
-                  <div className="bg-[#171717]/90 backdrop-blur-md border border-[#B9975B]/50 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
-                    <Award className="w-3.5 h-3.5 text-[#B9975B]" />
-                    <span className="text-[11px] font-bold text-white font-heading">
-                      {currentScene.highlightBadge}
-                    </span>
-                  </div>
-                </div>
 
                 {/* Category Pill Tag */}
                 <div className="absolute top-4 right-4 z-20">

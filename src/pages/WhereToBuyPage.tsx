@@ -297,10 +297,6 @@ export const WhereToBuyPage: React.FC = () => {
       <div className="max-w-6xl mx-auto space-y-8 relative z-10">
         {/* Header */}
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B9975B]/15 border border-[#B9975B]/30 text-[#8C6F37] text-xs font-bold uppercase tracking-wider mb-2 font-heading">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#B9975B]" />
-            <span>OEM Verified Authorized Dealership Network</span>
-          </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
             Where to Buy & Schedule Test Drive
           </h1>

@@ -79,10 +79,6 @@ export const DirectCompareSection: React.FC = () => {
     <section className="py-20 bg-white text-[#171717] border-b border-[#E5E0D8] relative overflow-hidden font-body">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#171717] border border-[#B9975B]/30 text-[#B9975B] text-xs font-semibold uppercase tracking-wider mb-3 font-heading shadow-xs">
-            <GitCompare className="w-3.5 h-3.5 text-[#B9975B]" />
-            <span>Side-by-Side Analysis</span>
-          </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-[#171717] tracking-tight font-heading">
             Already Have Two Vehicles in Mind?
           </h2>

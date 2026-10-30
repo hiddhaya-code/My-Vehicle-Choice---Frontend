@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Bookmark, Car, Trash2, GitCompare, ArrowRight, Compass, Sparkles } from 'lucide-react';
+import { Bookmark, Car, Trash2, GitCompare, ArrowRight, Compass } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
 import { VehicleSummary } from '../types';
@@ -77,10 +77,6 @@ export const SavedVehiclesPage: React.FC = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 mb-8 border-b border-[#171717]/10 gap-4">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#B9975B]/15 border border-[#B9975B]/30 text-[#8C6F37] text-xs font-bold uppercase tracking-wider mb-2 font-heading">
-              <Sparkles className="w-3.5 h-3.5 text-[#B9975B]" />
-              <span>Personal Saved Garage</span>
-            </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-[#171717] flex items-center gap-3 font-heading">
               <Bookmark className="w-8 h-8 text-[#B9975B]" />
               <span>Your Saved Vehicles & Shortlists</span>
