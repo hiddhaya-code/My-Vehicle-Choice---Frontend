@@ -288,9 +288,6 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
               alt={vehicle.modelName}
               className="w-full h-full object-cover"
             />
-            <div className="absolute top-2 left-2 px-2.5 py-1 rounded-lg bg-[#171717] text-[#B9975B] border border-[#B9975B]/30 font-extrabold text-xs shadow-sm font-heading">
-              #{rank} {rank === 1 ? 'TOP MATCH' : 'MATCH'}
-            </div>
             <button
               onClick={onToggleWishlist}
               className={`absolute top-2 right-2 p-1.5 rounded-lg backdrop-blur transition-all cursor-pointer ${
@@ -303,7 +300,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
 
           <div>
             <span className="text-[10px] text-[#8C6F37] font-bold uppercase tracking-wider block font-heading">
-              {vehicle.brandName} • {vehicle.category?.replace(/_/g, ' ')}
+              #{rank} Match • {vehicle.brandName} • {vehicle.category?.replace(/_/g, ' ')}
             </span>
             <h2 className="text-xl font-bold text-[#171717] leading-tight font-heading">
               {vehicle.modelName}

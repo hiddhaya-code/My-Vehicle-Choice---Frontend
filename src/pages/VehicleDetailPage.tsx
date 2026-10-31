@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { api } from '../services/api';
 import { VehicleDetail, VehicleVariant, VehicleImage } from '../types';
-import { CategoryBadge, FuelBadge } from '../components/common/Badge';
 import { formatIndianPrice } from '../utils/formatters';
 import { 
   ShieldCheck, 
@@ -107,10 +106,6 @@ export const VehicleDetailPage: React.FC = () => {
                   alt={`${vehicle.brandName} ${vehicle.modelName}`}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute top-4 left-4 flex gap-2">
-                  <CategoryBadge category={vehicle.category} />
-                  {currentVar && <FuelBadge fuel={currentVar.fuelType} />}
-                </div>
               </div>
 
               {/* Thumbnails */}

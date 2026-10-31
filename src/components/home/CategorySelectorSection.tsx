@@ -6,7 +6,6 @@ import { VehicleCategory } from '../../types';
 interface CategoryCardItem {
   id: VehicleCategory;
   title: string;
-  badge: string;
   description: string;
   models: string;
   stats: string;
@@ -18,7 +17,6 @@ const CATEGORY_CARDS: CategoryCardItem[] = [
   {
     id: 'CAR',
     title: 'Cars & Compact SUVs',
-    badge: 'Hatchbacks, Sedans & SUVs',
     description: 'From 5-star crash-tested compact SUVs to high-performance executive sedans and family haulers.',
     models: 'Nexon, Creta, XUV700, Brezza, BMW 330Li',
     stats: 'Starting at ₹7.99 Lakh',
@@ -28,7 +26,6 @@ const CATEGORY_CARDS: CategoryCardItem[] = [
   {
     id: 'MOTORCYCLE',
     title: 'Motorcycles',
-    badge: 'Street, Sport & Cruisers',
     description: 'Track-bred supersport machines, neo-retro roadsters, and daily fuel-efficient commuter bikes.',
     models: 'Yamaha R15, RE Hunter 350, KTM Duke 200',
     stats: 'Up to 51.4 km/l mileage',
@@ -38,7 +35,6 @@ const CATEGORY_CARDS: CategoryCardItem[] = [
   {
     id: 'SCOOTER',
     title: 'Family Scooters',
-    badge: 'Automatic City CVTs',
     description: 'Reliable, comfortable step-through commuters with generous under-seat storage and telescopic suspension.',
     models: 'Honda Activa 6G, TVS Jupiter 125, Access',
     stats: 'Starting at ₹76,000',
@@ -48,7 +44,6 @@ const CATEGORY_CARDS: CategoryCardItem[] = [
   {
     id: 'ELECTRIC_CAR',
     title: 'Electric Vehicles (EVs)',
-    badge: 'Zero Emission Mobility',
     description: 'Next-generation electric cars and connected smart scooters with fast charging and ultra-low running costs.',
     models: 'Tata Nexon.ev, Ola S1 Pro Gen 2',
     stats: '₹0.85/km running cost • 465 km Range',
@@ -93,13 +88,6 @@ export const CategorySelectorSection: React.FC = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#171717]/85 via-[#171717]/25 to-transparent" />
                     
-                    {/* Top Pill Badge */}
-                    <div className="absolute top-3 left-3 z-10">
-                      <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#171717]/90 backdrop-blur-md text-[#B9975B] border border-[#B9975B]/40 font-heading">
-                        {cat.badge}
-                      </span>
-                    </div>
-
                     {/* Category Icon */}
                     <div className="absolute bottom-3 left-3 z-10 flex items-center gap-2 font-heading">
                       <div className="w-8 h-8 rounded-full bg-[#B9975B] text-[#171717] flex items-center justify-center shadow-md">

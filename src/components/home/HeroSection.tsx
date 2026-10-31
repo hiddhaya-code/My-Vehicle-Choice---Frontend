@@ -408,13 +408,6 @@ export const HeroSection: React.FC = () => {
                   </div>
                 )}
 
-                {/* Category Pill Tag */}
-                <div className="absolute top-4 right-4 z-20">
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#B9975B] text-[#171717] shadow-sm font-heading">
-                    {currentScene.categoryLabel}
-                  </span>
-                </div>
-
                 {/* Vehicle Identification Overlay */}
                 <div className="absolute bottom-3 left-4 right-4 z-20 text-white">
                   <span className="text-[11px] font-bold text-[#B9975B] uppercase tracking-wider block font-heading">

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../services/api';
 import { VehicleSummary } from '../../types';
-import { CategoryBadge, FuelBadge } from '../common/Badge';
+import { FuelBadge } from '../common/Badge';
 import { formatIndianPrice } from '../../utils/formatters';
 import { GitCompare, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
 
@@ -107,11 +107,6 @@ export const TrendingSection: React.FC = () => {
                       loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#171717]/80 via-transparent to-black/20 pointer-events-none" />
-                    
-                    {/* Top Category Badge */}
-                    <div className="absolute top-3 left-3 z-10 font-heading">
-                      <CategoryBadge category={vehicle.category} />
-                    </div>
 
                     {vehicle.primaryKeySpec && (
                       <div className="absolute bottom-3 right-3 bg-white/95 backdrop-blur-md border border-[#E5E0D8] text-[#171717] px-2.5 py-1 rounded-xl text-xs font-bold tracking-wide shadow-sm z-10 font-heading">

@@ -145,9 +145,6 @@ export const SavedVehiclesPage: React.FC = () => {
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
-                  <div className="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg bg-[#171717] text-[#B9975B] border border-[#B9975B]/30 text-[10px] font-bold tracking-wide shadow-sm font-heading">
-                    {v.brandName}
-                  </div>
                 </div>
 
                 <div className="p-5 flex-1 flex flex-col justify-between">

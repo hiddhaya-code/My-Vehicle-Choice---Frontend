@@ -22,25 +22,21 @@ export const ValuePropsSection: React.FC = () => {
       icon: ShieldCheck,
       title: 'Zero Spec Fabrication',
       desc: 'Every engine displacement, power figure, ARAI certified mileage, and battery kWh is audited against official SIAM and OEM homologation documentation.',
-      badge: 'Certified Data',
     },
     {
       icon: IndianRupee,
       title: 'Real Total Ownership Costs',
       desc: 'We calculate realistic 5-year running costs comparing ₹100/L petrol against ₹8/kWh home EV charging, factoring in periodic servicing and scheduled maintenance.',
-      badge: '5-Year TCO',
     },
     {
       icon: Cpu,
       title: 'Deterministic Scoring Engine',
       desc: 'Our recommendation logic evaluates hard budget and lifestyle constraints with explainable mathematical weights — never paid manufacturer promotions.',
-      badge: '100% Unbiased',
     },
     {
       icon: Building2,
       title: 'Verified Authorized Dealers',
       desc: 'Connect directly with certified OEM brand showrooms across major Indian metros. No middlemen markups, fabricated stock, or phantom discounts.',
-      badge: 'OEM Authorized',
     },
   ];
 
@@ -134,13 +130,8 @@ export const ValuePropsSection: React.FC = () => {
                   className="luxury-card p-6 flex flex-col justify-between group bg-white"
                 >
                   <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 rounded-2xl bg-[#171717] text-[#B9975B] flex items-center justify-center group-hover:scale-105 transition-transform border border-[#B9975B]/30 shadow-xs">
-                        <Icon className="w-6 h-6" />
-                      </div>
-                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#FAF8F5] text-stone-700 uppercase tracking-wider border border-[#E5E0D8] font-heading">
-                        {item.badge}
-                      </span>
+                    <div className="w-12 h-12 rounded-2xl bg-[#171717] text-[#B9975B] flex items-center justify-center group-hover:scale-105 transition-transform border border-[#B9975B]/30 shadow-xs mb-4">
+                      <Icon className="w-6 h-6" />
                     </div>
 
                     <h3 className="text-base font-bold text-[#171717] mb-2 group-hover:text-[#B9975B] transition-colors font-heading">

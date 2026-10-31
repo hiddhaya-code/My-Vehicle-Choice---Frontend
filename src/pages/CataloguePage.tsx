@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { api } from '../services/api';
 import { Brand, PageResponse, VehicleCategory, VehicleSummary } from '../types';
-import { CategoryBadge, FuelBadge } from '../components/common/Badge';
+import { FuelBadge } from '../components/common/Badge';
 import { formatIndianPrice } from '../utils/formatters';
 import { 
   Search, 
@@ -251,9 +251,6 @@ export const CataloguePage: React.FC = () => {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#171717]/80 via-transparent to-black/20 pointer-events-none" />
 
-                      <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1 z-10 font-heading">
-                        <CategoryBadge category={vehicle.category} />
-                      </div>
                       <button
                         onClick={(e) => {
                           e.preventDefault();
