@@ -15,6 +15,7 @@ import { SavedVehiclesPage } from './pages/SavedVehiclesPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
+import Demo from '@/components/ui/demo';
 
 export const App: React.FC = () => {
   return (
@@ -36,6 +37,8 @@ export const App: React.FC = () => {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/admin" element={<AdminDashboardPage />} />
+              <Route path="/demo" element={<Demo />} />
+              <Route path="/liquid-nav" element={<Demo />} />
               <Route path="*" element={<HomePage />} />
             </Routes>
           </main>
