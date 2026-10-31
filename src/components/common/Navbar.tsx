@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { BrandLogo } from './BrandLogo';
+import { LiquidNavbar, LiquidNavItem, NimbusIcons } from '../ui/liquid-glass-navbar';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,6 +45,30 @@ export const Navbar: React.FC = () => {
       return location.pathname === base && location.search.includes(query);
     }
     return location.pathname.startsWith(path);
+  };
+
+  const liquidNavItems: LiquidNavItem[] = [
+    { label: 'Home', href: '/', icon: NimbusIcons.home, fx: 'glow' },
+    { label: 'Find Vehicle', href: '/find-my-vehicle', icon: <Sparkles className="w-3.5 h-3.5 text-[#B9975B]" />, fx: 'glow' },
+    { label: 'Compare', href: '/compare', icon: <GitCompare className="w-3.5 h-3.5 text-[#B9975B]" />, fx: 'spin' },
+    { label: 'Cars', href: '/vehicles?category=CAR', icon: <Car className="w-3.5 h-3.5" />, fx: 'pop' },
+    { label: 'Bikes', href: '/vehicles?category=MOTORCYCLE', icon: <Bike className="w-3.5 h-3.5" />, fx: 'pop' },
+    { label: 'Where to Buy', href: '/where-to-buy', fx: 'drop' },
+    { label: 'Calculators', href: '/calculators', icon: <Calculator className="w-3.5 h-3.5" />, fx: 'wave' },
+  ];
+
+  const activeNavIndex = React.useMemo(() => {
+    const idx = liquidNavItems.findIndex((link) => {
+      if (!link.href) return false;
+      return isActive(link.href, link.href === '/');
+    });
+    return idx >= 0 ? idx : 0;
+  }, [location.pathname, location.search]);
+
+  const handleNavChange = (_index: number, item: LiquidNavItem) => {
+    if (item.href) {
+      navigate(item.href);
+    }
   };
 
   const handleLogout = () => {
@@ -85,84 +110,16 @@ export const Navbar: React.FC = () => {
               <BrandLogo size="md" variant="light" />
             </Link>
 
-            {/* Desktop Navigation Links (Manrope weight 600) */}
-            <nav className="hidden xl:flex items-center space-x-1 font-heading">
-              {navLinks.map((link) => {
-                const Icon = link.icon;
-                const active = isActive(link.path, link.exact);
-                return (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
-                      active
-                        ? 'bg-[#B9975B]/15 text-[#171717] border border-[#B9975B] font-bold shadow-xs'
-                        : link.highlight
-                        ? 'text-[#B9975B] bg-[#B9975B]/10 hover:bg-[#B9975B]/20 border border-[#B9975B]/40'
-                        : 'text-[#171717] hover:text-[#B9975B] hover:bg-[#F4F0E8]'
-                    }`}
-                  >
-                    {Icon && (
-                      <Icon className={`w-3.5 h-3.5 ${active || link.highlight ? 'text-[#B9975B]' : 'text-stone-400'}`} />
-                    )}
-                    <span>{link.label}</span>
-                  </Link>
-                );
-              })}
-            </nav>
-
-            {/* Compact Desktop Navigation for Medium/Large screens */}
-            <nav className="hidden lg:flex xl:hidden items-center space-x-1 font-heading">
-              <Link
-                to="/find-my-vehicle"
-                className={`flex items-center space-x-1 px-2.5 py-1.5 rounded-full text-xs font-semibold ${
-                  isActive('/find-my-vehicle') ? 'bg-[#B9975B]/15 text-[#171717] border border-[#B9975B]' : 'text-[#B9975B] hover:bg-[#F4F0E8]'
-                }`}
-              >
-                <Sparkles className="w-3.5 h-3.5 text-[#B9975B]" />
-                <span>Find</span>
-              </Link>
-              <Link
-                to="/compare"
-                className={`px-2.5 py-1.5 rounded-full text-xs font-semibold ${
-                  isActive('/compare') ? 'bg-[#B9975B]/15 text-[#171717] border border-[#B9975B]' : 'text-[#171717] hover:bg-[#F4F0E8]'
-                }`}
-              >
-                Compare
-              </Link>
-              <Link
-                to="/vehicles?category=CAR"
-                className={`px-2.5 py-1.5 rounded-full text-xs font-semibold ${
-                  isActive('/vehicles?category=CAR') ? 'bg-[#B9975B]/15 text-[#171717] border border-[#B9975B]' : 'text-[#171717] hover:bg-[#F4F0E8]'
-                }`}
-              >
-                Cars
-              </Link>
-              <Link
-                to="/vehicles?category=MOTORCYCLE"
-                className={`px-2.5 py-1.5 rounded-full text-xs font-semibold ${
-                  isActive('/vehicles?category=MOTORCYCLE') ? 'bg-[#B9975B]/15 text-[#171717] border border-[#B9975B]' : 'text-[#171717] hover:bg-[#F4F0E8]'
-                }`}
-              >
-                Bikes
-              </Link>
-              <Link
-                to="/where-to-buy"
-                className={`px-2.5 py-1.5 rounded-full text-xs font-semibold ${
-                  isActive('/where-to-buy') ? 'bg-[#B9975B]/15 text-[#171717] border border-[#B9975B]' : 'text-[#171717] hover:bg-[#F4F0E8]'
-                }`}
-              >
-                Where to Buy
-              </Link>
-              <Link
-                to="/calculators"
-                className={`px-2.5 py-1.5 rounded-full text-xs font-semibold ${
-                  isActive('/calculators') ? 'bg-[#B9975B]/15 text-[#171717] border border-[#B9975B]' : 'text-[#171717] hover:bg-[#F4F0E8]'
-                }`}
-              >
-                Calculators
-              </Link>
-            </nav>
+            {/* Desktop Liquid Glass Navbar with waterdrop physics */}
+            <div className="hidden lg:flex items-center justify-center">
+              <LiquidNavbar
+                items={liquidNavItems}
+                active={activeNavIndex}
+                onChange={handleNavChange}
+                tone="light"
+                sound={false}
+              />
+            </div>
 
             {/* Right Action CTAs & Auth */}
             <div className="hidden md:flex items-center space-x-2.5 font-body">

@@ -63,24 +63,26 @@ const PAD = 14 // canvas bleed around the pill, for shadows and ripples
 
 /* ---------- styles ---------- */
 const NIMBUS_CSS = `
-.nimbus-nav{--n-tint:rgba(255,255,255,.14);--n-fg:#0B132B;--n-fg-soft:rgba(11,19,43,.6);--n-rim:rgba(255,255,255,.7);
-  position:relative;display:inline-flex;align-items:center;gap:2px;padding:6px;border-radius:999px;isolation:isolate;
-  font-family:ui-sans-serif,-apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased;user-select:none;-webkit-tap-highlight-color:transparent}
-.nimbus-nav[data-tone="dark"]{--n-tint:rgba(10,18,40,.26);--n-fg:#F1F7FF;--n-fg-soft:rgba(241,247,255,.66);--n-rim:rgba(255,255,255,.34)}
+.nimbus-nav{--n-tint:rgba(255,255,255,.65);--n-fg:#171717;--n-fg-soft:#525252;--n-rim:rgba(255,255,255,.9);--n-accent:#B9975B;
+  position:relative;display:inline-flex;align-items:center;gap:2px;padding:4px;border-radius:999px;isolation:isolate;
+  font-family:'Manrope',ui-sans-serif,-apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased;user-select:none;-webkit-tap-highlight-color:transparent}
+.nimbus-nav[data-tone="dark"]{--n-tint:rgba(23,23,23,.75);--n-fg:#F4F0E8;--n-fg-soft:rgba(244,240,232,.65);--n-rim:rgba(185,151,91,.4);--n-accent:#B9975B}
 .nimbus-glass{position:absolute;inset:0;border-radius:inherit;z-index:-2;overflow:hidden;background:var(--n-tint);
-  -webkit-backdrop-filter:blur(10px) saturate(1.2) brightness(1.08);backdrop-filter:blur(10px) saturate(1.2) brightness(1.08);
-  box-shadow:inset 0 1px 1px var(--n-rim),inset 0 0 0 1px rgba(255,255,255,.2),0 12px 32px -14px rgba(0,40,90,.5),0 2px 6px rgba(0,40,90,.1)}
-.nimbus-nav[data-refract="on"] .nimbus-glass{-webkit-backdrop-filter:url(#nimbus-refract) blur(2px) saturate(1.2) brightness(1.08);backdrop-filter:url(#nimbus-refract) blur(2px) saturate(1.2) brightness(1.08)}
+  -webkit-backdrop-filter:blur(12px) saturate(1.2) brightness(1.05);backdrop-filter:blur(12px) saturate(1.2) brightness(1.05);
+  box-shadow:inset 0 1px 1px var(--n-rim),inset 0 0 0 1px rgba(229,224,216,.6),0 6px 20px -8px rgba(23,23,23,.1),0 2px 6px rgba(23,23,23,.04)}
+.nimbus-nav[data-refract="on"] .nimbus-glass{-webkit-backdrop-filter:url(#nimbus-refract) blur(2px) saturate(1.2) brightness(1.05);backdrop-filter:url(#nimbus-refract) blur(2px) saturate(1.2) brightness(1.05)}
 .nimbus-water{position:absolute;left:${-PAD}px;top:${-PAD}px;z-index:-1;pointer-events:none}
 .nimbus-nav[data-gl="off"] .nimbus-water{display:none}
-.nimbus-drop{display:none;position:absolute;top:6px;bottom:6px;left:0;border-radius:999px;z-index:-1;pointer-events:none;will-change:transform,width;
-  background:radial-gradient(120% 140% at 30% 0%,rgba(255,255,255,.75),rgba(255,255,255,0) 55%),rgba(255,255,255,.38);
-  box-shadow:inset 0 1px 1px rgba(255,255,255,.95),inset 0 -2px 6px rgba(0,162,255,.22),inset 0 0 0 1px rgba(255,255,255,.55),0 6px 16px -6px rgba(0,70,140,.45)}
+.nimbus-drop{display:none;position:absolute;top:4px;bottom:4px;left:0;border-radius:999px;z-index:-1;pointer-events:none;will-change:transform,width;
+  background:radial-gradient(120% 140% at 30% 0%,rgba(255,255,255,.9),rgba(185,151,91,.15) 55%),rgba(255,255,255,.5);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.95),inset 0 -2px 6px rgba(185,151,91,.25),inset 0 0 0 1px rgba(255,255,255,.6),0 4px 14px -4px rgba(23,23,23,.12)}
 .nimbus-nav[data-gl="off"] .nimbus-drop{display:block}
-.nimbus-item{position:relative;z-index:1;display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border:0;border-radius:999px;background:none;color:var(--n-fg-soft);
-  font-family:inherit;font-weight:500;font-size:14px;line-height:1;letter-spacing:-.01em;text-decoration:none;cursor:pointer;transition:color .25s}
-.nimbus-item:hover,.nimbus-item[aria-current="page"]{color:var(--n-fg)}
-.nimbus-item:focus-visible{outline:2px solid #00A2FF;outline-offset:2px}
+.nimbus-item{position:relative;z-index:1;display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 12px;border:0;border-radius:999px;background:none;color:var(--n-fg-soft);
+  font-family:inherit;font-weight:600;font-size:12.5px;line-height:1;letter-spacing:-.01em;text-decoration:none;cursor:pointer;transition:color .2s}
+.nimbus-item:hover{color:var(--n-accent,#B9975B)}
+.nimbus-item[aria-current="page"]{color:#171717;font-weight:700}
+.nimbus-nav[data-tone="dark"] .nimbus-item[aria-current="page"]{color:#FFFFFF}
+.nimbus-item:focus-visible{outline:2px solid #B9975B;outline-offset:2px}
 .nv-ico{position:relative;display:inline-flex;flex:none}
 .nv-ico svg{transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
 .nimbus-item[aria-current="page"] .nv-ico svg{transform:translateY(-1px) scale(1.08)}
@@ -498,8 +500,8 @@ export function LiquidNavbar({
     if (c && kind === "plane") ripple(c.x, c.y, 0.6)
     if (i !== current) {
       if (active === undefined) setInner(i)
-      onChange?.(i, items[i])
     }
+    onChange?.(i, items[i])
   }
 
   const onKeyDown = (e: React.KeyboardEvent) => {
@@ -553,7 +555,12 @@ export function LiquidNavbar({
           ref: (el: HTMLElement | null) => { itemRefs.current[i] = el },
           className: "nimbus-item",
           "aria-current": i === current ? ("page" as const) : undefined,
-          onClick: () => select(i),
+          onClick: (e: React.MouseEvent) => {
+            if (it.href && !e.metaKey && !e.ctrlKey) {
+              e.preventDefault();
+            }
+            select(i);
+          },
         }
         const content = (
           <>
